@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<style>
+ .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+</style>
+{% if user.is_authenticated %}
+  Hi {{ user.username }}! Welcome to BookEX!
+  <p><a href="{% url 'logout' %}" class="button">Log out</a></p>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}" class = "button">Log in</a>
+  <a href="{% url 'signup' %}" class = "button">Sign up</a>
+{% endif %}
+{% endblock %}
