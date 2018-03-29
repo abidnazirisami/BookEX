@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* {
+    box-sizing: border-box;
+}
+div.header {
+	width: 60%;
+	float: left;
+    padding: 2px 10px 2px 10px;
+}
+div.loginfo {
+	width: 40%;
+	float: right;
+    padding: 2px 20px 80px 10px;
+    text-align: right;
+}
+div.a {
+	width: 60%;
+	float: left;
+	padding: 25px 25px 25px 25px;
+	border: 1px solid black;
+}
+div.empty {
+	width: 20%;
+	float: left;
+}
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+.a {
+	text-decoration: none;
+}
+</style>
+  <title>{% block title %}BookEX{% endblock %}</title>
+</head>
+
+<body>
+  <main>
+  <div class="header">
+	<h1> <a href="{% url 'home' %}"> BookEX </a> </h1>
+</div>
+
+<div class="loginfo">
+{% if user.is_authenticated %}
+  <p>Hi {{ user.username }}! <a href="{% url 'logout' %}" >Log out</a><br></p>
+{% else %}
+  <p>You are not logged in
+  <a href="{% url 'login' %}">Log in</a>
+  <a href="{% url 'signup' %}">Sign up</a>
+  </p>
+{% endif %}
+</div>
+    {% block content %}
+    {% endblock %}
+  </main>
+</body>
+</html>
