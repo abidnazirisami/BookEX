@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Test{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+{% for books in book %}<br>
+ Author Name : {{books.author_name}} <br> Author ID: {{books.author_id}}<br> Rating: {{books.rating}}<br>
+{% endfor %}
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}" class = "button">Log in</a>
+  <a href="{% url 'signup' %}" class = "button">Sign up</a>
+{% endif %}
+{% endblock %}
