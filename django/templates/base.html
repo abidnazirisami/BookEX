@@ -19,6 +19,7 @@ div.loginfo {
     text-align: right;
 }
 div.a {
+  text-decoration: none;
 	width: 60%;
 	float: left;
 	padding: 25px 25px 25px 25px;
@@ -27,7 +28,14 @@ div.a {
 div.empty {
 	width: 20%;
 	float: left;
+    height: 100px;
+    border: 0px solid white;
+    margin: 0 auto;
+    line-height: 100px;
+    position: relative;
+    left: 20px;
 }
+
 .button {
     background-color: #4CAF50; /* Green */
     border: none;
@@ -53,7 +61,7 @@ div.empty {
 
 <div class="loginfo">
 {% if user.is_authenticated %}
-  <p>Hi {{ user.username }}! <a href="{% url 'logout' %}" >Log out</a><br></p>
+  <p>Hi <a href="{% url 'profile' %}">{{ user.username }}!</a> <a href="{% url 'logout' %}" >Log out</a><br></p>
 {% else %}
   <p>You are not logged in
   <a href="{% url 'login' %}">Log in</a>

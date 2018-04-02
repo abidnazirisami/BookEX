@@ -63,7 +63,7 @@ div.empty {
 
 <div class="loginfo">
 {% if user.is_authenticated %}
-  <p>Hi {{ user.username }}! <a href="{% url 'logout' %}" >Log out</a><br></p>
+  <p>Hi <a href="{% url 'profile' %}">{{ user.username }}!</a> <a href="{% url 'logout' %}" >Log out</a><br></p>
 {% else %}
   <p>You are not logged in
   <a href="{% url 'login' %}">Log in</a>
