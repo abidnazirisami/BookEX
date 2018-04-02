@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* {
+    background-color: lightgreen;
+    box-sizing: border-box;
+}
+div.header {
+	width: 60%;
+	float: left;
+    padding: 2px 10px 2px 10px;
+}
+div.loginfo {
+	width: 40%;
+	float: right;
+    padding: 2px 20px 80px 10px;
+    text-align: right;
+}
+div.a {
+  text-decoration: none;
+	width: 60%;
+	float: left;
+	padding: 25px 25px 25px 25px;
+}
+div.empty {
+	width: 20%;
+	float: left;
+}
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+.a {
+  text-decoration: none;
+}
+</style>
+  <meta charset="utf-8">
+  <title>{% block title %}BookEX{% endblock %}</title>
+  {% load static %}
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+  <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="{% static 'css/header.css' %}">
+  </head>
+
+<body>
+  <main>
+  <div class="header">
+  <h1><a href="{% url 'home' %}"></a></h1>
+	<h1> <a style="text-decoration: none;color: darkblue;" href="/" >Book</a>
+  <a style="text-decoration: none;color: red;" href="/" >EX</a>  </h1>
+</div>
+
+<div class="loginfo">
+{% if user.is_authenticated %}
+  <p>Hi {{ user.username }}! <a href="{% url 'logout' %}" >Log out</a><br></p>
+{% else %}
+  <p>You are not logged in
+  <a href="{% url 'login' %}">Log in</a>
+  <a href="{% url 'signup' %}">Sign up</a>
+  </p>
+{% endif %}
+<div class="footer">
+  <h2 align="center" style="margin: 700px 10px 150px 50px" font-size="18px"> Find me on social media </h2>
+</div>
+
+</div>
+    {% block content %}
+    {% endblock %}
+  </main>
+</body>
+</html>
