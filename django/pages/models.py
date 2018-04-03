@@ -7,16 +7,16 @@ from django.db.models.signals import post_save
 
 # Create your models here.
 class Author(models.Model):
-	author_id = models.CharField(max_length=50,primary_key=True,default='Not available')
+	author_id = models.AutoField(max_length=50,primary_key=True)
 	author_name = models.CharField(max_length=100,default='Not available')
 	wiki_link = models.CharField(max_length=500,default='Not available')
 	rating = models.FloatField(default=0.0)
 
 class Book(models.Model):
 	isbn = models.CharField(max_length=50, primary_key=True,default='Not available')	
-	author_id = models.ForeignKey(Author, on_delete=models.CASCADE,default='Not available')
+	author_id = models.ForeignKey(Author, on_delete=models.CASCADE)
 	topic_name = models.CharField(max_length=100,default='Not available')
-	publish_date = models.DateField(default = "17-02-1996")
+	publish_year = models.IntegerField(default = 1996)
 	publisher = models.CharField(max_length=100,default='Not available')
 	amazon_link = models.CharField(max_length=500,default='Not available')
 	edition = models.IntegerField(default = 1)

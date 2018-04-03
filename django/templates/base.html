@@ -3,74 +3,110 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 * {
     box-sizing: border-box;
 }
-div.header {
-	width: 60%;
-	float: left;
-    padding: 2px 10px 2px 10px;
-}
-div.loginfo {
-	width: 40%;
-	float: right;
-    padding: 2px 20px 80px 10px;
-    text-align: right;
-}
-div.a {
-  text-decoration: none;
-	width: 60%;
-	float: left;
-	padding: 25px 25px 25px 25px;
-	border: 1px solid black;
-}
-div.empty {
-	width: 20%;
-	float: left;
-    height: 100px;
-    border: 0px solid white;
-    margin: 0 auto;
-    line-height: 100px;
-    position: relative;
-    left: 20px;
-}
-
-.button {
-    background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-}
-.a {
-	text-decoration: none;
+body {font-family: "Times New Roman", Georgia, Serif;}
+h1,h2,h3,h4,h5,h6 {
+    font-family: "Playfair Display";
+    letter-spacing: 5px;
 }
 </style>
-  <title>{% block title %}BookEX{% endblock %}</title>
-</head>
-
+  <meta charset="utf-8">
+  <!--title>{% block title %}BookEX{% endblock %}</title-->
+  {% load static %}
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+  <!--link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css"-->
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet"> 
+  <!--link rel="stylesheet" href="{% static 'css/w3.css' %}"-->
+  </head>
+<style>
+a:hover {
+  text-decoration:none;
+}
+.w3-allerta {
+  font-family: "Allerta Stencil", Sans-serif;
+}
+.w3-roboto {
+  font-family: 'Roboto Slab', serif;
+}
+</style>
 <body>
   <main>
-  <div class="header">
-	<h1> <a href="{% url 'home' %}"> BookEX </a> </h1>
-</div>
+    <!-- nav_bar-->
+    <div class="w3-top">
+      <div class="w3-bar w3-teal w3-wide w3-padding w3-card">
+        <a href="{% url 'home' %}" class="w3-bar-item w3-button w3-hover-teal w3-roboto"><p class="w3-xxlarge"><b style="text-decoration: none; color: white">Book</b><b style="text-decoration: none; color: orange">EX</b></p></a>
+        <div class="w3-right w3-hide-small">
+          <a href="{% url 'login' %}" class="w3-bar-item w3-button w3-border w3-hover-white w3-right w3-round">Log In</a>
+          <a href="{% url 'signup' %}" class="w3-bar-item w3-button w3-border w3-hover-white w3-right w3-round">Sign Up</a>
+          <a href="#about" class="w3-bar-item w3-button w3-hover-teal">About</a>
+          <a href="#contact" class="w3-bar-item w3-button w3-hover-teal">Contact</a>
+        </div>
+      </div>
+    </div>
 
-<div class="loginfo">
-{% if user.is_authenticated %}
-  <p>Hi <a href="{% url 'profile' %}">{{ user.username }}!</a> <a href="{% url 'logout' %}" >Log out</a><br></p>
-{% else %}
-  <p>You are not logged in
-  <a href="{% url 'login' %}">Log in</a>
-  <a href="{% url 'signup' %}">Sign up</a>
-  </p>
-{% endif %}
-</div>
+    <div class="loginfo">
+      {% if user.is_authenticated %}
+      <div class="w3-top">
+        <div class="w3-bar w3-teal w3-wide w3-padding w3-card">
+          <a href="{% url 'home' %}" class="w3-bar-item w3-button w3-hover-teal w3-roboto"><p class="w3-xxlarge"><b style="text-decoration: none; color: white">Book</b><b style="text-decoration: none; color: orange">EX</b></p></a>
+          <div class="w3-right w3-hide-small">
+            <a href="#contact" class="w3-bar-item w3-button w3-hover-teal w3-right">Contact</a>
+            <a href="#about" class="w3-bar-item w3-button w3-hover-teal w3-right">About</a><br>
+            <a href="{% url 'logout' %}" class="w3-bar-item w3-button w3-border w3-hover-white w3-right w3-round">Log out</a>
+            <a href="{% url 'profile' %}" class="w3-bar-item w3-button w3-hover-teal w3-right w3-round-xxlarge">{{ user.username }}</a>
+          </div>
+        </div>
+      </div>
+
+      {% else %}
+        <a href="{% url 'home' %}"></a>
+      {% endif %}
+    </div>
+    <!-- Page content -->
+
+    <div class="w3-container w3-content" style="max-width:1950px;margin-top:150px;padding-left: 40px">
     {% block content %}
     {% endblock %}
+    </div>
+    <div class="w3-bottom">
+      <div class="w3-bar w3-white w3-wide w3-padding w3-card">
+        <div class="w3-content" style="max-width:2000px">            
+          <div class="w3-row">
+            <div class="w3-col m9 w3-large w3-margin-bottom ">
+              <!-- The About Section -->
+              <div class="w3-container w3-content " style="max-width:1950px" id="about">
+                <p class="w3-wide w3-left">ABOUT US</p>
+              </div>
+              <div class="w3-container w3-content" style="max-width:1950px; font-size: 14px" id="info">
+                <i class="fa fa-map-marker" style="width:30px"></i> Nahian Ashraf, Roll: 02<br>
+                <i class="fa fa-phone" style="width:30px"></i> Mahfida Jerin, Roll: 26<br>
+                <i class="fa fa-envelope" style="width:30px"> </i> M M Abid Naziri, Roll: 34<br>
+              </div>
+            </div>
+            <div class="w3-col m3 w3-large w3-margin-bottom">
+              <!-- The Contact Section -->
+              <div class="w3-container w3-content " style="max-width:1950px" id="contact">
+                <p class="w3-wide w3-left" >CONTACT</p>
+              </div>
+              <div class="w3-container w3-content " style="max-width:1950px; font-size: 12px" id="address">
+                <p class="w3-opacity w3-left"><i>Any advice? Drop a note!</i></p>
+              </div>
+              <div class="w3-container w3-content " style="max-width:1950px; font-size: 14px" id="address">
+                <i class="fa fa-map-marker" style="width:30px"></i> Dhaka, Bangladesh<br>
+                <i class="fa fa-envelope" style="width:30px"> </i> Email: BookEX@gmail.com<br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
   </main>
 </body>
 </html>

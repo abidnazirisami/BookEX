@@ -15,11 +15,10 @@ class SignUp(generic.CreateView):
 
 def showUserProfile(request):
 	current_user = request.user
-	#newUser = OurUser.objects.create(user = current_user,user_name = current_user.username)
 	if OurUser.objects.filter(user=current_user).exists():
 		current_profile = OurUser.objects.get(user=current_user)
 	else:
-		newUser = OurUser.objects.create(user = current_user,user_name = current_user.username, user_id=current_user.id)
+		newUser = OurUser.objects.create(user = current_user,user_name = current_user.username)
 		current_profile = OurUser.objects.get(user=current_user)
 	return render(request, 'registration/profile.html', context={'user':current_user,'profile':current_profile})
 
@@ -28,7 +27,7 @@ def editUserProfile(request):
 	if OurUser.objects.filter(user=current_user).exists():
 		current_profile = OurUser.objects.get(user=current_user)
 	else:
-		newUser = OurUser.objects.create(user = current_user,user_name = current_user.username, user_id=current_user.id)
+		newUser = OurUser.objects.create(user = current_user,user_name = current_user.username)
 		current_profile = OurUser.objects.get(user=current_user)
 	if request.method=="POST":
 		form_user = EditUser(request.POST, instance=current_user)

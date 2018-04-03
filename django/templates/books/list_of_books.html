@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="{% url 'addbook' %}"> Donate </a>
+<p>
+{% for books in book %}
+{{books.book_name}}, Rating: {{books.rating}} , Count: {{books.count}} <br>
+{% endfor %} 
+</p>
+{% endblock %}
