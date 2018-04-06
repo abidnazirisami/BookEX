@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="POST" class="post-form">
+{% csrf_token %}
+{{ form.as_p}}
+<button type="submit" class="w3-bar-item w3-button w3-border w3-hover-teal w3-left w3-round w3-padding">Search</button>
+</form>
+{% endblock %}

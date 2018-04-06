@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+
+<p>
+
+<h2>Available Book List</h2>
+
+<table border = "1">
+  <tr>
+    <th>Book Name</th>
+    <th>Rating</th>
+    <th>Donated Book Count</th>
+  </tr>
+  {% for books in book %}
+  <tr>
+  	<td>{{books.book_name}}</td><td>{{books.rating}}</td> <td>{{books.count}}</td>
+  </tr>
+
+{% endfor %} 
+</table>
+</p>
+{% endblock %}
