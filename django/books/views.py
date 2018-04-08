@@ -28,7 +28,9 @@ def addBook(request):
 		if isbnlib.is_isbn10(use_isbn):
 			use_isbn = isbnlib.to_isbn13(use_isbn)
 		if isbnlib.is_isbn13(use_isbn):
-			use_isbn = isbnlib.editions(use_isbn)[0]
+			edition_list = isbnlib.editions(use_isbn)
+			if(len(edition_list) != 0):
+				use_isbn = edition_list[0]
 			if Book.objects.filter(isbn=use_isbn).exists():
 				existing_book = Book.objects.get(isbn=use_isbn)
 				existing_book.count = existing_book.count+1
