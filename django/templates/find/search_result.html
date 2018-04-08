@@ -24,7 +24,12 @@ tr:nth-child(even) {
 <h2>Available Book List</h2>
 
 <table border = "1">
+
+<form method="POST" class="post-form">
+{% csrf_token %}
+{{ form.as_p}}
   <tr>
+    <th></th>
     <th>ISBN</th>
     <th>Title</th>
     <th>Authors</th>
@@ -33,10 +38,13 @@ tr:nth-child(even) {
   </tr>
   {% for new_list,author_name_list in book %}
   <tr>
-	<td>{{new_list.isbn}}</td><td>{{new_list.book_name}}</td><td>{{author_name_list.author_name}}</td><td>{{new_list.publisher}}</td><td>{{new_list.publish_year}}</td>
+  <td><input type="checkbox" name="isbn" value="new_list.isbn"></td>
+  <td>{{new_list.isbn}}</td><td>{{new_list.book_name}}</td><td>{{author_name_list.author_name}}</td><td>{{new_list.publisher}}</td><td>{{new_list.publish_year}}</td>
   </tr>
-
 {% endfor %} 
 </table>
+<button type="submit" class="w3-bar-item w3-button w3-border w3-hover-teal w3-left w3-round w3-padding">Donate</button>
+
+</form>
 </p>
 {% endblock %}
