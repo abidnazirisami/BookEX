@@ -47,6 +47,19 @@
 	</div>
   </div>
 </div>
+<div class="w3-col m3 w3-large w3-margin-top" style="padding-right: 10px; padding-left: 10px">
+  <div class="w3-card" style="width:100%">
+		{% load static %}
+		<a href="{% url 'requestbook' %}">
+		<img src="{% static 'request_book.jpg' %}" alt="Request Books" style="width:100%; height: 300px">
+		
+		 <div class="w3-container">
+      		<h4><b>Request Books</b></h4>
+    	 </div>
+    	 </a>
+	</div>
+  </div>
+</div>
 {% else %}
 {% load static %}
   <img src="{% static 'sami.jpg' %}" alt="Books" style="width:100%">
