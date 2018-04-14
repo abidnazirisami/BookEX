@@ -26,4 +26,5 @@ urlpatterns = [
     path('pages/', include('pages.urls')),
     path('book/', include('books.urls')),
     path('find/', include('find.urls')),
+    path('request/', include('request.urls')),
 ]

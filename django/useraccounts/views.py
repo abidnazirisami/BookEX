@@ -20,7 +20,20 @@ def showUserProfile(request):
 	else:
 		newUser = OurUser.objects.create(user = current_user,user_name = current_user.username)
 		current_profile = OurUser.objects.get(user=current_user)
-	return render(request, 'registration/profile.html', context={'user':current_user,'profile':current_profile})
+	new_list = list()
+	author_name_list = list()
+	book = list()
+	book = Boiii.objects.all()
+	for books in book:
+		if books.id == current_profile:
+			print(books.isbn.isbn)
+			if Book.objects.filter(isbn = books.isbn.isbn).exists():
+				curBook = Book.objects.get(isbn = books.isbn.isbn)
+				new_list.append(curBook)
+			if Author.objects.filter(author_id = curBook.author_id.author_id).exists():
+				author = Author.objects.get(author_id = curBook.author_id.author_id)
+				author_name_list.append(author)
+	return render(request, 'registration/profile.html', context={'user':current_user,'profile':current_profile,'book':zip(new_list,author_name_list)})
 
 def editUserProfile(request):
 	current_user = request.user
