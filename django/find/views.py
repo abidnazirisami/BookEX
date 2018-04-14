@@ -29,6 +29,9 @@ def searchBook(request):
 			
 		return render(request,'find/search_result.html',context = {'book':zip(new_list,author_name_list)})
 	else:
-		new_book = SearchBook()
-	return render(request, 'find/search_book.html', context = {'form':new_book,'error':"Enter a valid isbn"})
+		new_book = Book.objects.all()
+		book_names=[]
+		for new_books in new_book:
+			book_names.append(new_books.book_name)
+		return render(request, 'find/search_book.html', context = {'books':book_names,'error':"Enter a valid isbn"})
 

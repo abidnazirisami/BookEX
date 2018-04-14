@@ -1,20 +1,3 @@
-{% extends 'base.html' %}
-
-{% block content %}
-
-<form autocomplete="off" method="POST" class="post-form">
-<div class="w3-row">
-  <div class="w3-col m4">
-  	{% csrf_token %}
-  	<div class="autocomplete" style="width:300px;">
-	<input type="text" placeholder="Search.." style="width:100%; height: 50px" id="find_book" name="find_book">
-	</div>
-  </div>
-</div>
-<button type="submit" class="w3-bar-item w3-button w3-border w3-hover-teal w3-left w3-round w3-padding">Search</button>
-</form>
-
-<script>
 function autocomplete(inp, arr) {
   /*the autocomplete function takes two arguments,
   the text field element and an array of possible autocompleted values:*/
@@ -112,8 +95,7 @@ function autocomplete(inp, arr) {
       });
 }
 
-var book = {{ books|safe }};
-autocomplete(document.getElementById("find_book"), book);
-</script>
+/*An array containing all the country names in the world:*/
 
-{% endblock %}
+/*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+
