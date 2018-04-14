@@ -19,7 +19,7 @@ h1,h2,h3,h4,h5,h6 {
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/bootstrap_min.css' %}">
   <link rel="stylesheet" href="{% static 'css/bootstrap_theme_min.css' %}">
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet"> 
+  <link rel="stylesheet" href="{% static 'css/roboto.css' %}">
   <link rel="stylesheet" href="{% static 'css/w3.css' %}">
   </head>
 <style>
@@ -35,21 +35,9 @@ a:hover {
 </style>
 <body>
   <main>
-    <!-- nav_bar-->
-    <div class="w3-top">
-      <div class="w3-bar w3-teal w3-wide w3-padding w3-card">
-        <a href="{% url 'home' %}" class="w3-bar-item w3-button w3-hover-teal w3-roboto"><p class="w3-xxlarge"><b style="text-decoration: none; color: white">Book</b><b style="text-decoration: none; color: orange">EX</b></p></a>
-        <div class="w3-right w3-hide-small">
-          <a href="#about" class="w3-bar-item w3-button w3-hover-teal">About</a>
-          <a href="#contact" class="w3-bar-item w3-button w3-hover-teal">Contact</a> <br>
-          <a href="{% url 'login' %}" class="w3-bar-item w3-button w3-border w3-hover-white w3-right w3-round">Log In</a>
-          <a href="{% url 'signup' %}" class="w3-bar-item w3-button w3-border w3-hover-white w3-right w3-round w3-padding-5">Sign Up</a>
-        </div>
-      </div>
-    </div>
-
     <div class="loginfo">
       {% if user.is_authenticated %}
+      <!-- nav_bar-->
       <div class="w3-top">
         <div class="w3-bar w3-teal w3-wide w3-padding w3-card">
           <a href="{% url 'home' %}" class="w3-bar-item w3-button w3-hover-teal w3-roboto"><p class="w3-xxlarge"><b style="text-decoration: none; color: white">Book</b><b style="text-decoration: none; color: orange">EX</b></p></a>
@@ -62,16 +50,37 @@ a:hover {
         </div>
       </div>
 
-      {% else %}
-        <a href="{% url 'home' %}"></a>
+      {% else %} 
+      <!-- nav_bar-->
+	    <div class="w3-top">
+	      <div class="w3-bar w3-teal w3-wide w3-padding w3-card">
+	        <a href="{% url 'home' %}" class="w3-bar-item w3-button w3-hover-teal w3-roboto"><p class="w3-xxlarge"><b style="text-decoration: none; color: white">Book</b><b style="text-decoration: none; color: orange">EX</b></p></a>
+	        <div class="w3-right w3-hide-small">
+	          <a href="#about" class="w3-bar-item w3-button w3-hover-teal">About</a>
+	          <a href="#contact" class="w3-bar-item w3-button w3-hover-teal">Contact</a> <br>
+	          <a href="{% url 'login' %}" class="w3-bar-item w3-button w3-border w3-hover-white w3-right w3-round w3-padding-10">Log In</a>
+	          <a href="{% url 'signup' %}" class="w3-bar-item w3-button w3-border w3-hover-white w3-right w3-round w3-padding-10">Sign Up</a>
+	        </div>
+	      </div>
+	    </div>
+
       {% endif %}
     </div>
     <!-- Page content -->
 
+    {% if user.is_authenticated %}
     <div class="w3-container w3-content" style="max-width:1950px;margin-top:120px;margin-bottom: 150px;padding-left: 40px;padding-right: 40px">
+
+    {% else %}
+    <div class="w3-container w3-content" style="max-width:1950px;margin-top:120px;margin-bottom: 150px">    
+
+    {% endif %}
+
     {% block content %}
     {% endblock %}
     </div>
+
+    <!-- Footer -->    
     <div class="w3-bottom">
       <div class="w3-bar w3-white w3-wide w3-padding w3-card ">
         <div class="w3-content" style="max-width:2000px">            
