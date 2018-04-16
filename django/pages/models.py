@@ -8,7 +8,7 @@ from django.db.models.signals import post_save
 # Create your models here.
 class Author(models.Model):
 	author_id = models.AutoField(max_length=50,primary_key=True)
-	author_name = models.CharField(max_length=100,default='Not available')
+	author_name = models.CharField(max_length=500,default='Not available')
 	wiki_link = models.CharField(max_length=500,default='Not available')
 	rating = models.FloatField(default=0.0)
 

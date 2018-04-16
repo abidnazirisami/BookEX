@@ -99,6 +99,7 @@ def searchBook(request):
                     else:
                         if isFirst:
                             isFirst=False
+                            isOdd=False
                         elif c is '\'' and isOdd and not isFirst:
                             cur_author_string+=','
                             isOdd=False
@@ -108,7 +109,7 @@ def searchBook(request):
                             cur_author_string+=c
                 existing_authors.append(cur_author_string)
                 exists = True
-        book_list = isbnlib.goom(search)
+        book_list = isbnlib.goom(search.encode('utf-8', 'replace').decode('ascii','ignore'))
         for book in book_list:
             name = book['Authors']
             author = Author(author_name=name)

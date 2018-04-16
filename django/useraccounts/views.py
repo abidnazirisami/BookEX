@@ -9,9 +9,9 @@ from .forms import *
 from django.shortcuts import redirect
 
 class SignUp(generic.CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy('login')
-    template_name = 'signup.html'
+	form_class = UserCreationForm
+	success_url = reverse_lazy('login')
+	template_name = 'signup.html'
 
 def showUserProfile(request):
 	current_user = request.user
@@ -32,7 +32,26 @@ def showUserProfile(request):
 				new_list.append(curBook)
 			if Author.objects.filter(author_id = curBook.author_id.author_id).exists():
 				author = Author.objects.get(author_id = curBook.author_id.author_id)
-				author_name_list.append(author)
+				cur_author_string=''
+				isOdd=True
+				isFirst=True
+				for c in author.author_name:
+					if c is '[':
+						pass
+					elif c is ']':
+						pass
+					else:
+						if isFirst:
+							isFirst=False
+							isOdd=False
+						elif c is '\'' and isOdd and not isFirst:
+							cur_author_string+=','
+							isOdd=False
+						elif c is '\'' and not isOdd:
+							isOdd=True
+						else:
+							cur_author_string+=c
+				author_name_list.append(cur_author_string)
 	return render(request, 'registration/profile.html', context={'user':current_user,'profile':current_profile,'book':zip(new_list,author_name_list)})
 
 def editUserProfile(request):
@@ -52,7 +71,7 @@ def editUserProfile(request):
 			userprofile = form_user.save(commit=False)
 			userprofile.email = profile.mail_id
 			if 'photo' in request.FILES:
-			    userprofile.photo = request.FILES['photo']
+				userprofile.photo = request.FILES['photo']
 			profile.save()
 			userprofile.save()
 			return redirect('profile')
