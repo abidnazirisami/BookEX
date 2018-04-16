@@ -64,7 +64,8 @@ def addBook(request):
 				add_author.save()
 				curUser.save()
 			return redirect('list_of_books')
+		return render(request, 'books/donate_book.html', context = {'form':new_book,'error':"Enter a valid isbn"})
 	else:
 		new_book = AddBook()
-	return render(request, 'books/donate_book.html', context = {'form':new_book,'error':"Enter a valid isbn"})
+		return render(request, 'books/donate_book.html', context = {'form':new_book,'error':""})
 
