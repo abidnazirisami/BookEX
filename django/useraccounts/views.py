@@ -52,7 +52,10 @@ def showUserProfile(request):
 						else:
 							cur_author_string+=c
 				author_name_list.append(cur_author_string)
-	return render(request, 'registration/profile.html', context={'user':current_user,'profile':current_profile,'book':zip(new_list,author_name_list)})
+	donated = False
+	if(int(float(current_profile.donate_count))>0):
+		donated=True
+	return render(request, 'registration/profile.html', context={'user':current_user,'profile':current_profile,'book':zip(new_list,author_name_list),'donated':donated})
 
 def editUserProfile(request):
 	current_user = request.user

@@ -6,10 +6,14 @@
 <link rel="icon" href="{% static 'profile.ico' %}" type="image/x-icon"> 
 {% endblock %}  
 {% block content %}
+<div class="w3-card w3-padding-large" style="width: 50%; margin: 0 auto;">
+<div class="w3-container w3-margin-top w3-margin-bottom">
 <form  enctype='multipart/form-data' method="POST" class="post-form">
 {% csrf_token %}
 {{ form_user.as_p}}
 {{ form_profile.as_p }}
 <button type="submit">Save</button>
 </form>
+</div>
+</div>
 {% endblock %}

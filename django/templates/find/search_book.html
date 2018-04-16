@@ -17,7 +17,11 @@
         </span>
         </div><!-- /input-group -->
       </div>
-      <p class="error">{{ error }}</p>
+      {% if error %}
+      <div class="alert alert-warning">
+        <strong>Warning:</strong> {{ error }}
+      </div>
+      {% endif %}
     </form>
   </div><!-- /.col-lg-6 -->
 </div><!-- /.row -->

@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if error %}
+<div class="alert alert-warning">
+<strong>Warning:</strong> {{ error }}
+</div>
+{% endif %}
+
 <form method="POST" class="post-form">
 {% csrf_token %}
 {{ form.as_p}}
-<p class="error">{{ error }}</p>
-<button type="submit" class="w3-bar-item w3-button w3-border w3-hover-teal w3-left w3-round w3-padding">Donate</button>
+<button type="submit" class="btn">Donate</button>
 </form>
 {% endblock %}

@@ -7,15 +7,14 @@
 {% endblock %}
 
 {% block content %}
-<div class="empty">
-<p>  </p>
-</div>
-<div class="a">
-<h2>Login</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Login</button>
-</form>
+<div class="w3-container w3-content" style="max-width:1950px;margin-top:120px;margin-bottom: 150px;padding-left: 40px;padding-right: 40px">
+	<div class="w3-container w3-card w3-padding-large" style="width:30%; margin: 0 auto;text-align: right">
+		<h2 class="w3-margin-bottom">Login</h2>
+		<form method="post">
+		  {% csrf_token %}
+		  {{ form.as_p }}
+		  <button class="w3-right" type="submit">Login</button>
+		</form>
+	</div>
 </div>
 {% endblock %}
