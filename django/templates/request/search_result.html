@@ -37,11 +37,11 @@ tr:nth-child(even) {
         {% for existing_list,existing_authors in existingbook %}
         <tr>
           <td><input type="checkbox" name="isbn" value={{existing_list.isbn}}></td>
-          <td>{{existing_list.book_name}}</td>
-          <td>{{existing_authors}}</td>
-          <td>{{existing_list.publisher}}</td>
-          <td>{{existing_list.publish_year}}</td>
-          <td>{{existing_list.count}}</td>
+          <td><input type="hidden" name="book_name" value={{existing_list.book_name}}>{{existing_list.book_name}}</td>
+          <td><input type="hidden" name="author_name" value={{existing_authors}}>{{existing_authors}}</td>
+          <td><input type="hidden" name="publisher" value={{existing_list.publisher}}>{{existing_list.publisher}}</td>
+          <td><input type="hidden" name="publish_year" value={{existing_list.publish_year}}>{{existing_list.publish_year}}</td>
+          <td><input type="hidden" name="count" value={{existing_list.count}}>{{existing_list.count}}</td>
         </tr>
         {% endfor %} 
       </table>
@@ -88,12 +88,13 @@ tr:nth-child(even) {
     <div class="w3-container w3-padding-large w3-right w3-margin-bottom">
       <button type="submit" name="submit" class="w3-button w3-border w3-hover-teal w3-left w3-round" id="button">Add to wishlist</button>
     </div>
+    <div class="w3-container w3-padding-large w3-right w3-margin-bottom">
+      <a href="addNew" type="submit" class="w3-button w3-border w3-hover-teal w3-left w3-round" >Add a book manually</a>
+    </div>
   </div>
 </form>
 
- <div class="w3-container w3-padding-large w3-right w3-margin-bottom">
-      <a href="addNew" type="submit" class="w3-button w3-border w3-hover-teal w3-left w3-round" >Add a book</a>
- </div>
+ 
 
 <script>
 $(document).ready(function() {

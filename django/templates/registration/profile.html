@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
-
-{% block title %}Profile-{{user.username}}{% endblock	%}  
+{% load static %}
+{% block title %}
+<title>Profile-{{user.username}}
+</title>
+<link rel="icon" href="{% static 'profile.ico' %}" type="image/x-icon"> 
+{% endblock %}  
 
 {% block content %}
 <!-- Profile-->
@@ -9,7 +13,8 @@
         <div class="w3-display-container">
         	{% load static %}
         	<p> <img src="{{profile.photo.url}}" alt="Books" style="width:100%"> </p>
-			<p class="w3-wide "><h2>{{profile.user_name}}</h2></p><br> 
+			<p class="w3-wide "><h2>{{user.first_name}} {{user.last_name}}</h2>
+			<i class="username">{{profile.user_name}}</i></p><br> 
 			<p class="w3-wide"> Member since {{user.date_joined}} </p><br>
 			<p><a href="{% url 'editprofile' %}" class="w3-bar-item w3-button w3-border w3-hover-teal w3-right w3-round w3-padding-8">EDIT</a></p>
       	</div>

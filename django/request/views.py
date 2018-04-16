@@ -17,6 +17,10 @@ def displayList(request):
 def addToRequestQueue(request):
     use_isbns = request.POST.getlist('isbn', None)
     wishes=[]
+    cnt=0
+    new_authors = request.POST.getlist('author_name', None)
+    new_book_names = request.POST.getlist('book_name', None)
+    new_counts = request.POST.getlist('count', None)
     for use_isbn in use_isbns:
         if isbnlib.is_isbn10(use_isbn):
             use_isbn = isbnlib.to_isbn13(use_isbn)
@@ -30,6 +34,15 @@ def addToRequestQueue(request):
             wished.save()
             wished.author_name=wished.author_name
             wishes.append(wished)
+        elif not isbnlib.is_isbn13(use_isbn):
+            author_string = new_authors[cnt]
+            book_title = new_book_names[cnt]
+            isAvail = False
+            if Book.objects.filter(isbn=use_isbn).exists() and int(float(new_counts[cnt])) > 0:
+                isAvail=True
+            new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=author_string, book_name=book_title, isAvailable=isAvail) 
+            wishes.append(new_wish)
+            cnt+=1
         else:
             requested_book = isbnlib.meta(use_isbn)
             authors = requested_book['Authors']
@@ -48,7 +61,6 @@ def addToRequestQueue(request):
                 isAvail=True
             new_string = author_string.decode('utf-8')
             new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=new_string, book_name=book_title, isAvailable=isAvail) 
-            #new_wish.author_name=new_wish.author_name.decode('utf-8', 'ignore')
             wishes.append(new_wish)
 
     if not len(use_isbns) is 0:
@@ -97,7 +109,7 @@ def searchBook(request):
                     elif c is ']':
                         pass
                     else:
-                        if isFirst:
+                        if isFirst and c is '\'':
                             isFirst=False
                             isOdd=False
                         elif c is '\'' and isOdd and not isFirst:

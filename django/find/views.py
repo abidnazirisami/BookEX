@@ -46,7 +46,7 @@ def searchBook(request):
                     elif c is ']':
                         pass
                     else:
-                        if isFirst:
+                        if isFirst and c is '\'':
                             isFirst=False
                             isOdd=False
                         elif c is '\'' and isOdd and not isFirst:

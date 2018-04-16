@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
-
+{% load static %}
+{% block title %}
+<title>Profile-{{user.username}}
+</title>
+<link rel="icon" href="{% static 'profile.ico' %}" type="image/x-icon"> 
+{% endblock %}  
 {% block content %}
 <form  enctype='multipart/form-data' method="POST" class="post-form">
 {% csrf_token %}
