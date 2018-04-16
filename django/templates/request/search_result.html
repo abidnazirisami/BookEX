@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+<form method="POST" action="{% url 'display_wishlist' %}" class="post-form">
+  {% csrf_token %}
+  {% if exists %}
+  <div class="w3-container w3-card w3-margin-bottom">
+    <div class="w3-container w3-margin-bottom w3-margin-top">
+      <h2>Available Book List</h2>
+      <table border = "1">
+        <tr>
+          <th></th>
+          <th>Title</th>
+          <th>Authors</th>
+          <th>Publisher</th>
+          <th>Year</th>
+          <th>Available copies</th>
+        </tr>
+        {% for existing_list,existing_authors in existingbook %}
+        <tr>
+          <td><input type="checkbox" name="isbn" value={{existing_list.isbn}}></td>
+          <td>{{existing_list.book_name}}</td>
+          <td>{{existing_authors}}</td>
+          <td>{{existing_list.publisher}}</td>
+          <td>{{existing_list.publish_year}}</td>
+          <td>{{existing_list.count}}</td>
+        </tr>
+        {% endfor %} 
+      </table>
+    </div>
+  </div>
+  {% else %}
+  <div class="w3-container w3-margin-bottom w3-margin-top w3-center">
+    {% load static %}
+    <img src="{% static 'sorry.jpg' %}" alt="Sorry!" style="width:10%; height: 10%">
+    <p class="caption"> Sorry, nobody has donated that book yet. </p>
+  </div>
+  {% endif %}
+  <div class="w3-container w3-card w3-row w3-margin-bottom">
+    <div class="w3-container w3-margin-bottom w3-margin-top">
+      <div class="w3-margin-bottom">
+        {% if exists %}
+        <h2>Not in the list? We've got you covered!</h2>
+        {% else %}
+        <h2> Don't be sad! Put it on your wishlist! </h2>
+        {% endif %}
+        <i> These books are found on the web </i>
+      </div>
+      <table border = "1">
+        <tr>
+          <th></th>
+          <th>Title</th>
+          <th>Authors</th>
+          <th>Publisher</th>
+          <th>Year</th>
+          <th>ISBN</th>
+        </tr>
+        {% for new_list,author_name_list in newbook %}
+        <tr>
+          <td><input type="checkbox" name="isbn" value={{new_list.isbn}}></td>
+          <td>{{new_list.book_name}}</td>
+          <td>{{author_name_list}}</td>
+          <td>{{new_list.publisher}}</td>
+          <td>{{new_list.publish_year}}</td>
+          <td>{{new_list.isbn}}</td>
+        </tr>
+        {% endfor %} 
+      </table>
+    </div>
+    <div class="w3-container w3-padding-large w3-right w3-margin-bottom">
+      <button type="submit" class="w3-button w3-border w3-hover-teal w3-left w3-round">Add to wishlist</button>
+    </div>
+  </div>
+</form>
+{% endblock %}

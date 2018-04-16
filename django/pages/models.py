@@ -33,9 +33,11 @@ class OurUser(models.Model):
 	mail_id = models.CharField(max_length=100,default='Not available')
 	donate_count = models.IntegerField(default = 0)
 	phone = models.CharField(max_length=100,default='Not available')
+	photo = models.ImageField(default = "dum-dum.jpg")
 
 class Boiii(models.Model):
 	book_id = models.AutoField(max_length=50, primary_key=True)	
 	isbn = models.ForeignKey(Book, on_delete=models.CASCADE,default='Not available')
 	id = models.ForeignKey(OurUser, on_delete=models.CASCADE)
 	condition = models.FloatField(default = 0.0)
+

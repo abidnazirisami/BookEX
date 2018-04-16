@@ -34,12 +34,10 @@ def addBook(request):
 		if isbnlib.is_isbn10(use_isbn):
 			use_isbn = isbnlib.to_isbn13(use_isbn)
 		if isbnlib.is_isbn13(use_isbn):
-			print("problem ta ki0")
 			edition_list = isbnlib.editions(use_isbn, service='any')
 			if(len(edition_list) != 0):
 				use_isbn = edition_list[0]
 			if Book.objects.filter(isbn=use_isbn).exists():								
-				print("problem ta ki1")				
 				existing_book = Book.objects.get(isbn=use_isbn)
 				existing_book.count = existing_book.count+1
 				curUser = OurUser.objects.get(user = request.user)				
@@ -49,12 +47,13 @@ def addBook(request):
 				new_boi = Boiii.objects.create(id = curUser,isbn = existing_book)
 				new_boi.save()			
 			else:
-				print("problem ta ki2")
 				find_book = isbnlib.meta(use_isbn)
 				authors = find_book['Authors']
 				book_publisher = find_book['Publisher']
 				book_title = find_book['Title']
-				book_date = find_book['Year']
+				book_date=1996
+				if not find_book['Year'] is '':
+					book_date = find_book['Year']
 				add_author = Author.objects.create(author_name = authors)
 				add_book = Book.objects.create(isbn = use_isbn,author_id = add_author,publisher = book_publisher,book_name = book_title,publish_year=book_date)
 				curUser = OurUser.objects.get(user = request.user)

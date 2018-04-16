@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title> Wishlist </title>
+<link rel="icon" href="{% static 'bookex-2.ico' %}" type="image/x-icon"> 
+{% endblock %}
+{% block content %}
+
+<div class="w3-container w3-padding-small">
+  <h2 class="w3-padding-large"> Added to Wishlist! </h2>
+  <div class="w3-row">
+    {% for book in books %}
+    <div class="w3-col m6 w3-padding-small">
+      <div class="w3-container w3-card w3-padding-large w3-margin-bottom">  
+        <h3>{{book.book_name}}</h3>
+        <i>{{book.author_name}}</i>
+        <p> Wished for: {{book.count}} copies </p>
+      </div>
+    </div> 
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
