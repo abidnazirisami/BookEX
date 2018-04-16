@@ -50,10 +50,15 @@ def addToRequestQueue(request):
             new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=new_string, book_name=book_title, isAvailable=isAvail) 
             #new_wish.author_name=new_wish.author_name.decode('utf-8', 'ignore')
             wishes.append(new_wish)
-    if not use_isbns is None:
+    if not len(use_isbns) is 0:
         wishes.sort(key=lambda x: x.count ,reverse=True)
         return render(request, 'request/wishlist_added.html', context={'books': wishes})
-    return HttpResponseRedirect(reverse(searchBook))
+    else:
+        new_book = Book.objects.all()
+        book_names=[]
+        for new_books in new_book:
+            book_names.append(new_books.book_name)
+        return render(request, 'find/search_book.html', context={'books': book_names, 'error': "You didn't select any books :("})
     
 
 @login_required
@@ -131,7 +136,8 @@ def searchBook(request):
 @login_required
 def showWishlist(request):
     haswishes=False
+    wishlist = []
     if Wishlist.objects.filter(user=request.user).exists():
         haswishes=True
         wishlist = Wishlist.objects.all().filter(user=request.user)
-        return render(request, 'request/show_wishlist.html', context={'haswishes':haswishes, 'books': wishlist})
+    return render(request, 'request/show_wishlist.html', context={'haswishes':haswishes, 'books': wishlist})

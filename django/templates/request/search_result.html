@@ -18,7 +18,8 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 </style>
-<form method="POST" action="{% url 'display_wishlist' %}" class="post-form">
+
+<form method="POST" action="{% url 'display_wishlist' %}" class="post-form" id="requestform" name="requestform">
   {% csrf_token %}
   {% if exists %}
   <div class="w3-container w3-card w3-margin-bottom">
@@ -85,8 +86,21 @@ tr:nth-child(even) {
       </table>
     </div>
     <div class="w3-container w3-padding-large w3-right w3-margin-bottom">
-      <button type="submit" class="w3-button w3-border w3-hover-teal w3-left w3-round">Add to wishlist</button>
+      <button type="submit" name="submit" class="w3-button w3-border w3-hover-teal w3-left w3-round" id="button">Add to wishlist</button>
     </div>
   </div>
 </form>
+<script>
+$(document).ready(function() {
+    $('#requestform').submit(function() {
+        var $fields = $(this).find('input[name="isbn"]:checked');
+        if (!$fields.length) {
+            alert('You did not request any books :(');
+            return false; 
+        }
+    });
+});
+</script>
 {% endblock %}
+
+
