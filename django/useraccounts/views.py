@@ -44,14 +44,15 @@ def editUserProfile(request):
 		current_profile = OurUser.objects.get(user=current_user)
 	if request.method=="POST":
 		form_user = EditUser(request.POST, instance=current_user)
-		form_profile = EditProfile(request.POST, instance=current_profile)
+		form_profile = EditProfile(request.POST,request.FILES, instance=current_profile)
 		if form_profile.is_valid() and form_user.is_valid:
 			profile = form_profile.save(commit=False)
 			profile.user = current_user
 			
 			userprofile = form_user.save(commit=False)
 			userprofile.email = profile.mail_id
-
+			if 'photo' in request.FILES:
+			    userprofile.photo = request.FILES['photo']
 			profile.save()
 			userprofile.save()
 			return redirect('profile')

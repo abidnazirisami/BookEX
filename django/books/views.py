@@ -51,7 +51,9 @@ def addBook(request):
 				authors = find_book['Authors']
 				book_publisher = find_book['Publisher']
 				book_title = find_book['Title']
-				book_date = find_book['Year']
+				book_date=1996
+				if not find_book['Year'] is '':
+					book_date = find_book['Year']
 				add_author = Author.objects.create(author_name = authors)
 				add_book = Book.objects.create(isbn = use_isbn,author_id = add_author,publisher = book_publisher,book_name = book_title,publish_year=book_date)
 				curUser = OurUser.objects.get(user = request.user)
@@ -67,3 +69,22 @@ def addBook(request):
 		new_book = AddBook()
 		return render(request, 'books/donate_book.html', context = {'form':new_book,'error':""})
 
+@login_required
+def addNew(request):
+    if request.method == "POST":
+        form_book = AddNewBook(request.POST)
+        form_author = AddAuthor(request.POST)
+        if form_book.is_valid() and form_author.is_valid:
+            book = form_book.save(commit=False)
+            count = Author.objects.filter().count()
+            print(count)
+            author = Author.objects.create(author_name=request.POST['author_name'])
+            author.save()
+            book.author_id = author
+            book.isbn = str(count)
+            book.save()
+            return redirect('home')
+    else:
+        form_book = AddNewBook()
+        form_author = AddAuthor()
+    return render(request, 'registration/edit_profile.html', {'form_profile': form_author, 'form_user': form_book})

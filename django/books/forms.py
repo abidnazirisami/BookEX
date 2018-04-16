@@ -7,4 +7,3 @@ class AddBook(forms.ModelForm):
     class Meta:
         model = Book
         fields = ('isbn',)
-

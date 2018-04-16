@@ -6,7 +6,7 @@ class EditProfile(forms.ModelForm):
 
     class Meta:
         model = OurUser
-        fields = ('batch', 'roll','mail_id','phone',)
+        fields = ('batch', 'roll','mail_id','phone','photo')
 
 class EditUser(forms.ModelForm):
 
