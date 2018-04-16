@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 import isbnlib
 from django.contrib.auth.decorators import login_required
 from fuzzywuzzy import fuzz
-
+from django.shortcuts import redirect
 @login_required
 def displayList(request):
     book = Book.objects.all()
@@ -142,3 +142,23 @@ def showWishlist(request):
         haswishes=True
         wishlist = Wishlist.objects.all().filter(user=request.user)
     return render(request, 'request/show_wishlist.html', context={'haswishes':haswishes, 'books': wishlist})
+
+@login_required
+def addNew(request):
+    if request.method == "POST":
+        form_book = AddNewBook(request.POST)
+        form_author = AddAuthor(request.POST)
+        if form_book.is_valid() and form_author.is_valid:
+            book = form_book.save(commit=False)
+            count = Author.objects.filter().count()
+            print(count)
+            author = Author.objects.create(author_name=request.POST['author_name'])
+            author.save()
+            book.author_id = author
+            book.isbn = str(count)
+            book.save()
+            return redirect('home')
+    else:
+        form_book = AddNewBook()
+        form_author = AddAuthor()
+    return render(request, 'registration/edit_profile.html', {'form_profile': form_author, 'form_user': form_book})

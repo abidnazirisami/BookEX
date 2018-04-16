@@ -131,3 +131,23 @@ def donate(request):
 				book_names.append(new_books.book_name)
 		return render(request, 'find/search_book.html', context = {'books':book_names,'error':"Select a valid book"})
 
+
+@login_required
+def addNew(request):
+    if request.method == "POST":
+        form_book = AddNewBook(request.POST)
+        form_author = AddAuthor(request.POST)
+        if form_book.is_valid() and form_author.is_valid:
+            book = form_book.save(commit=False)
+            count = Author.objects.filter().count()
+            print(count)
+            author = Author.objects.create(author_name=request.POST['author_name'])
+            author.save()
+            book.author_id = author
+            book.isbn = str(count)
+            book.save()
+            return redirect('home')
+    else:
+        form_book = AddNewBook()
+        form_author = AddAuthor()
+    return render(request, 'registration/edit_profile.html', {'form_profile': form_author, 'form_user': form_book})
