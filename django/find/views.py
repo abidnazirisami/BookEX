@@ -110,13 +110,9 @@ def donate(request):
 					authors = find_book['Authors']
 					book_publisher = find_book['Publisher']
 					book_title = find_book['Title']
-<<<<<<< HEAD
 					book_date=1996
 					if not find_book['Year'] is '':
 						book_date = find_book['Year']
-=======
-					book_date = find_book['Year']
->>>>>>> 175a414e1b48ed0ad10a5d330abbfb7a791617ea
 					add_author = Author.objects.create(author_name = authors)
 					add_book = Book.objects.create(isbn = use_isbn,author_id = add_author,publisher = book_publisher,book_name = book_title,publish_year=book_date)
 					curUser = OurUser.objects.get(user = request.user)
