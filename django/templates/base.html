@@ -3,75 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-* {
-    box-sizing: border-box;
-}
-body {font-family: "Times New Roman", Georgia, Serif;}
-h1,h2,h3,h4,h5,h6 {
-    font-family: "Playfair Display";
-    letter-spacing: 5px;
-}
-</style>
-  <meta charset="utf-8">
-  <!--title>{% block title %}BookEX{% endblock %}</title-->
   {% load static %}
+  {% block title %}
+  <link rel="icon" href="{% static 'bookex.ico' %}" type="image/x-icon"> 
+  <title>BookEX</title>
+  {% endblock %}
   <link rel="stylesheet" href="{% static 'css/bootstrap_min.css' %}">
   <link rel="stylesheet" href="{% static 'css/bootstrap_theme_min.css' %}">
   <link rel="stylesheet" href="{% static 'css/roboto.css' %}">
   <link rel="stylesheet" href="{% static 'css/w3.css' %}">
-  </head>
-<style>
+  <link rel="stylesheet" href="{% static 'css/bookex.css' %}">
+  
+</head>
 
-a:hover {
-  text-decoration:none;
-}
-.w3-allerta {
-  font-family: "Allerta Stencil", Sans-serif;
-}
-.w3-roboto {
-  font-family: 'Roboto Slab', serif;
-}
-</style>
-<style>
-.autocomplete {
-  /*the container must be positioned relative:*/
-  position: relative;
-  display: inline-block;
-}
-.autocomplete-active {
-  /*when navigating through the items using the arrow keys:*/
-  background-color: DodgerBlue !important; 
-  color: #ffffff; 
-}
-.autocomplete-items {
-  position: absolute;
-  border: 1px solid #d4d4d4;
-  border-bottom: none;
-  border-top: none;
-  z-index: 99;
-  /*position the autocomplete items to be the same width as the container:*/
-  top: 100%;
-  left: 0;
-  right: 0;
-}
-.autocomplete-items div {
-  padding: 10px;
-  cursor: pointer;
-  background-color: #fff; 
-  border-bottom: 1px solid #d4d4d4; 
-}
-.autocomplete-items div:hover {
-  /*when hovering an item:*/
-  background-color: #e9e9e9; 
-}
-.autocomplete-active {
-  /*when navigating through the items using the arrow keys:*/
-  background-color: DodgerBlue !important; 
-  color: #ffffff; 
-}
-</style>
 <body>
   <main>
     <div class="loginfo">
@@ -80,11 +24,13 @@ a:hover {
       <div class="w3-top">
         <div class="w3-bar w3-teal w3-wide w3-padding w3-card">
           <a href="{% url 'home' %}" class="w3-bar-item w3-button w3-hover-teal w3-roboto"><p class="w3-xxlarge"><b style="text-decoration: none; color: white">Book</b><b style="text-decoration: none; color: orange">EX</b></p></a>
-          <div class="w3-right w3-hide-small">
-            <a href="#contact" class="w3-bar-item w3-button w3-hover-teal w3-right">Contact</a>
-            <a href="#about" class="w3-bar-item w3-button w3-hover-teal w3-right">About</a><br>
+          <div class="w3-right">
             <a href="{% url 'logout' %}" class="w3-bar-item w3-button  w3-hover-white w3-right w3-round">Log out</a>
+            <a href="#contact" class="w3-bar-item w3-button w3-hover-teal w3-right">Contact</a>
+            <a href="#about" class="w3-bar-item w3-button w3-hover-teal w3-right">About</a>
+            <br>
             <a href="{% url 'profile' %}" class="w3-bar-item w3-button  w3-hover-white w3-right w3-round-xxlarge">{{ user.username }}</a>
+            <a href="{% url 'wishlist' %}" class="w3-bar-item w3-button w3-hover-white w3-right w3-round-xxlarge">Wishlist</a>
           </div>
         </div>
       </div>

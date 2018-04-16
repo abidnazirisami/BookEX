@@ -1,18 +1,27 @@
 {% extends 'base.html' %}
-
+{% load static %}
+{% block title %}
+<link rel="icon" href="{% static 'search.ico' %}" type="image/x-icon"> 
+<title>Search</title>
+{% endblock %}
 {% block content %}
+<div class="row">
+  <div class="col-lg-6">  
+    <form autocomplete="off" method="POST" class="post-form" >
+      {% csrf_token %}
+      <div class="autocomplete">
+        <div class="input-group">        
+          <input type="text" name="find_book" id="find_book" class="form-control" placeholder="Search for...">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="submit">Go!</button>
+        </span>
+        </div><!-- /input-group -->
+      </div>
+      <p class="error">{{ error }}</p>
+    </form>
+  </div><!-- /.col-lg-6 -->
+</div><!-- /.row -->
 
-<form autocomplete="off" method="POST" class="post-form">
-<div class="w3-row">
-  <div class="w3-col m4">
-  	{% csrf_token %}
-  	<div class="autocomplete" style="width:300px;">
-	<input type="text" placeholder="Search.." style="width:100%; height: 50px" id="find_book" name="find_book">
-	</div>
-  </div>
-</div>
-<button type="submit" class="w3-bar-item w3-button w3-border w3-hover-teal w3-left w3-round w3-padding">Search</button>
-</form>
 
 <script>
 function autocomplete(inp, arr) {

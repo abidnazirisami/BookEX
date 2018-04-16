@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'pages', # The first demo app
     'useraccounts', # The app for user account informations
     'books', # The app for keeping track of the books
+    'request', # The app to handle requests
+    'find', # The app to handle search
 ]
 
 MIDDLEWARE = [

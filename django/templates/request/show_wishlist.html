@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title> Wishlist </title>
+<link rel="icon" href="{% static 'bookex-2.ico' %}" type="image/x-icon"> 
+{% endblock %}
+{% block content %}
+
+<div class="w3-container">
+{% if haswishes %}
+  <h2 class="w3-padding-large"> Wishlist for {{user.first_name}} </h2>
+  <div class="w3-row-padding">
+    {% for book in books %}
+    <div class="w3-col m12 w3-padding-small">
+      <div class="w3-container w3-card w3-padding-large">  
+        <h3>{{book.book_name}}</h3>
+        <i>{{book.author_name}}</i>
+        <p> Wished for: {{book.count}} copies </p>
+      </div>
+    </div> 
+    {% endfor %}
+  </div>
+{% else %}
+  <h2 class="w3-padding-large"> You currently don't have anything on your wishlist </h2>
+{% endif %}
+</div>
+{% endblock %}
