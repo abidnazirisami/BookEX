@@ -69,13 +69,13 @@
 		<table border = "1" style="padding-right: 10px; padding-left: 10px">
 			<tr><th>Book Name</th><th>Author Name</th><th>Edition</th><th> Requested By </th><th>Requested Number of Books</th><th>Request Date</th></tr>
 			{% for request,user in request_list %}
-			<tr>
-			<td>{{request.book_name}}</td>
-			<td>{{request.author_name}}</td>
-			<td>{{request.edition}}</td>
-			<td>{{user.user_name}}</td>
-			<td>{{request.count}}</td>
-			<td>{{request.request_date}}</td></tr>
+				<tr>
+				<td>{{request.book_name}}</td>
+				<td>{{request.author_name}}</td>
+				<td>{{request.edition}}</td>
+				<td><a href="{% url 'viewprofile' username=user.user_name %}">{{user.user_name}} </a></td>
+				<td>{{request.count}}</td>
+				<td>{{request.request_date}}</td></tr>
 			{% endfor %}
 		</table>
 	</div>
