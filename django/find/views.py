@@ -82,7 +82,7 @@ def searchBook(request):
         for new_books in new_book:
             if not new_books.book_name in book_names:
                 book_names.append(new_books.book_name)
-        return render(request, 'find/search_book.html', context={'books': book_names, 'error': ""})
+        return render(request, 'find/search_book.html', context={'books': book_names, 'error': "", 'available_books' : new_book})
 @login_required
 def donate(request):
     if request.method == "POST":

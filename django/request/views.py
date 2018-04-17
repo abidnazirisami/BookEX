@@ -28,8 +28,8 @@ def addToRequestQueue(request):
                 edition_list = isbnlib.editions(use_isbn, service='any')
                 if(len(edition_list) != 0):
                     use_isbn = edition_list[0]
-        if Wishlist.objects.filter(isbn=use_isbn).exists():
-            wished = Wishlist.objects.get(isbn=use_isbn)
+        if Wishlist.objects.filter(isbn=use_isbn, user=request.user).exists():
+            wished = Wishlist.objects.get(isbn=use_isbn, user=request.user)
             wished.count+=1
             wished.save()
             wished.author_name=wished.author_name

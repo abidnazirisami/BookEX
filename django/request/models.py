@@ -6,8 +6,9 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
 class Wishlist(models.Model):
+	id = models.AutoField(max_length=50,primary_key=True)
 	user = models.ForeignKey(User, related_name='request_user',on_delete=models.DO_NOTHING,default='Not available')
-	isbn = models.CharField(max_length=50, primary_key=True,default='Not available')	
+	isbn = models.CharField(max_length=50, default='Not available')	
 	author_name = models.CharField(max_length=500,default='Not available')
 	edition = models.IntegerField(default = 1)
 	count = models.IntegerField(default = 1)
