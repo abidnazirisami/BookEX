@@ -2,6 +2,8 @@
 {% load static %}
 {% block title %}
 <link rel="icon" href="{% static 'bookex-2.ico' %}" type="image/x-icon"> 
+<link rel="firstpage" href="{% static 'BookEX.png' %}">
+<link rel="review" href="{% static 'review_recommodation.png' %}">
 <title>BookEX - Home</title>
 {% endblock %}
 
@@ -62,8 +64,34 @@
   
 {% else %}
 {% load static %}
-<div class="sami-card w3-cotainer w3-center" style="position: absolute;height: 100%;width: 100%;">
-  <a href="{% url 'signup' %}"><img src="{% static 'JoinUs.png' %}" alt="Join us!" class="zoom" style="width:30%;padding-top: 230px;"></a>
-</div>
+<div class="w3-display-container w3-content" style="margin-top:150px;margin-bottom: 50px;padding-left: 40px;padding-right: 40px; width:100%; height: 100%">
+	 <!-- Slideshow container -->
+  <img class="mySlides" src="{% static 'BookEX.png' %}" style="width:100%; height: 100%">
+  <img class="mySlides" src="{% static 'review_recommodation.png' %}" style="width:100%; height: 100%">
+  <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+  <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+  </div>
+
+<script>
+var slideIndex = 1;
+showDivs(slideIndex);
+
+function plusDivs(n) {
+  showDivs(slideIndex += n);
+}
+
+function showDivs(n) {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  if (n > x.length) {slideIndex = 1}    
+  if (n < 1) {slideIndex = x.length}
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";  
+  }
+  x[slideIndex-1].style.display = "block";  
+}
+</script>
+  <!--a href="{% url 'signup' %}"><img src="{% static 'JoinUs.png' %}" alt="Join us!" class="zoom" style="width:30%;padding-top: 230px;"></a>
+</div-->
 {% endif %}
 {% endblock %}
