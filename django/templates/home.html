@@ -59,7 +59,22 @@
 	</div>
   </div>
 </div>
-  
+
+<div class="w3-row">
+  <div style="padding-right: 10px; padding-left: 10px; padding-top : 100px">
+	<div class="w3-card" style="width:100%">
+		<br><b>** Some Sami-ish Line **</b><br>
+		<table border = "1" style="padding-right: 10px; padding-left: 10px">
+			<tr><th>Book Name</th><th>Author Name</th><th>Edition</th><th> Requested By </th><th>Requested Number of Books</th><th>Request Date</th></tr>
+			{% for request,user in request_list %}
+			<tr><td>{{request.book_name}}</td><td>{{request.author_name}}</td><td>{{request.edition}}</td><td>{{user.user_name}}</td><td>{{request.count}}</td><td>{{request.request_date}}</td></tr>
+			{% endfor %}
+		</table>
+	</div>
+  </div>
+</div>
+
+
 {% else %}
 {% load static %}
 <div class="sami-card w3-cotainer w3-center" style="position: absolute;height: 100%;width: 100%;">

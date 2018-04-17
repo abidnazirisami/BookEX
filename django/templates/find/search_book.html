@@ -7,7 +7,7 @@
 {% block content %}
 <div class="row">
   <div class="col-lg-6">  
-    <form autocomplete="off" method="POST" class="post-form" >
+    <form autocomplete="off" method="POST" class="post-form" id="searchform">
       {% csrf_token %}
       <div class="autocomplete">
         <div class="input-group">        
@@ -28,7 +28,7 @@
 
 
 <script>
-function autocomplete(inp, arr) {
+function autocomplete(frm, inp, arr) {
   /*the autocomplete function takes two arguments,
   the text field element and an array of possible autocompleted values:*/
   var currentFocus;
@@ -86,10 +86,12 @@ function autocomplete(inp, arr) {
         addActive(x);
       } else if (e.keyCode == 13) {
         /*If the ENTER key is pressed, prevent the form from being submitted,*/
-        e.preventDefault();
         if (currentFocus > -1) {
           /*and simulate a click on the "active" item:*/
-          if (x) x[currentFocus].click();
+          if (x) {
+            e.preventDefault();
+            x[currentFocus].click();
+          }
         }
       }
   });
@@ -126,7 +128,7 @@ function autocomplete(inp, arr) {
 }
 
 var book = {{ books|safe }};
-autocomplete(document.getElementById("find_book"), book);
+autocomplete(document.getElementById("searchform"), document.getElementById("find_book"), book);
 </script>
 
 {% endblock %}
