@@ -34,6 +34,7 @@ collation-server = utf8mb4_unicode_ci
 
 ## Q: What to do when I can't make any changes in the database with makemigrations?
 A: Let's say our app's name is appname, the model's name is modelname, mysql user is root, password is qwe123. The steps are:
+	
 	- In your terminal,
 	```
 	 mysql -u root -pqwe123
