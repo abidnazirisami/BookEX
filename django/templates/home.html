@@ -10,7 +10,7 @@
 {% if user.is_authenticated %}
 
 
-<div class="w3-row">
+<div class="w3-row ">
   <div class="w3-col m3 w3-large w3-margin-top" style="padding-right: 10px; padding-left: 10px">
 	<div class="w3-card" style="width:100%">
 		{% load static %}
@@ -62,6 +62,8 @@
   
 {% else %}
 {% load static %}
-  <img src="{% static 'sami.jpg' %}" alt="Books" style="width:100%">
+<div class="sami-card w3-cotainer w3-center" style="position: absolute;height: 100%;width: 100%;">
+  <a href="{% url 'signup' %}"><img src="{% static 'JoinUs.png' %}" alt="Join us!" class="zoom" style="width:30%;padding-top: 230px;"></a>
+</div>
 {% endif %}
 {% endblock %}

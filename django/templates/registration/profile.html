@@ -8,8 +8,8 @@
 
 {% block content %}
 <!-- Profile-->
-<div class="w3-container w3-white w3-margin-top w3-padding-8">
-	<div class="w3-third w3-card w3-padding-large" style="max-width:1950px;padding-left: 10px;padding-right: 10px">
+<div class="w3-container w3-card w3-white w3-margin-top w3-padding-8">
+	<div class="w3-third w3-padding-large" style="max-width:1950px;padding-left: 10px;padding-right: 10px">
 
 	    	{% load static %}
         	<div class="profile-header-container">   
@@ -23,28 +23,35 @@
        		</div> 
 			<p class="w3-wide "><h2>{{user.first_name}} {{user.last_name}}</h2><a href="{% url 'editprofile' %}" class="btn w3-margin-bottom w3-margin-right w3-right"><i class="fa fa-edit" style="font-size:18px;color: tomato;">Edit</i></a>
 			<i class="username">{{profile.user_name}}</i></p> 
-			<p class="w3-wide"> Member since {{user.date_joined}} </p>
+			<p > Member since {{user.date_joined}} </p>
 			
       	
     </div>
-
-	<div class="w3-third w3-padding-large" style="text-align:right ;max-width:1950px;padding-left: 10px;padding-right: 10px">
-		<p class="w3-wide "><h1>ABOUT</h1 </p><br>
+    <div class="w3-twothird w3-padding-large w3-margin-top" style="text-align:left ;max-width:1950px;padding-left: 10px;
+    	<p class="w3-wide "><h1>ABOUT</h1 </p><br>
+	</div>	
+	<div class="w3-third w3-padding-large" style="text-align:left ;max-width:1950px;padding-left: 10px;padding-right: 10px">
 		<p class="w3-wide ">First name: {{user.first_name}} </p><br>
 		<p class="w3-wide ">Last name: {{user.last_name}} </p><br> 
 		<p class="w3-wide ">Batch: {{profile.batch}} </p><br>
 		<p class="w3-wide ">Roll: {{profile.roll}} </p><br>
-		<p class="w3-wide ">E-mail Address: {{user.email}} </p><br>
-		<p class="w3-wide ">Phone Number: {{profile.phone}} </p><br>
-		<p class="w3-wide ">Last login: {{user.last_login}} </p><br>
 		
 	</div>
 
+	<div class="w3-third w3-padding-large" style="text-align:left ;max-width:1950px;padding-left: 10px;padding-right: 10px">
+		<p class="w3-wide ">E-mail Address: {{user.email}} </p><br>	
+		<p class="w3-wide ">Phone Number: {{profile.phone}} </p><br>
+		<p class="w3-wide ">Last login: {{user.last_login}} </p><br>
 
+	</div>
 {% if donated %}
-<div class="w3-third w3-margin-top w3-white w3-right w3-padding-large" style="text-align: right;">
-	<p class="w3-wide ">Books Donated: {{profile.donate_count}} </p><br>
-	
+<div class=" w3-margin-top w3-row">
+<div class="w3-col m12 w3-center book-card w3-margin-top w3-margin-bottom">
+	<div class="alert alert-info w3-wide">
+		Book(s) Donated:
+		<strong>{{profile.donate_count}} </strong>
+	</div>
+
 		  {% for new_list,author_name_list in book %}
 		  <div class="w3-card w3-container w3-padding-large w3-margin-bottom">
 			<h3>{{new_list.book_name}}</h3>
@@ -81,11 +88,16 @@
 
 		{% endfor %} 
 </div>
+</div>
 {% else %}
-<div class="w3-third w3-margin-top container">
-
-<img src="{% static 'sad.jpg' %}" class="img-circle w3-right" style="height: 60%; width:100%;opacity: 0.2;">
-<div class="centered"><h3 class="w3-wide" style="text-align: center;color: grey">Why don't you donate some books?</h3></div>
+<div class=" w3-margin-top w3-row">
+<div class="w3-col m12 w3-center panda-card w3-margin-top w3-margin-bottom">
+<div class="alert alert-info">
+<strong> Hey {{user.first_name}} {{user.last_name}}!</strong>
+You haven't donated any books yet :( </div>
+<a href="{% url 'searchbook' %}"><img src="{% static 'donate_now.png' %}" alt="Donate now!" class="zoom" style="height: 30%; width:30%;opacity: 0.8;"></a>
+</div>
 </div>
 {% endif %}
+</div>
 {% endblock %}

@@ -126,28 +126,39 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 i.username {
-  font-size: 21px;
+  font-size: 16px;
 }
 img {
     object-fit: cover;
 }
+
+.zoom:hover {
+    transform: scale(1.2);
+}
+
 .profile-header-container{
     margin: 0 auto;
     text-align: center;
 }
 
 .profile-header-img {
-    padding: 54px;
+    padding: 30px;
 }
 
 .profile-header-img > img.img-circle {
-    width: 120px;
-    height: 120px;
+    width: 150px;
+    height: 150px;
+    border: 2px solid #008080;
+}
+
+.profile-header-img > img.img-rounded {
+    width: 150px;
+    height: 150px;
     border: 2px solid #008080;
 }
 
 .profile-header {
-    margin-top: 43px;
+    margin-top: 30px;
 }
 
 /**
@@ -166,24 +177,19 @@ img {
     font-family: "Roboto Slab", "Sans";
     letter-spacing: 3px;
 }
-.card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  max-width: 300px;
-  margin: auto;
-  text-align: center;
-  font-family: arial;
+.light-bg-card {
+  background: url("/static/light-bg.jpg") 0 no-repeat;
+  background-size: cover;
 }
-.container {
-    position: relative;
-    text-align: center;
-    color: white;
+.panda-card {
+  background: url("/static/sad_dog.jpg") 0 no-repeat;
+  background-size: cover;
 }
-.centered {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.book-card {
+  background: url("/static/book-card.jpg") 0 no-repeat;
+  background-size: cover;  
 }
-.footer {height: 50px;
-    transition-duration: 0.300s;}
-.footer:hover {height:auto;}
+.sami-card {
+  background: url("/static/sami.jpg") 0 fixed no-repeat;
+  background-size: cover;
+}

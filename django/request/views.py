@@ -11,7 +11,7 @@ from django.shortcuts import redirect
 @login_required
 def displayList(request):
     book = Book.objects.all()
-    return render(request, 'find/search_result.html', context={'book': book})
+    return render(request, 'request/search_result.html', context={'book': book})
 
 @login_required
 def addToRequestQueue(request):
@@ -45,6 +45,9 @@ def addToRequestQueue(request):
             cnt+=1
         else:
             requested_book = isbnlib.meta(use_isbn)
+            if requested_book is None:
+                requested_book = isbnlib.goom(use_isbn)
+                requested_book = requested_book[0]
             authors = requested_book['Authors']
             author_string = bytes()
             isFirst = True
@@ -71,11 +74,16 @@ def addToRequestQueue(request):
         book_names=[]
         for new_books in new_book:
             book_names.append(new_books.book_name)
-        return render(request, 'find/search_book.html', context={'books': book_names, 'error': "You didn't select any books :("})
+        return render(request, 'request/search_book.html', context={'books': book_names, 'error': "You didn't select any books :("})
 
 
 @login_required
 def searchBook(request):
+    haswishes=False
+    wishlist = []
+    if Wishlist.objects.filter(user=request.user).exists():
+        haswishes=True
+        wishlist = Wishlist.objects.all().filter(user=request.user)
     if request.method == "POST":
         search = request.POST.get('find_book',None)
         if search is None or search == '':
@@ -83,7 +91,7 @@ def searchBook(request):
             book_names=[]
             for new_books in new_book:
                 book_names.append(new_books.book_name)
-            return render(request, 'find/search_book.html', context={'books': book_names, 'error': "Enter a valid keyword"})
+            return render(request, 'request/search_book.html', context={'books': book_names, 'error': "Enter a valid keyword", 'wished_books' : wishlist, 'haswishes': haswishes})
         #print(search)
         exists = False
         new_list = list()
@@ -145,7 +153,7 @@ def searchBook(request):
         for new_books in new_book:
             if not new_books.book_name in book_names:
                 book_names.append(new_books.book_name)
-        return render(request, 'find/search_book.html', context={'books': book_names, 'error': ""})
+        return render(request, 'request/search_book.html', context={'books': book_names, 'error': "", 'wished_books':wishlist, 'haswishes':haswishes})
 
 @login_required
 def showWishlist(request):
