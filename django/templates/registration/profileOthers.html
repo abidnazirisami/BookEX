@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>Profile-{{cur_user.cur_username}}
+</title>
+<link rel="icon" href="{% static 'profile.ico' %}" type="image/x-icon"> 
+{% endblock %}  
+
+{% block content %}
+<!-- Profile-->
+<div class="w3-container w3-card w3-white w3-margin-top w3-padding-8">
+	<div class="w3-third w3-padding-large" style="max-width:1950px;padding-left: 10px;padding-right: 10px">
+
+	    	{% load static %}
+        	<div class="profile-header-container">   
+    		  <div class="profile-header-img">
+                <img class="img-circle" src="{{profile.photo.url}}" alt="Dp" style="width:250px; height: 250px;">
+                <!-- badge -->
+                <div class="rank-label-container">
+                    <span class="label label-default rank-label">{{profile.user_name}}</span>
+                </div>
+              </div>
+       		</div> 
+			<p class="w3-wide "><h2>{{cur_user.first_name}} {{cur_user.last_name}}</h2>
+			<i class="username">{{profile.user_name}}</i></p> 
+			<p > Member since {{cur_user.date_joined}} </p>
+			
+      	
+    </div>
+    <div class="w3-twothird w3-padding-large w3-margin-top" style="text-align:left ;max-width:1950px;padding-left: 10px;
+    	<p class="w3-wide "><h1>ABOUT</h1 </p><br>
+	</div>	
+	<div class="w3-third w3-padding-large" style="text-align:left ;max-width:1950px;padding-left: 10px;padding-right: 10px">
+		<p class="w3-wide ">First name: {{cur_user.first_name}} </p><br>
+		<p class="w3-wide ">Last name: {{cur_user.last_name}} </p><br> 
+		<p class="w3-wide ">Batch: {{profile.batch}} </p><br>
+		<p class="w3-wide ">Roll: {{profile.roll}} </p><br>
+		
+	</div>
+{% if donated %}
+<div class=" w3-margin-top w3-row">
+<div class="w3-col m12 w3-center book-card w3-margin-top w3-margin-bottom">
+	<div class="alert alert-info w3-wide">
+		Book(s) Donated:
+		<strong>{{profile.donate_count}} </strong>
+	</div>
+
+		  {% for new_list,author_name_list in book %}
+		  <div class="w3-card w3-container w3-padding-large w3-margin-bottom">
+			<h3>{{new_list.book_name}}</h3>
+			<h4>{{author_name_list}}</h4>
+			<p>
+			{% if new_list.rating >= 1.0 %}
+			<span class="fa fa-star checked"></span>
+			{% else %}
+			<span class="fa fa-star"></span>
+			{% endif %}
+			{% if new_list.rating >= 2.0 %}
+			<span class="fa fa-star checked"></span>
+			{% else %}
+			<span class="fa fa-star"></span>
+			{% endif %}
+			{% if new_list.rating >= 3.0 %}
+			<span class="fa fa-star checked"></span>
+			{% else %}
+			<span class="fa fa-star"></span>
+			{% endif %}
+			{% if new_list.rating >= 4.0 %}
+			<span class="fa fa-star checked"></span>
+			{% else %}
+			<span class="fa fa-star"></span>
+			{% endif %}
+			{% if new_list.rating >= 5.0 %}
+			<span class="fa fa-star checked"></span>
+			{% else %}
+			<span class="fa fa-star"></span>
+			{% endif %}
+			</p>
+			<i>{{new_list.publish_year}}</i>
+		  </div>
+
+		{% endfor %} 
+</div>
+</div>
+{% else %}
+<div class=" w3-margin-top w3-row">
+<div class="w3-col m12 w3-center panda-card w3-margin-top w3-margin-bottom">
+<div class="alert alert-info">
+<strong> Hey {{cur_user.first_name}} {{cur_user.last_name}}!</strong>
+Didn't donate any books yet :( </div>
+<a href="{% url 'searchbook' %}"><img src="{% static 'donate_now.png' %}" alt="Donate now!" class="zoom" style="height: 30%; width:30%;opacity: 0.8;"></a>
+</div>
+</div>
+{% endif %}
+</div>
+{% endblock %}
