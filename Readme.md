@@ -1,21 +1,25 @@
-## Version Naming convention
+# Version Naming convention
 
 Progress.Member.Serial
 
 Ex: 2.2.1 means
 
-2 = 2nd progress showing
-2 = Nitu [1 = Raida, 3 = Sami]
-1 = First commit in this category
+> 2 = 2nd progress showing
 
-## For bangla support:
+> 2 = Nitu [1 = Raida, 3 = Sami]
+
+> 1 = First commit in this category
+
+# For bangla support:
 
 ## Create database
-
+```
 CREATE DATABASE bookex CHARACTER SET = utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
 
-## my.cnf
+in ``` /etc/mysql/my.cnf```
 
+```
 [client]
 database=bookex
 user=root
@@ -30,6 +34,7 @@ character-set-client-handshake = FALSE
 character-set-server = utf8mb4
 collation-server = utf8mb4_unicode_ci
 
+```
 # FAQ:
 
 ## Q: What to do when I can't make any changes in the database with makemigrations?
