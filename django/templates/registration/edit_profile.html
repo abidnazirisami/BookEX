@@ -11,8 +11,10 @@
 <form  enctype='multipart/form-data' method="POST" class="post-form">
 {% csrf_token %}
 <p class="w3-container" style="align-content: center">
-	{{ form_user.as_p}}
-	{{ form_profile.as_p }}
+	<table>
+		{{ form_user.as_table}}
+	{{ form_profile.as_table }}
+	</table>
 </p>
 
 <button type="submit">Save</button>
