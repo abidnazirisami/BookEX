@@ -57,6 +57,50 @@ def showUserProfile(request):
 		donated=True
 	return render(request, 'registration/profile.html', context={'user':current_user,'profile':current_profile,'book':zip(new_list,author_name_list),'donated':donated})
 
+def showProfile(request,username):
+	if OurUser.objects.filter(user_name = username):
+		current_user = OurUser.objects.get(user_name= username)
+		if OurUser.objects.filter(user=current_user.user_id).exists():
+			current_profile = OurUser.objects.get(user=current_user.user_id)
+		current_user = User.objects.get(id=current_user.user_id)
+		new_list = list()
+		author_name_list = list()
+		book = list()
+		book = Boiii.objects.all()
+		for books in book:
+			if books.id == current_profile:
+				print(books.isbn.isbn)
+				if Book.objects.filter(isbn = books.isbn.isbn).exists():
+					curBook = Book.objects.get(isbn = books.isbn.isbn)
+					new_list.append(curBook)
+				if Author.objects.filter(author_id = curBook.author_id.author_id).exists():
+					author = Author.objects.get(author_id = curBook.author_id.author_id)
+					cur_author_string=''
+					isOdd=True
+					isFirst=True
+					for c in author.author_name:
+						if c is '[':
+							pass
+						elif c is ']':
+							pass
+						else:
+							if isFirst and c is '\'':
+								isFirst=False
+								isOdd=False
+							elif c is '\'' and isOdd and not isFirst:
+								cur_author_string+=','
+								isOdd=False
+							elif c is '\'' and not isOdd:
+								isOdd=True
+							else:
+								cur_author_string+=c
+					author_name_list.append(cur_author_string)
+		donated = False
+		if(int(float(current_profile.donate_count))>0):
+			donated=True
+		return render(request, 'registration/profileOthers.html', context={'cur_user':current_user,'profile':current_profile,'book':zip(new_list,author_name_list),'donated':donated})
+	return render(request,'home.html')
+
 def editUserProfile(request):
 	current_user = request.user
 	if OurUser.objects.filter(user=current_user).exists():
