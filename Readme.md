@@ -34,17 +34,16 @@ collation-server = utf8mb4_unicode_ci
 
 ## Q: What to do when I can't make any changes in the database with makemigrations?
 A: Let's say our app's name is appname, the model's name is modelname, mysql user is root, password is qwe123. The steps are:
-	
-	- In your terminal,
+	1. In your terminal,
 	```
 	 mysql -u root -pqwe123
 	 drop table appname_modelname;
 	 delete from django_migrations where app = 'appname'
 	 exit
 	```
-	__Note:__ If you can't drop the table, you have to drop the whole database and migrate for all apps :(
-	- Delete the contents of appname/migrations except __init__.py
-	- Go to the django folder and open the terminal
+	*Note:* If you can't drop the table, you have to drop the whole database and migrate for all apps :(
+	2. Delete the contents of appname/migrations except __init__.py
+	3. Go to the django folder and open the terminal
 	```
 	 python3 manage.py makemigrations appname
 	 python3 manage.py migrate appname
