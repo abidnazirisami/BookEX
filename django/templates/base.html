@@ -57,7 +57,7 @@
     <!-- Page content -->
 
     {% if user.is_authenticated %}
-    <div class="w3-container w3-content" style="max-width:1950px;margin-top:120px;margin-bottom: 150px;padding-left: 40px;padding-right: 40px">   
+    <div  id="main" class="w3-container w3-content" style="max-width:1950px;margin-top:120px;margin-bottom: 150px;padding-left: 40px;padding-right: 40px; margin-left: 0; transition: margin-left 0.5s;">   
 
     {% endif %}
 
@@ -68,26 +68,28 @@
     {% endif %}
     
     <!-- Footer -->
-    <div class="footer">    
-    <div class="w3-bottom">
+    <div class="footer" style="z-index: 999;" id="footer" onmouseover="openFooter()" onmouseout="closeFooter()">    
+    
       <div class="w3-bar w3-white w3-wide w3-padding w3-card ">
         <div class="w3-content" style="max-width:2000px">            
           <div class="w3-row">
             <div class="w3-col m9 w3-large w3-margin-bottom ">
               <!-- The About Section -->
-              <div class="w3-container w3-content" style="max-width:1950px" id="about">
-                <p class="w3-wide w3-left">ABOUT US</p>
-              </div>
-              <div class="w3-container w3-content" style="max-width:1950px; font-size: 14px" id="info">
-                <i class="fa fa-female" style="width:30px"></i> Nahian Ashraf, Roll: 02<br>
-                <i class="fa fa-female" style="width:30px"></i> Mahfida Jerin, Roll: 26<br>
-                <i class="fa fa-male" style="width:30px"> </i> M M Abid Naziri, Roll: 34<br>
+              <div id="about" style="margin-left: 0; transition: margin-left 0.5s">  
+                <div class="w3-container w3-content" style="max-width:1950px">
+                  <p class="w3-wide w3-left">ABOUT US</p>
+                </div>
+                <div class="w3-container w3-content" style="max-width:1950px; font-size: 14px" id="info">
+                  <i class="fa fa-female" style="width:30px"></i> Nahian Ashraf, Roll: 02<br>
+                  <i class="fa fa-female" style="width:30px"></i> Mahfida Jerin, Roll: 26<br>
+                  <i class="fa fa-male" style="width:30px"> </i> M M Abid Naziri, Roll: 34<br>
+                </div>
               </div>
             </div>
             <div class="w3-col m3 w3-large w3-margin-bottom">
               <!-- The Contact Section -->
-              <div class="w3-container w3-content " style="max-width:1950px" id="contact">
-                <p class="w3-wide w3-left" >CONTACT</p>
+              <div class="w3-container w3-content " style="max-width:1950px;" id="contact">
+                <p class="w3-wide" id="cont" style="text-align: right;margin-right: 10px;transition: margin-right .5s;">CONTACT</p>
               </div>
               <div class="w3-container w3-content " style="max-width:1950px; font-size: 12px" id="address">
                 <p class="w3-opacity w3-left"><i>Any advice? Drop a note!</i></p>
@@ -100,8 +102,19 @@
           </div>
         </div>
       </div>
+    
     </div>
-    </div>  
+    <script>
+function openFooter() {
+    document.getElementById("footer").style.bottom = "0";
+    document.getElementById("cont").style.marginRight ="230px";
+}
+
+function closeFooter() {
+    document.getElementById("footer").style.bottom = "-95px"
+    document.getElementById("cont").style.marginRight = "10px";
+}
+</script>  
   </main>
 </body>
 </html>

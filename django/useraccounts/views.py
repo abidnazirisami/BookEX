@@ -58,11 +58,10 @@ def showUserProfile(request):
 	return render(request, 'registration/profile.html', context={'user':current_user,'profile':current_profile,'book':zip(new_list,author_name_list),'donated':donated})
 
 def showProfile(request,username):
-	if OurUser.objects.filter(user_name = username):
-		current_user = OurUser.objects.get(user_name= username)
-		if OurUser.objects.filter(user=current_user.user_id).exists():
-			current_profile = OurUser.objects.get(user=current_user.user_id)
-		current_user = User.objects.get(id=current_user.user_id)
+	if User.objects.filter(username = username):
+		current_user = User.objects.get(username=username)
+		if OurUser.objects.filter(user_name=username).exists():
+			current_profile = OurUser.objects.get(user_name=username)
 		new_list = list()
 		author_name_list = list()
 		book = list()
@@ -99,7 +98,7 @@ def showProfile(request,username):
 		if(int(float(current_profile.donate_count))>0):
 			donated=True
 		return render(request, 'registration/profileOthers.html', context={'cur_user':current_user,'profile':current_profile,'book':zip(new_list,author_name_list),'donated':donated})
-	return render(request,'home.html')
+	return redirect('profile')
 
 def editUserProfile(request):
 	current_user = request.user
