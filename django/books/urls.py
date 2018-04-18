@@ -8,4 +8,5 @@ urlpatterns = [
     path('donate/', views.addBook, name='addbook'),
     path('addNew/',views.addNew,name='addNew'),
     path('details/<req_isbn>/', views.viewBookProfile, name='viewbookprofile'),
+    path('donate/<use_isbn>/', views.addBookISBN, name='donatewithisbn'),
 ]
