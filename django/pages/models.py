@@ -24,6 +24,8 @@ class Book(models.Model):
 	count = models.IntegerField(default = 0)
 	rating = models.FloatField(default = 0.0)
 	book_name = models.CharField(max_length=100,default='Not available')
+	photo = models.ImageField(default="hootie.jpg")
+
 
 class OurUser(models.Model):
 	user = models.OneToOneField(User, related_name='user',on_delete=models.DO_NOTHING,)    
@@ -40,4 +42,4 @@ class Boiii(models.Model):
 	isbn = models.ForeignKey(Book, on_delete=models.CASCADE,default='Not available')
 	id = models.ForeignKey(OurUser, on_delete=models.CASCADE)
 	condition = models.FloatField(default = 0.0)
-
+	photo = models.ImageField(default="hootie.jpg")

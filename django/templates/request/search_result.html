@@ -37,7 +37,7 @@ tr:nth-child(even) {
         {% for existing_list,existing_authors in existingbook %}
         <tr>
           <td><input type="checkbox" name="isbn" value={{existing_list.isbn}}></td>
-          <td><input type="hidden" name="book_name" value='{{existing_list.book_name}}'>{{existing_list.book_name}}</td>
+          <td><input type="hidden" name="book_name" value='{{existing_list.book_name}}'><a href="{% url 'viewbookprofile' req_isbn=existing_list.isbn %}">{{existing_list.book_name}}</a></td>
           <td><input type="hidden" name="author_name" value='{{existing_authors}}'>{{existing_authors}}</td>
           <td><input type="hidden" name="publisher" value='{{existing_list.publisher}}'>{{existing_list.publisher}}</td>
           <td><input type="hidden" name="publish_year" value={{existing_list.publish_year}}>{{existing_list.publish_year}}</td>

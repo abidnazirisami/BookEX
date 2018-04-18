@@ -38,9 +38,12 @@ def addToRequestQueue(request):
             author_string = new_authors[cnt]
             book_title = new_book_names[cnt]
             isAvail = False
+
+            new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=author_string, book_name=book_title, isAvailable=isAvail) 
             if Book.objects.filter(isbn=use_isbn).exists() and int(float(new_counts[cnt])) > 0:
                 isAvail=True
-            new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=author_string, book_name=book_title, isAvailable=isAvail) 
+            else:
+                Book.object.create(isbn=use_isbn, )
             wishes.append(new_wish)
             cnt+=1
         else:
@@ -49,6 +52,7 @@ def addToRequestQueue(request):
                 requested_book = isbnlib.goom(use_isbn)
                 requested_book = requested_book[0]
             authors = requested_book['Authors']
+
             author_string = bytes()
             isFirst = True
             for author in authors:
@@ -62,6 +66,14 @@ def addToRequestQueue(request):
             isAvail = False
             if Book.objects.filter(isbn=use_isbn).exists() :
                 isAvail=True
+            else:
+                book_publisher = requested_book['Publisher']
+                book_date = 1996
+                if not requested_book['Year'] is '':
+                    book_date = requested_book['Year']
+                add_author = Author.objects.create(author_name=authors)
+                Book.objects.create(isbn=use_isbn, author_id=add_author, publisher=book_publisher,
+                                               book_name=book_title, publish_year=book_date)
             new_string = author_string.decode('utf-8')
             new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=new_string, book_name=book_title, isAvailable=isAvail) 
             wishes.append(new_wish)
@@ -177,6 +189,8 @@ def addNew(request):
             author.save()
             book.author_id = author
             book.isbn = str(count)
+            if 'photo' in request.FILES:
+                book.photo = request.FILES['photo']
             book.save()
             return redirect('home')
     else:

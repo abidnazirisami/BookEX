@@ -9,7 +9,7 @@ class SearchBook(forms.Form):
 class AddNewBook(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ('book_name', 'topic_name', 'publisher', 'publish_year', 'edition', )
+        fields = ('book_name', 'topic_name', 'publisher', 'publish_year', 'edition', 'photo' )
 
 
 class AddAuthor(forms.ModelForm):

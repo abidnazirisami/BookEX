@@ -88,6 +88,7 @@ def donate(request):
     if request.method == "POST":
         added_book = request.POST.getlist('isbn', None)
         for use_isbn in added_book:
+            temp_isbn = use_isbn
             use_isbn = isbnlib.clean(use_isbn)
             use_isbn = isbnlib.canonical(use_isbn)
             if isbnlib.is_isbn10(use_isbn):
@@ -108,7 +109,7 @@ def donate(request):
             else:
                 find_book = isbnlib.meta(use_isbn)
                 if find_book is None:
-                    find_book = isbnlib.goom(use_isbn)
+                    find_book = isbnlib.goom(temp_isbn)
                     find_book = find_book[0]
                 authors = find_book['Authors']
                 book_publisher = find_book['Publisher']
