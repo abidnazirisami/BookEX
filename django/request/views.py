@@ -42,8 +42,6 @@ def addToRequestQueue(request):
             new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=author_string, book_name=book_title, isAvailable=isAvail) 
             if Book.objects.filter(isbn=use_isbn).exists() and int(float(new_counts[cnt])) > 0:
                 isAvail=True
-            else:
-                Book.object.create(isbn=use_isbn, )
             wishes.append(new_wish)
             cnt+=1
         else:
@@ -237,8 +235,6 @@ def addToWishlist(request, req_isbn):
             new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=author_string, book_name=book_title, isAvailable=isAvail) 
             if Book.objects.filter(isbn=use_isbn).exists() and int(float(new_counts[cnt])) > 0:
                 isAvail=True
-            else:
-                Book.object.create(isbn=use_isbn, )
             wishes.append(new_wish)
             cnt+=1
         else:
