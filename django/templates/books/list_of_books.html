@@ -4,10 +4,11 @@
 
 
 <div class="w3-container w3-card w3-padding-large">
-  <h2>Available Book List</h2>
+  <h2 class="w3-center">Available Book List</h2>
 
   <table border = "1" class="w3-margin-bottom w3-wide">
     <tr>
+      <th></th>
       <th>Book Name</th>
       <th>Author(s)</th> 
       <th>Rating</th>
@@ -15,6 +16,7 @@
     </tr>
     {% for books in book %}
     <tr>
+      <td><input type="checkbox" name="isbn" value={{existing_list.isbn}}></td>
     	<td><a href="{% url 'viewbookprofile' req_isbn=books.isbn %}">{{books.book_name}} </a></td>
       <td>{{books.author_id.author_name}}</td>
       <td style="width: 150px;">
@@ -49,10 +51,10 @@
     {% endfor %} 
   </table>
 </div>
-    <div class="w3-container w3-padding-large w3-right w3-margin-bottom">
+    <!--div class="w3-container w3-padding-large w3-right w3-margin-bottom">
       <button type="submit" class="w3-button w3-border w3-hover-teal w3-left w3-round">Donate</button>
-    </div>
-    <div class="w3-container w3-padding-large w3-right w3-margin-bottom">
+    </div-->
+    <div class="w3-container w3-padding-large w3-left w3-margin-bottom">
       <a href="#" type="submit" class="w3-button w3-border w3-hover-teal w3-left w3-round" >Add a book manually</a>
     </div>
 
