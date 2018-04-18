@@ -88,3 +88,14 @@ def addNew(request):
         form_book = AddNewBook()
         form_author = AddAuthor()
     return render(request, 'registration/edit_profile.html', {'form_profile': form_author, 'form_user': form_book})
+
+@login_required
+def viewBookProfile(request, req_isbn):
+	current_book = Book()
+	current_author = Author()
+	if Book.objects.filter(pk=req_isbn).exists():
+		current_book = Book.objects.get(pk = req_isbn)
+	print(current_book.book_name)
+	if Author.objects.filter(pk=current_book.author_id_id).exists():
+		current_author = Author.objects.get(pk=current_book.author_id_id)
+	return render(request, 'books/book_profile.html', context={'book': current_book, 'author': current_author, })

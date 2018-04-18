@@ -57,6 +57,7 @@ def showUserProfile(request):
 		donated=True
 	return render(request, 'registration/profile.html', context={'user':current_user,'profile':current_profile,'book':zip(new_list,author_name_list),'donated':donated})
 
+
 def showProfile(request,username):
 	if OurUser.objects.filter(user_name = username):
 		current_user = OurUser.objects.get(user_name= username)
