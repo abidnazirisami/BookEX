@@ -18,7 +18,7 @@
 	<div class="w3-container">	
 		<div class="w3-card w3-margin-top w3-teal w3-padding-small" style="position: relative;">
 		<p class="small"><a href="{% url 'viewprofile' username=user.user_name %}">{{profile.first_name}} {{profile.last_name}}</a>requested on {{request.request_date}} </p>
-		<h4>{{request.book_name}} [{{request.count}} copy(s)]</h4>
+		 <a href="{% url 'viewbookprofile' req_isbn=request.isbn %}"><h4>{{request.book_name}}</h4> </a> <h4>[{{request.count}} copy(s)]</h4>
 		<i>{{request.author_name}}, 
 		{{request.edition}}
 		{% if request.edition is 1 %}

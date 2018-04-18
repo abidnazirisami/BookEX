@@ -15,7 +15,7 @@
     </tr>
     {% for books in book %}
     <tr>
-    	<td>{{books.book_name}}</td>
+    	<td><a href="{% url 'viewbookprofile' req_isbn=books.isbn %}">{{books.book_name}} </a></td>
       <td>{{books.author_id.author_name}}</td>
       <td style="width: 150px;">
       {% if book.rating >= 1.0 %}
