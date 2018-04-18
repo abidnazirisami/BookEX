@@ -41,3 +41,10 @@ def homepage(request):
 		print(profile_list)
 		return render(request,'home.html',context={'request_list':zip(requested_list,user_list, profile_list)})
 	return render(request, 'home.html')
+
+def about(request):
+	return render(request,'about.html')
+
+
+def contact(request):
+	return render(request,'contact.html')
