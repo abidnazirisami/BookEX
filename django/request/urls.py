@@ -8,5 +8,6 @@ urlpatterns = [
     path('', views.searchBook, name='requestbook'),
     path('success/', views.addToRequestQueue, name='display_wishlist'),
     path('wishlist/', views.showWishlist, name='wishlist'),
-    path('addNew/', views.addNew, name='addNew')
+    path('addNew/', views.addNew, name='addNew'),
+    path('wish/<req_isbn>/', views.addToWishlist, name='addtowishlist'),
 ]

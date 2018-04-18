@@ -197,3 +197,88 @@ def addNew(request):
         form_book = AddNewBook()
         form_author = AddAuthor()
     return render(request, 'registration/edit_profile.html', {'form_profile': form_author, 'form_user': form_book})
+
+
+
+
+
+@login_required
+def addToWishlist(request, req_isbn):
+    use_isbns=[]
+    use_isbns.append(req_isbn)
+    wishes=[]
+    cnt=0
+    new_book = Book.objects.get(isbn = req_isbn)
+    new_authors = []
+    new_auth = new_book.author_id;
+    new_authors.append(new_auth.author_name)
+    new_book_names = []
+    new_book_names.append(new_book.book_name)
+    new_counts = []
+    new_counts.append(new_book.count)
+    for use_isbn in use_isbns:
+        if isbnlib.is_isbn10(use_isbn):
+            use_isbn = isbnlib.to_isbn13(use_isbn)
+            if isbnlib.is_isbn13(use_isbn):
+                edition_list = isbnlib.editions(use_isbn, service='any')
+                if(len(edition_list) != 0):
+                    use_isbn = edition_list[0]
+        if Wishlist.objects.filter(isbn=use_isbn, user=request.user).exists():
+            wished = Wishlist.objects.get(isbn=use_isbn, user=request.user)
+            wished.count+=1
+            wished.save()
+            wished.author_name=wished.author_name
+            wishes.append(wished)
+        elif not isbnlib.is_isbn13(use_isbn):
+            author_string = new_authors[cnt]
+            book_title = new_book_names[cnt]
+            isAvail = False
+
+            new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=author_string, book_name=book_title, isAvailable=isAvail) 
+            if Book.objects.filter(isbn=use_isbn).exists() and int(float(new_counts[cnt])) > 0:
+                isAvail=True
+            else:
+                Book.object.create(isbn=use_isbn, )
+            wishes.append(new_wish)
+            cnt+=1
+        else:
+            requested_book = isbnlib.meta(use_isbn)
+            if requested_book is None:
+                requested_book = isbnlib.goom(use_isbn)
+                requested_book = requested_book[0]
+            authors = requested_book['Authors']
+
+            author_string = bytes()
+            isFirst = True
+            for author in authors:
+                if isFirst:
+                    isFirst=False
+                else:
+                    author_string+=', '.encode('ascii', 'ignore')
+                print(author)
+                author_string+=author.encode('ascii','ignore')
+            book_title = requested_book['Title']
+            isAvail = False
+            if Book.objects.filter(isbn=use_isbn).exists() :
+                isAvail=True
+            else:
+                book_publisher = requested_book['Publisher']
+                book_date = 1996
+                if not requested_book['Year'] is '':
+                    book_date = requested_book['Year']
+                add_author = Author.objects.create(author_name=authors)
+                Book.objects.create(isbn=use_isbn, author_id=add_author, publisher=book_publisher,
+                                               book_name=book_title, publish_year=book_date)
+            new_string = author_string.decode('utf-8')
+            new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=new_string, book_name=book_title, isAvailable=isAvail) 
+            wishes.append(new_wish)
+
+    if not len(use_isbns) is 0:
+        wishes.sort(key=lambda x: x.count ,reverse=True)
+        return render(request, 'request/wishlist_added.html', context={'books': wishes})
+    else:
+        new_book = Book.objects.all()
+        book_names=[]
+        for new_books in new_book:
+            book_names.append(new_books.book_name)
+        return render(request, 'request/search_book.html', context={'books': book_names, 'error': "You didn't select any books :("})

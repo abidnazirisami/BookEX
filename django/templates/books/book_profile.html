@@ -47,13 +47,17 @@
 		<p class="w3-wide ">Topic Name: {{book.topic_name}} </p><br> 
 		<p class="w3-wide ">Edition: {{book.edition}} </p><br>
 		<p class="w3-wide ">Authors: {{author.author_name}} </p><br>
-		
 	</div>
 
 	<div class="w3-third w3-padding-large" style="text-align:left ;max-width:1950px;padding-left: 10px;padding-right: 10px">
 		<p class="w3-wide ">Publisher: {{book.publisher}} </p><br>	
 		<p class="w3-wide ">Publish Year: {{book.publish_year}} </p><br>
-
 	</div>
 </div>
+    <div class="w3-container w3-padding-large w3-right w3-margin-bottom">
+      <a href="{% url 'donatewithisbn' use_isbn=book.isbn %}"><button  class="w3-button w3-border w3-hover-teal w3-left w3-round">Donate</button></a>
+    </div>
+    <div class="w3-container w3-padding-large w3-right w3-margin-bottom">
+      <a href="{% url 'addtowishlist' req_isbn=book.isbn %}"><button  class="w3-button w3-border w3-hover-teal w3-left w3-round">Add to Wishlist</button></a>
+    </div>
 {% endblock %}
