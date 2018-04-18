@@ -8,25 +8,34 @@
 
 {% block content %}
 <!-- Profile-->
-<div class="w3-container w3-card w3-white w3-margin-top w3-padding-8">
-	<div class="w3-third w3-padding-large" style="max-width:1950px;padding-left: 10px;padding-right: 10px">
+<div class="w3-container w3-card w3-white w3-margin-top ">
+	<div class="w3-third" style="max-width:1950px;padding-right: 10px">
 
 	    	{% load static %}
         	<div class="profile-header-container">   
     		  <div class="profile-header-img">
-                <img class="img-circle" src="{{book.photo.url}}" alt="Dp" style="width:250px; height: 250px;">
+                <img class="img-rounded" src="{{book.photo.url}}" alt="Dp" style="width:250px; height: 250px;">
                 <!-- badge -->
                 <div class="rank-label-container">
                     <span class="label label-default rank-label">{{book.book_name}}</span>
                 </div>
               </div>
-       		</div> 
+       		</div>
+		<div class="w3-center"
 			<p class="w3-wide ">
 			<h2>{{book.book_name}}</h2>
-			<p>Authors : <i class="authors">{{author.author_name}}</i></p>
+			<p>by <i class="authors">{{author.author_name}}</i></p>
 			</p> 
-			<p > Edition {{book.edition}} </p>
-			
+			<p > {{book.edition}}
+			{% if book.edition == 1 %}
+			st edition
+			{% elif book.edtion == 2 %}
+			nd edition
+			{% else %]
+			th edition
+			{% endif %}
+			</p>
+		</div>
       	
     </div>
     <div class="w3-twothird w3-padding-large w3-margin-top" style="text-align:left ;max-width:1950px;padding-left: 10px">
