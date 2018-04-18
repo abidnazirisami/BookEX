@@ -13,7 +13,7 @@
     {% for book in books %}
     <div class="w3-col m12 w3-padding-small">
       <div class="w3-container w3-card w3-padding-large">  
-        <h3>{{book.book_name}}</h3>
+         <a href="{% url 'viewbookprofile' req_isbn=book.isbn %}"> <h3>{{book.book_name}}</h3></a>
         <i>{{book.author_name}}</i>
         <p> Wished for: {{book.count}} copies </p>
       </div>
