@@ -8,7 +8,7 @@
 
 <div class="w3-container">
 {% if haswishes %}
-  <h2 class="w3-padding-large"> Wishlist for {{user.first_name}} </h2>
+  <h2 class="w3-padding-large w3-center"> Wishlist for <br><i>{{user.first_name}} {{user.last_name}}</i></h2>
   <div class="w3-row-padding">
     {% for book in books %}
     <div class="w3-col m12 w3-padding-small">
