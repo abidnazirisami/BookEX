@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>About Us</title>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="w3-row w3-roboto w3-container w3-padding-large" style="margin-top: 0;padding-right: 10px; padding-left: 10px">
+<h1 class="w3-wide w3-roboto w3-center"> About US </h1> 
+  <div class="w3-col m4 w3-large w3-margin-top " >
+    {% load static %}
+    <div class="w3-card w3-padding-large w3-margin-right">
+      <div class="profile-header-container">   
+        <div class="profile-header-img">
+          <img class="img-circle" src="{% static 'Nahian.jpg' %}" alt="Nahian" style="width:200px; height: 200px;">
+            <!-- badge -->
+            <div class="rank-label-container">
+                <span class="label label-default rank-label">Nahian</span>
+            </div>
+          </div>
+      </div> 
+      <p class="w3-wide w3-center">
+        <h2>Nahian Ashraf</h2><br>
+        <p>Department of Computer Science and engineering</p><br>
+        <p>University of Dhaka</p>
+      </p>
+    </div>  
+  </div>
+  <div class="w3-col m4 w3-large w3-margin-top">
+      {% load static %}
+      <div class="w3-card w3-padding-large w3-margin-right w3-margin-left">
+        <div class="profile-header-container">   
+        <div class="profile-header-img">
+              <img class="img-circle" src="{% static 'Abid.jpg' %}" alt="Sami" style="width:200px; height: 200px;">
+              <!-- badge -->
+              <div class="rank-label-container">
+                  <span class="label label-default rank-label">Abid</span>
+              </div>
+            </div>
+        </div> 
+        <p class="w3-wide w3-center">
+          <h2>M M Abid Naziri</h2><br>
+          <p>Department of Computer Science and engineering</p><br>
+          <p>University of Dhaka</p>
+        </p>
+      </div>  
+   </div>
+  <div class="w3-col m4 w3-large w3-margin-top">
+
+    {% load static %}
+    <div class="w3-card w3-padding-large  w3-margin-left">
+      <div class="profile-header-container">   
+        <div class="profile-header-img">
+          <img class="img-circle" src="{% static 'Mahfida.jpg' %}" alt="Jerin" style="width:200px; height: 200px;">
+            <!-- badge -->
+            <div class="rank-label-container">
+                <span class="label label-default rank-label">Mahfida</span>
+            </div>
+          </div>
+      </div> 
+      <p class="w3-wide w3-center">
+        <h2>Mahfida Jerin</h2><br>
+        <p>Department of Computer Science and engineering</p><br>
+        <p>University of Dhaka</p>
+      </p>  
+    </div>
+  </div>
+</div>
+
+{% endblock %}
