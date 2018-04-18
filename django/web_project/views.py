@@ -7,6 +7,7 @@ import isbnlib
 from django.contrib.auth.decorators import login_required
 from fuzzywuzzy import fuzz
 from django.shortcuts import redirect
+from django.contrib.auth.models import User
 
 def homepage(request):
 	current_user = request.user
@@ -22,6 +23,7 @@ def homepage(request):
 		#print(donated_list)
 		requested_list = []
 		user_list = []
+		profile_list=[]
 		for donate_worthy in donated_list:
 			cur_isbn = donate_worthy.isbn.isbn
 			#print(cur_isbn)
@@ -32,8 +34,10 @@ def homepage(request):
 					requested_list.append(wish)
 					cur_user = list(OurUser.objects.filter(user_id = wish.user_id))
 					user_list.append(cur_user[0])
+					profile_list.append(User.objects.get(username=cur_user[0].user_name))
 					#print(cur_user[0])
 					#print(wish)
 		#print(requested_list)
-		return render(request,'home.html',context={'request_list':zip(requested_list,user_list)})
+		print(profile_list)
+		return render(request,'home.html',context={'request_list':zip(requested_list,user_list, profile_list)})
 	return render(request, 'home.html')

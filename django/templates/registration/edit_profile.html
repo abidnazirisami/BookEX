@@ -6,12 +6,25 @@
 <link rel="icon" href="{% static 'profile.ico' %}" type="image/x-icon"> 
 {% endblock %}  
 {% block content %}
+<style type="text/css">
+	table td, table th {
+	    border: 0 !important;
+	}
+
+	table {
+	    margin-bottom: 0px;
+	}
+	tr:nth-child(even) {
+    	background-color: white;
+	}
+</style>
 <div class="w3-card w3-padding-large" style="width: 50%; margin: 0 auto;">
 <div class="w3-container w3-margin-top w3-margin-bottom">
 <form  enctype='multipart/form-data' method="POST" class="post-form">
 {% csrf_token %}
 <p class="w3-container" style="align-content: center">
-	<table>
+<h2 class="w3-wide"> Edit profile </h2>
+	<table class="w3-allerta">
 	{{ form_user.as_table}}
 	{{ form_profile.as_table }}
 	</table>
