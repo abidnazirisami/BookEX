@@ -9,7 +9,7 @@
   <div class="col-lg-6 w3-padding-large w3-container">  
     <form autocomplete="off" method="POST" class="post-form form-inline" >
       {% csrf_token %}
-      <div class="autocomplete">
+      <div class="autocomplete w3-margin-left">
         <div class="input-group" style="position: relative; z-index: 99;">        
           <input type="text" name="find_book" id="find_book" class="form-control" placeholder="Search for...">
         <span class="input-group-btn">
@@ -33,7 +33,7 @@
 </div><!-- /.row -->
 <div class="w3-row">
   <div class="w3-col m6">
-    <div class="w3-margin-top">
+    <div class="w3-margin-top w3-margin-right">
       {% if haswishes %}
       <h2 class="w3-padding-large"> Wishlist for {{user.first_name}} {{user.last_name}}</h2>
       <ul class="list-group">
@@ -67,7 +67,7 @@
             <span class="fa fa-star"></span>
             {% endif %}
             </a>
-            <span class="w3-badge w3-right w3-green w3-small" style="text-align: center;">{{book.count}}</span>
+            <span class="badge" style="background-image: linear-gradient(lightseagreen,teal);box-shadow: 0px 1px 4px -2px #333;">{{book.count}}</span>
           </li>
         {% endfor %}
       </ul>
@@ -110,7 +110,7 @@
             <span class="fa fa-star"></span>
             {% endif %}
             </a>
-            <span class="badge badge-secondary badge-pill" style="background: linear-gradient(to right, green , white);">{{info.count}}</span>
+            <span class="badge" style="background-image: linear-gradient(orangered,gold);box-shadow: 0px 1px 4px -2px #333;">{{info.count}}</span>
         </li>
         {% endfor %} 
         </ul>
