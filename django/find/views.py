@@ -12,6 +12,14 @@ def displayBooks(request):
     return render(request, 'find/search_result.html', context = {'book':book})
 
 @login_required
+def displayTopDonor(request):
+    user_donor_list = []
+    donorlist = OurUser.objects.order_by('donate_count')[:10]
+    for donors in donorlist:
+        user_donor_list.append(User.objects.get(user = donors.user_id))
+    return render(request, 'list_of_donors.html', context={'donors': zip(donorlist,user_donor_list)})
+
+@login_required
 def searchBook(request):
     if request.method == "POST":
         search = request.POST.get('find_book',None)
