@@ -40,6 +40,9 @@ class OurUser(models.Model):
 class Boiii(models.Model):
 	book_id = models.AutoField(max_length=50, primary_key=True)	
 	isbn = models.ForeignKey(Book, on_delete=models.CASCADE,default='Not available')
-	id = models.ForeignKey(OurUser, on_delete=models.CASCADE)
+	id = models.ForeignKey(OurUser, related_name="owner_id", on_delete=models.CASCADE)
 	condition = models.FloatField(default = 0.0)
 	photo = models.ImageField(default="hootie.jpg")
+	receiver_id = models.ForeignKey(OurUser, related_name="receiver_id", on_delete=models.CASCADE, null=True)
+	donated = models.BooleanField(default=False)
+	received = models.BooleanField(default=False)

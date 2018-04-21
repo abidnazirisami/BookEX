@@ -307,3 +307,10 @@ def addToWishlist(request, req_isbn):
         for new_books in new_book:
             book_names.append(new_books.book_name)
         return render(request, 'request/search_book.html', context={'books': book_names, 'error': "You didn't select any books :("})
+
+@login_required
+def pendingTransactions(request):
+    cur_user = OurUser.objects.get(user=request.user)
+    to_receive = Boiii.objects.filter(receiver_id=cur_user, received=False).exclude(id=cur_user)
+    to_donate = Boiii.objects.filter(id=cur_user, received=False).exclude(receiver_id=cur_user)
+    return render(request, 'request/pending.html', context={'receive':to_receive, 'donate':to_donate})
