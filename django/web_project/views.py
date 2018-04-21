@@ -24,6 +24,7 @@ def homepage(request):
 		requested_list = []
 		user_list = []
 		profile_list=[]
+		notification_count=0
 		for donate_worthy in donated_list:
 			cur_isbn = donate_worthy.isbn.isbn
 			#print(cur_isbn)
@@ -35,6 +36,7 @@ def homepage(request):
 					cur_user = list(OurUser.objects.filter(user_id = wish.user_id))
 					user_list.append(cur_user[0])
 					profile_list.append(User.objects.get(username=cur_user[0].user_name))
+					notification_count+=1
 					#print(cur_user[0])
 					#print(wish)
 		#print(requested_list)
@@ -45,7 +47,7 @@ def homepage(request):
 			print(request.POST['username'])
 			print(request.POST['isbn'])
 			################################################################
-		return render(request,'home.html',context={'request_list':zip(requested_list,user_list, profile_list)})
+		return render(request,'home.html',context={'request_list':zip(requested_list,user_list, profile_list),'notification_count':notification_count})
 	return render(request, 'home.html')
 
 def about(request):

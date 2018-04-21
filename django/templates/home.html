@@ -18,11 +18,13 @@
 	<div class="w3-container">
 	  <form method="POST" class="post-form">
 	  {% csrf_token %}	
+
 		<div class="w3-card w3-margin-top w3-teal w3-padding-small w3-container" style="position: relative;">
+		<span class="badge red w3-right">{{request.count}}</span>
 		<p class="small"><a href="{% url 'viewprofile' username=user.user_name %}">{{profile.first_name}} {{profile.last_name}}</a>requested on {{request.request_date}} </p>
 		<input type="hidden" name="username" value="{{profile.username}}">
 		<input type="hidden" name="isbn" value="{{request.isbn}}">
-		 <a href="{% url 'viewbookprofile' req_isbn=request.isbn %}"><h4>{{request.book_name}}</h4> </a> <h4>[{{request.count}} copy(s)]</h4>
+		 <a href="{% url 'viewbookprofile' req_isbn=request.isbn %}"><h4>{{request.book_name}}</h4> </a> 
 		<i>{{request.author_name}}, 
 		{{request.edition}}
 		{% if request.edition is 1 %}
@@ -42,8 +44,14 @@
 	{% endfor %}
 	
 </div>
-<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+<nav>
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;
+{% if notification_count > 0 %}
+<span class="badge red">{{notification_count}}</span>
+{% endif %}
 
+</span>
+</nav>
 <div class="w3-row ">
   <div class="w3-col m3 w3-large w3-margin-top" style="padding-right: 10px; padding-left: 10px">
 	<div class="w3-card" style="width:100%">
@@ -102,7 +110,7 @@
 function openNav() {
 	document.getElementById("mySidenav").style.width = "20%";
     document.getElementById("main").style.marginLeft = "20%";
-    document.getElementById("about").style.marginLeft = "20%";
+    document.getElementById("about").style.marginLeft = "27%";
 }
 
 function closeNav() {
