@@ -90,7 +90,11 @@ def searchBook(request):
         for new_books in new_book:
             if not new_books.book_name in book_names:
                 book_names.append(new_books.book_name)
-        return render(request, 'find/search_book.html', context={'books': book_names, 'error': "", 'available_books' : new_book})
+        user_donor_list = []
+        donorlist = OurUser.objects.order_by('donate_count').reverse()[:10]
+        for donors in donorlist:
+            user_donor_list.append(User.objects.get(user = donors.user_id))
+        return render(request, 'find/search_book.html', context={'books': book_names,'donors': zip(donorlist,user_donor_list), 'error': "", 'available_books' : new_book})
 @login_required
 def donate(request):
     if request.method == "POST":

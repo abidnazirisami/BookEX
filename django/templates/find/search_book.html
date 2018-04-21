@@ -30,7 +30,23 @@
     </div>
   </div>
 </div><!-- /.row -->
-
+<div class="w3-row">
+  <div class="w3-col m4 w3-container">
+    <div >
+      <h2 class="w3-wide">Top donors</h2>
+      
+      <ul class="list-group">
+      {% for donor,user in donors %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <a href="{% url 'viewprofile' username=donor.user_name %}">{{user.first_name}} {{user.last_name}}</a>
+          <span class="badge badge-secondary badge-pill">{{donor.donate_count}}</span>
+        </li>
+      {% endfor %} 
+      </ul>
+      
+    </div>
+  </div>
+</div>
 
 <script>
 function autocomplete(frm, inp, arr) {
