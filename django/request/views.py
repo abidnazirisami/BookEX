@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.urls import *
 from pages.models import Boiii, Book, Author
+from request.models import *
 from .models import *
 from .forms import *
 from django.http import HttpResponseRedirect
@@ -12,6 +13,15 @@ from django.shortcuts import redirect
 def displayList(request):
     book = Book.objects.all()
     return render(request, 'request/search_result.html', context={'book': book})
+
+@login_required
+def displayTopRequest(request):
+    bookinfo = []
+    requestlist = Wishlist.objects.order_by('count').reverse()[:10]
+    for book in requestlist:
+        bookinfo.append(Book.objects.get(isbn=book.isbn))
+    return render(request, 'request/list_of_books.html', context={'book': zip(requestlist,bookinfo)})
+
 
 @login_required
 def addToRequestQueue(request):
