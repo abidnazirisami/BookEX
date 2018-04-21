@@ -60,16 +60,32 @@ def addToRequestQueue(request):
                 requested_book = isbnlib.goom(use_isbn)
                 requested_book = requested_book[0]
             authors = requested_book['Authors']
-
-            author_string = bytes()
-            isFirst = True
+            cur_author_string=''
+            isFword=True
             for author in authors:
-                if isFirst:
-                    isFirst=False
+                if isFword:
+                    isFword=False
                 else:
-                    author_string+=', '.encode('ascii', 'ignore')
-                print(author)
-                author_string+=author.encode('ascii','ignore')
+                    cur_author_string+=', '
+                isFirst=True
+                isOdd=True
+                for c in author:
+                    if c is '[':
+                        pass
+                    elif c is ']':
+                        pass
+                    else:
+                        if isFirst and c is '\'':
+                            isFirst=False
+                            isOdd=False
+                        elif c is '\'' and isOdd and not isFirst:
+                            cur_author_string+=','
+                            isOdd=False
+                        elif c is '\'' and not isOdd:
+                            isOdd=True
+                        else:
+                            cur_author_string+=c
+            
             book_title = requested_book['Title']
             isAvail = False
             if Book.objects.filter(isbn=use_isbn).exists() :
@@ -79,11 +95,10 @@ def addToRequestQueue(request):
                 book_date = 1996
                 if not requested_book['Year'] is '':
                     book_date = requested_book['Year']
-                add_author = Author.objects.create(author_name=authors)
+                add_author = Author.objects.create(author_name=cur_author_string)
                 Book.objects.create(isbn=use_isbn, author_id=add_author, publisher=book_publisher,
                                                book_name=book_title, publish_year=book_date)
-            new_string = author_string.decode('utf-8')
-            new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=new_string, book_name=book_title, isAvailable=isAvail) 
+            new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=cur_author_string, book_name=book_title, isAvailable=isAvail) 
             wishes.append(new_wish)
 
     if not len(use_isbns) is 0:
