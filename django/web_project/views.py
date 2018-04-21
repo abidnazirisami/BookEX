@@ -38,7 +38,13 @@ def homepage(request):
 					#print(cur_user[0])
 					#print(wish)
 		#print(requested_list)
-		print(profile_list)
+		#print(profile_list)
+		if request.method=="POST":
+			################################################################
+			# For Raida:
+			print(request.POST['username'])
+			print(request.POST['isbn'])
+			################################################################
 		return render(request,'home.html',context={'request_list':zip(requested_list,user_list, profile_list)})
 	return render(request, 'home.html')
 
