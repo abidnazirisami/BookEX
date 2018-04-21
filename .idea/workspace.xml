@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="74cfedce-7793-4167-9644-ed7222b41d31" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/django/find/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/django/find/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/django/find/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/django/find/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -81,8 +80,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/django/find/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="99" selection-start-line="19" selection-start-column="99" selection-end-line="19" selection-end-column="99" />
+            <state relative-caret-position="240">
+              <caret line="16" column="66" selection-start-line="16" selection-start-column="66" selection-end-line="16" selection-end-column="66" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -638,8 +637,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/django/find/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="99" selection-start-line="19" selection-start-column="99" selection-end-line="19" selection-end-column="99" />
+        <state relative-caret-position="240">
+          <caret line="16" column="66" selection-start-line="16" selection-start-column="66" selection-end-line="16" selection-end-column="66" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>

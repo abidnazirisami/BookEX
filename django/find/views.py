@@ -14,7 +14,7 @@ def displayBooks(request):
 @login_required
 def displayTopDonor(request):
     user_donor_list = []
-    donorlist = OurUser.objects.order_by('donate_count')[:10]
+    donorlist = OurUser.objects.order_by('donate_count').reverse()[:10]
     for donors in donorlist:
         user_donor_list.append(User.objects.get(user = donors.user_id))
     return render(request, 'list_of_donors.html', context={'donors': zip(donorlist,user_donor_list)})
