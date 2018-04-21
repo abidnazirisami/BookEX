@@ -173,7 +173,11 @@ def searchBook(request):
         for new_books in new_book:
             if not new_books.book_name in book_names:
                 book_names.append(new_books.book_name)
-        return render(request, 'request/search_book.html', context={'books': book_names, 'error': "", 'wished_books':wishlist, 'haswishes':haswishes})
+        bookinfo = []
+        requestlist = Wishlist.objects.order_by('count').reverse()[:10]
+        for book in requestlist:
+            bookinfo.append(Book.objects.get(isbn=book.isbn))
+        return render(request, 'request/search_book.html', context={'requsted_book': zip(requestlist,bookinfo),'books': book_names, 'error': "", 'wished_books':wishlist, 'haswishes':haswishes})
 
 @login_required
 def showWishlist(request):
