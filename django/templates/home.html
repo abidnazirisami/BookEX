@@ -14,13 +14,14 @@
 <a href="{% url 'home' %}" class="w3-bar-item w3-center zoom w3-roboto"><p class="w3-xxlarge"><b style="text-decoration: none; color: white">Book</b><b style="text-decoration: none; color: orange">EX</b></p></a>
 <font color = "white" class="w3-wide w3-margin-left w3-margin-bottom"> Notifications: </font>
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-	{% for request,user,profile in request_list %}
+	{% for request,user,profile,cnt in request_list %}
 	<div class="w3-container">
 	  <form method="POST" class="post-form">
 	  {% csrf_token %}	
 
 		<div class="w3-card w3-margin-top w3-teal w3-padding-small w3-container" style="position: relative;">
 		<span class="badge red w3-right">{{request.count}}</span>
+		
 		<p class="small"><a href="{% url 'viewprofile' username=user.user_name %}">{{profile.first_name}} {{profile.last_name}}</a>requested on {{request.request_date}} </p>
 		<input type="hidden" name="username" value="{{profile.username}}">
 		<input type="hidden" name="isbn" value="{{request.isbn}}">
@@ -35,6 +36,7 @@
 		th edition
 		{% endif %}
 		</i>
+		<span class="badge green w3-right">{{cnt}}</span>
 		<div class="w3-right w3-margin-top" style="padding-bottom: 5px;">
 			<button class="btn btn-info btn-xs" type="submit">Confirm</button>
 		</div>
