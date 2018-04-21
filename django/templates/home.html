@@ -15,9 +15,13 @@
 <font color = "white" class="w3-wide w3-margin-left w3-margin-bottom"> Notifications: </font>
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 	{% for request,user,profile in request_list %}
-	<div class="w3-container">	
-		<div class="w3-card w3-margin-top w3-teal w3-padding-small" style="position: relative;">
+	<div class="w3-container">
+	  <form method="POST" class="post-form">
+	  {% csrf_token %}	
+		<div class="w3-card w3-margin-top w3-teal w3-padding-small w3-container" style="position: relative;">
 		<p class="small"><a href="{% url 'viewprofile' username=user.user_name %}">{{profile.first_name}} {{profile.last_name}}</a>requested on {{request.request_date}} </p>
+		<input type="hidden" name="username" value="{{profile.username}}">
+		<input type="hidden" name="isbn" value="{{request.isbn}}">
 		 <a href="{% url 'viewbookprofile' req_isbn=request.isbn %}"><h4>{{request.book_name}}</h4> </a> <h4>[{{request.count}} copy(s)]</h4>
 		<i>{{request.author_name}}, 
 		{{request.edition}}
@@ -29,7 +33,11 @@
 		th edition
 		{% endif %}
 		</i>
+		<div class="w3-right w3-margin-top" style="padding-bottom: 5px;">
+			<button class="btn btn-info btn-xs" type="submit">Confirm</button>
 		</div>
+		</div>
+	  </form>
 	</div>
 	{% endfor %}
 	
@@ -92,9 +100,9 @@
 <script>
 
 function openNav() {
-	document.getElementById("mySidenav").style.width = "15%";
-    document.getElementById("main").style.marginLeft = "15%";
-    document.getElementById("about").style.marginLeft = "15%";
+	document.getElementById("mySidenav").style.width = "20%";
+    document.getElementById("main").style.marginLeft = "20%";
+    document.getElementById("about").style.marginLeft = "20%";
 }
 
 function closeNav() {
