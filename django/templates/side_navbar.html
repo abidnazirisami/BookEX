@@ -86,7 +86,7 @@
 			  <input type="hidden" name="username" id="username" value="{{profile}}">
 			  <input type="hidden" name="isbn" id="isbn" value="{{request.isbn}}">
 			  <label for="condition">Condition</label>
-			  <input type="range" name="condition" list="tickmarks" min="0" max="5" step="any" oninput="displaylabel(this.value)">
+			  <input type="range" name="condition" list="tickmarks" min="0" max="5" step=".1" oninput="displaylabel(this.value)">
 		       <em id="rangeValLabel" style="font-style: normal;">Satisfactory</em>
 			  <br>{{form.as_p}}
 			  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="off()" >Confirm</button>
@@ -122,7 +122,9 @@
 				  <div id="text">
 					  <button class="btn btn-warning btn-sm w3-left" onclick="return off()">Back</button><br>
 					  <h2>Are you sure you want to reject the offer from {{profile.first_name}} {{profile.last_name}} ? </h2>
-					  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="off()" >Confirm</button>
+					  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="return off()" >Confirm</button>
+					  
+
 				  </div>
 				</div>
 
@@ -131,12 +133,18 @@
 						  <div id="text">
 						  <button class="btn btn-warning btn-sm w3-left" onclick="return off()">Back</button><br>
 						  <h2>Have you received the book from {{profile.first_name}} {{profile.last_name}} ? </h2>
-						  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="off()" >Confirm</button>
+							<form action="{% url 'confirm_donation' %}">
+							  <input type="hidden" name="boiii" id="boiii" value="{{boi}}">
+							  <input type="hidden" name="wishlist" id="wishlist" value="{{request}}">
+							
+						  	  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="return finalConfirm('{{boi}}', '{{request}}')" >Confirm</button>
+			  				</form>
 			  		</div>
 				</div>
 			</div>
 				</div>
 			</div>
+
 		{% endfor %}
 <!--                Shesh                        -->
 	
@@ -163,6 +171,11 @@
 				else if(val >= 5/3 && val < 10/3) ret = "Satisfactory";
 				else ret="Excellent";
 				document.getElementById('rangeValLabel').innerHTML = ret;
+			}
+			function finalConfirm(val1, val2){
+				document.getElementById("overlay2").style.display = "none";
+				document.getElementById("boiii").value = val1;
+			    document.getElementById("wishlist").value = val2;
 			}
 			</script>
 		</div>

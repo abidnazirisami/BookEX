@@ -76,7 +76,7 @@ def sideNav(request, current_user):
 				cur_wish_count = Boiii.objects.values('id_id', 'isbn_id').filter(receiver_id_id=userid, isbn_id=cur_isbn, donated=True, received = False).exclude(id_id=userid).count()
 				if cur_wish_count > 0:
 					wished_list.append(wish)
-					wished_book_count.append(cur_count)
+					wished_book_count.append(cur_wish_count)
 					cur_boiii = Boiii.objects.filter(receiver_id_id=userid, isbn_id=cur_isbn, donated=True, received = False).exclude(id_id=userid)
 					cur_boiii_ob = cur_boiii[0]
 					boiii.append(cur_boiii_ob)
@@ -87,6 +87,15 @@ def sideNav(request, current_user):
 	return form,requested_list,user_list,profile_list,book_count,notification_count,wished_list,wished_user_list,wished_profile_list,wished_book_count,boiii
 def homepage(request):
 	current_user = request.user
+	if current_user.is_authenticated:
+		form,requested_list,user_list,profile_list,book_count,notification_count,wished_list,wished_user_list,wished_profile_list,wished_book_count,boiii=sideNav(request, current_user)
+		return render(request,'home.html',context={'form':form,'request_list':zip(requested_list,user_list, profile_list,book_count),'notification_count':notification_count,'wished_list': zip(wished_list,wished_user_list, wished_profile_list,wished_book_count,boiii),})
+	return render(request, 'home.html')
+
+def confirmDonation(request):
+	current_user = request.user
+	print(request.GET['boiii'])
+	print(request.GET['wishlist'])
 	if current_user.is_authenticated:
 		form,requested_list,user_list,profile_list,book_count,notification_count,wished_list,wished_user_list,wished_profile_list,wished_book_count,boiii=sideNav(request, current_user)
 		return render(request,'home.html',context={'form':form,'request_list':zip(requested_list,user_list, profile_list,book_count),'notification_count':notification_count,'wished_list': zip(wished_list,wished_user_list, wished_profile_list,wished_book_count,boiii),})
