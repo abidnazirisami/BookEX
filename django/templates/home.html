@@ -109,28 +109,28 @@
 		
 		<div class="w3-margin-top" style="padding-bottom: 15px;margin-bottom: 5px;">
 			<span class="label label-info w3-left">You have: {{cnt}}</span>
+		<button class="btn btn-info btn-xs w3-right" onclick="return on('{{request.isbn}}', '{{profile}}')" style="margin-top: -5px;">Cancel</button>
+			<div id="overlay">
+				  <div id="text">
+				  <button class="btn btn-warning btn-sm w3-left" onclick="off()">Back</button><br>
+				  <h2>Are you sure you want to reject the offer from {{profile.first_name}} {{profile.last_name}} ? </h2>
+				  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="off()" >Confirm</button>
+				  </div>
+				</div>
+
 			<button class="btn btn-info btn-xs w3-right" onclick="return on('{{request.isbn}}', '{{profile}}')" style="margin-top: -5px;">Confirm</button>
-		</div>
-		</div>
-	</div>
-	<div id="overlay">
-	  <div id="text">
-	  <button class="btn btn-warning btn-sm w3-left" onclick="off()">Back</button><br>
-	  <form method="POST" class="post-form" enctype='multipart/form-data'>
-	  
-	  {% csrf_token %}
-	  <h2>Do you want to donate this book?</h2>
-	  <input type="hidden" name="username" id="username" value="{{profile}}">
-	  <input type="hidden" name="isbn" id="isbn" value="{{request.isbn}}">
-	  <label for="condition">Condition</label>
-	  <input type="range" name="condition" list="tickmarks" min="0" max="5" step="any" oninput="displaylabel(this.value)">
-       <em id="rangeValLabel" style="font-style: normal;">Satisfactory</em>
-	  <br>{{form.as_p}}
-	  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="off()" >Confirm</button>
-	  </form>
+			<div id="overlay">
+				  <div id="text">
+				  <button class="btn btn-warning btn-sm w3-left" onclick="off()">Back</button><br>
+				  <h2>Have you recieved the book from {{profile.first_name}} {{profile.last_name}} ? </h2>
+				  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="off()" >Confirm</button>
 	  </div>
 	</div>
-	{% endfor %}
+
+		</div>
+		</div>
+	</div>
+		{% endfor %}
 <!---                                  Shesh                        --->
 	
 	<script>
