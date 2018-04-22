@@ -51,6 +51,10 @@ def homepage(request):
 		profile_list=[]
 		notification_count=0
 		book_count = []
+		wished_list = []
+		wished_user_list = []
+		wished_profile_list = []
+		wished_book_count = []
 		for donate_worthy in donated_list:
 			cur_isbn = donate_worthy['isbn_id']
 			#print(cur_isbn)
@@ -66,13 +70,23 @@ def homepage(request):
 						user_list.append(cur_user[0])
 						profile_list.append(User.objects.get(username=cur_user[0].user_name))
 						notification_count+=1
+						
+					cur_wish_count = Boiii.objects.values('id_id', 'isbn_id').filter(receiver_id_id=userid, isbn_id=cur_isbn, donated=True, received = False).count()
+					if cur_wish_count > 0:
+						wished_list.append(wish)
+						wished_book_count.append(cur_count)
+						cur_boiii = Boiii.objects.filter(receiver_id_id=userid, isbn_id=cur_isbn, donated=True, received = False)
+						cur_boiii_ob = cur_boiii[0]
+						cur_user = list(OurUser.objects.filter(user_id=cur_boiii_ob.id_id))
+						wished_user_list.append(cur_user[0])
+						wished_profile_list.append(User.objects.get(username=cur_user[0].user_name))
+						notification_count += 1
 					#print(cur_user[0])
 					#print(wish)
 		#print(requested_list)
 		#print(profile_list)
-		
 		form = UploadFileForm()
-		return render(request,'home.html',context={'form':form,'request_list':zip(requested_list,user_list, profile_list,book_count),'notification_count':notification_count})
+		return render(request,'home.html',context={'form':form,'request_list':zip(requested_list,user_list, profile_list,book_count),'notification_count':notification_count,'wished_list': zip(wished_list,wished_user_list, wished_profile_list,wished_book_count),})
 	return render(request, 'home.html')
 
 def about(request):

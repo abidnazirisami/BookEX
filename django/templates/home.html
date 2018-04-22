@@ -86,6 +86,53 @@
 	  </div>
 	</div>
 	{% endfor %}
+<!--- Heeeeeeeeeeeeeeeeeeeeeeeeeelllllllllllllllllllo --->
+	{% for request,user,profile,cnt in wished_list %}
+	<div class="w3-container">
+	  	
+
+		<div class="w3-card w3-margin-top w3-teal w3-padding-small w3-container" style="position: relative;">
+		<span class="label label-success w3-right" style="margin-top: 5px;">Wished: {{request.count}}</span>
+		
+		<p class="small"><a href="{% url 'viewprofile' username=user.user_name %}">{{profile.first_name}} {{profile.last_name}}</a>approved your request on {{request.request_date}} </p>
+		 <a href="{% url 'viewbookprofile' req_isbn=request.isbn %}"><h4>{{request.book_name}}</h4> </a> 
+		<i>{{request.author_name}}, 
+		{{request.edition}}
+		{% if request.edition is 1 %}
+		st edition
+		{% elif request.edition is 2 %}
+		nd edition
+		{% else %}
+		th edition
+		{% endif %}
+		</i>
+		
+		<div class="w3-margin-top" style="padding-bottom: 15px;margin-bottom: 5px;">
+			<span class="label label-info w3-left">You have: {{cnt}}</span>
+			<button class="btn btn-info btn-xs w3-right" onclick="return on('{{request.isbn}}', '{{profile}}')" style="margin-top: -5px;">Confirm</button>
+		</div>
+		</div>
+	</div>
+	<div id="overlay">
+	  <div id="text">
+	  <button class="btn btn-warning btn-sm w3-left" onclick="off()">Back</button><br>
+	  <form method="POST" class="post-form" enctype='multipart/form-data'>
+	  
+	  {% csrf_token %}
+	  <h2>Do you want to donate this book?</h2>
+	  <input type="hidden" name="username" id="username" value="{{profile}}">
+	  <input type="hidden" name="isbn" id="isbn" value="{{request.isbn}}">
+	  <label for="condition">Condition</label>
+	  <input type="range" name="condition" list="tickmarks" min="0" max="5" step="any" oninput="displaylabel(this.value)">
+       <em id="rangeValLabel" style="font-style: normal;">Satisfactory</em>
+	  <br>{{form.as_p}}
+	  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="off()" >Confirm</button>
+	  </form>
+	  </div>
+	</div>
+	{% endfor %}
+<!---                                  Shesh                        --->
+	
 	<script>
 	function on(val, usr) {
 	    document.getElementById("overlay").style.display = "block";
