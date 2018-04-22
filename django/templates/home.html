@@ -10,180 +10,38 @@
 {% block content %}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {% if user.is_authenticated %}
-<style>
-#overlay {
-    position: fixed;
-    display: none;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 2;
-    cursor: pointer;
-}
-
-#text{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    color: white;
-    transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
-}
-
-</style>
-
-
-
-<div id="mySidenav" class="sidenav">
-<a href="{% url 'home' %}" class="w3-bar-item w3-center zoom w3-roboto"><p class="w3-xxlarge"><b style="text-decoration: none; color: white">Book</b><b style="text-decoration: none; color: orange">EX</b></p></a>
-<font color = "white" class="w3-wide w3-margin-left w3-margin-bottom"> Notifications: </font>
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-	{% for request,user,profile,cnt in request_list %}
-	<div class="w3-container">
-	  	
-
-		<div class="w3-card w3-margin-top w3-teal w3-padding-small w3-container" style="position: relative;">
-		<span class="label label-success w3-right" style="margin-top: 5px;">Requested: {{request.count}}</span>
-		
-		<p class="small"><a href="{% url 'viewprofile' username=user.user_name %}">{{profile.first_name}} {{profile.last_name}}</a>Requested on {{request.request_date}} </p>
-		 <a href="{% url 'viewbookprofile' req_isbn=request.isbn %}"><h4>{{request.book_name}}</h4> </a> 
-		<i>{{request.author_name}}, 
-		{{request.edition}}
-		{% if request.edition is 1 %}
-		st edition
-		{% elif request.edition is 2 %}
-		nd edition
-		{% else %}
-		th edition
-		{% endif %}
-		</i>
-		
-		<div class="w3-margin-top" style="padding-bottom: 15px;margin-bottom: 5px;">
-			<span class="label label-info w3-left">You have: {{cnt}}</span>
-			<button class="btn btn-info btn-xs w3-right" onclick="return on('{{request.isbn}}', '{{profile}}')" style="margin-top: -5px;">Donate</button>
-		</div>
-		</div>
-	</div>
-	<div id="overlay">
-	  <div id="text">
-	  <button class="btn btn-warning btn-sm w3-left" onclick="off()">Back</button><br>
-	  <form method="POST" class="post-form" enctype='multipart/form-data'>
-	  
-	  {% csrf_token %}
-	  <h2>Do you want to donate this book?</h2>
-	  <input type="hidden" name="username" id="username" value="{{profile}}">
-	  <input type="hidden" name="isbn" id="isbn" value="{{request.isbn}}">
-	  <label for="condition">Condition</label>
-	  <input type="range" name="condition" list="tickmarks" min="0" max="5" step="any" oninput="displaylabel(this.value)">
-       <em id="rangeValLabel" style="font-style: normal;">Satisfactory</em>
-	  <br>{{form.as_p}}
-	  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="off()" >Confirm</button>
-	  </form>
-	  </div>
-	</div>
-	{% endfor %}
-<!--- Heeeeeeeeeeeeeeeeeeeeeeeeeelllllllllllllllllllo --->
-	{% for request,user,profile,cnt in wished_list %}
-	<div class="w3-container">
-	  	
-
-		<div class="w3-card w3-margin-top w3-teal w3-padding-small w3-container" style="position: relative;">
-		<span class="label label-success w3-right" style="margin-top: 5px;">Wished: {{request.count}}</span>
-		
-		<p class="small"><a href="{% url 'viewprofile' username=user.user_name %}">{{profile.first_name}} {{profile.last_name}}</a>approved your request on {{request.request_date}} </p>
-		 <a href="{% url 'viewbookprofile' req_isbn=request.isbn %}"><h4>{{request.book_name}}</h4> </a> 
-		<i>{{request.author_name}}, 
-		{{request.edition}}
-		{% if request.edition is 1 %}
-		st edition
-		{% elif request.edition is 2 %}
-		nd edition
-		{% else %}
-		th edition
-		{% endif %}
-		</i>
-		
-		<div class="w3-margin-top" style="padding-bottom: 15px;margin-bottom: 5px;">
-			<span class="label label-info w3-left">You have: {{cnt}}</span>
-		<button class="btn btn-info btn-xs w3-right" onclick="return on('{{request.isbn}}', '{{profile}}')" style="margin-top: -5px;">Cancel</button>
-			<div id="overlay">
-				  <div id="text">
-				  <button class="btn btn-warning btn-sm w3-left" onclick="off()">Back</button><br>
-				  <h2>Are you sure you want to reject the offer from {{profile.first_name}} {{profile.last_name}} ? </h2>
-				  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="off()" >Confirm</button>
-				  </div>
-				</div>
-
-			<button class="btn btn-info btn-xs w3-right" onclick="return on('{{request.isbn}}', '{{profile}}')" style="margin-top: -5px;">Confirm</button>
-			<div id="overlay">
-				  <div id="text">
-				  <button class="btn btn-warning btn-sm w3-left" onclick="off()">Back</button><br>
-				  <h2>Have you recieved the book from {{profile.first_name}} {{profile.last_name}} ? </h2>
-				  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="off()" >Confirm</button>
-	  </div>
-	</div>
-
-		</div>
-		</div>
-	</div>
-		{% endfor %}
-<!---                                  Shesh                        --->
-	
-	<script>
-	function on(val, usr) {
-	    document.getElementById("overlay").style.display = "block";
-	    document.getElementById("isbn").value = val;
-	    document.getElementById("username").value = usr;
-	}
-
-	function off() {
-	    document.getElementById("overlay").style.display = "none";
-	}
-	function displaylabel(val) {
-		var ret;
-		if(val >= 0 && val < 5/3) ret = "Poor";
-		else if(val >= 5/3 && val < 10/3) ret = "Satisfactory";
-		else ret="Excellent";
-		document.getElementById('rangeValLabel').innerHTML = ret;
-	}
-	</script>
-</div>
 <nav>
-<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;
-{% if notification_count > 0 %}
-<span class="badge red">{{notification_count}}</span>
-{% endif %}
+		<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;
+		{% if notification_count > 0 %}
+		<span class="badge red">{{notification_count}}</span>
+		{% endif %}
 
-</span>
-</nav>
-
-<div class="w3-row ">
+		</span>
+	</nav>
+{% include 'side_navbar.html' %}
+	<div class="w3-row ">
+	  <div class="w3-col m3 w3-large w3-margin-top" style="padding-right: 10px; padding-left: 10px">
+		<div class="w3-card" style="width:100%">
+			{% load static %}
+			<a href="{% url 'list_of_books' %}">
+				<img src="{% static 'test_img.jpeg' %}" alt="Books" style="width:100%; height: 100%">
+				
+				 <div class="w3-container">
+		      		<h4><b>Available Books</b></h4>
+		    	</div>
+	    	 </a>
+		</div>
+	  </div>
   <div class="w3-col m3 w3-large w3-margin-top" style="padding-right: 10px; padding-left: 10px">
-	<div class="w3-card" style="width:100%">
-		{% load static %}
-		<a href="{% url 'list_of_books' %}">
-		<img src="{% static 'test_img.jpeg' %}" alt="Books" style="width:100%; height: 100%">
-		
-		 <div class="w3-container">
-      		<h4><b>Available Books</b></h4>
-    	 </div>
-    	 </a>
-	</div>
-  </div>
-  <div class="w3-col m3 w3-large w3-margin-top" style="padding-right: 10px; padding-left: 10px">
-  <div class="w3-card" style="width:100%">
-		{% load static %}
-		<a href="{% url 'searchbook' %}">
-		<img src="{% static 'donate_book.jpg' %}" alt="Donate" style="width:100%; height: 100%">
-		 <div class="w3-container">
-      		<h4><b>Donate now!</b></h4>
-    	 </div>
-    	 </a>
-	</div>
+	  <div class="w3-card" style="width:100%">
+			{% load static %}
+			<a href="{% url 'searchbook' %}">
+			<img src="{% static 'donate_book.jpg' %}" alt="Donate" style="width:100%; height: 100%">
+			 <div class="w3-container">
+	      		<h4><b>Donate now!</b></h4>
+	    	 </div>
+	    	 </a>
+		</div>
   </div>
 <div class="w3-col m3 w3-large w3-margin-top" style="padding-right: 10px; padding-left: 10px">
   <div class="w3-card" style="width:100%">
@@ -197,37 +55,21 @@
     	 </a>
 	</div>
   </div>
-  <div class="w3-col m3 w3-large w3-margin-top" style="padding-right: 10px; padding-left: 10px">
-    <div class="w3-card" style="width:100%">
-		{% load static %}
-		<a href="{% url 'requestbook' %}">
-		<img src="{% static 'request_book.jpg' %}" alt="Request Books" style="width:100%; height: 100%">
-		
-		 <div class="w3-container">
-      		<h4><b>Request Books</b></h4>
-    	 </div>
-    	 </a>
-	</div>
-  </div>
+	  <div class="w3-col m3 w3-large w3-margin-top" style="padding-right: 10px; padding-left: 10px">
+			    <div class="w3-card" style="width:100%">
+					{% load static %}
+					<a href="{% url 'requestbook' %}">
+					<img src="{% static 'request_book.jpg' %}" alt="Request Books" style="width:100%; height: 100%">
+					
+					 <div class="w3-container">
+			      		<h4><b>Request Books</b></h4>
+			    	 </div>
+			    	 </a>
+		</div>
+	  </div>
 </div>
 
 
-
-
-<script>
-
-function openNav() {
-	document.getElementById("mySidenav").style.width = "20%";
-    document.getElementById("main").style.marginLeft = "20%";
-    document.getElementById("about").style.marginLeft = "27%";
-}
-
-function closeNav() {
-	document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("main").style.marginLeft= "0";
-    document.getElementById("about").style.marginLeft= "0";
-}
-</script>
 {% else %}
 {% load static %}
 <div>
