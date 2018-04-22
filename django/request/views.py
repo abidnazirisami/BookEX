@@ -325,7 +325,7 @@ def pendingTransactions(request):
         receive_author.append(cur_author)
 
     for donate in to_donate:
-        cur_book = Book.objects.get(isbn = receive.isbn_id)
+        cur_book = Book.objects.get(isbn = donate.isbn_id)
         cur_author = Author.objects.get(author_id = cur_book.author_id.author_id)
         donate_book.append(cur_book)
         donate_author.append(cur_author)
