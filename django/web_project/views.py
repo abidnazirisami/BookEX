@@ -92,6 +92,15 @@ def homepage(request):
 		return render(request,'home.html',context={'form':form,'request_list':zip(requested_list,user_list, profile_list,book_count),'notification_count':notification_count,'wished_list': zip(wished_list,wished_user_list, wished_profile_list,wished_book_count,boiii),})
 	return render(request, 'home.html')
 
+def confirmDonation(request):
+	current_user = request.user
+	print(request.GET['boiii'])
+	print(request.GET['wishlist'])
+	if current_user.is_authenticated:
+		form,requested_list,user_list,profile_list,book_count,notification_count,wished_list,wished_user_list,wished_profile_list,wished_book_count,boiii=sideNav(request, current_user)
+		return render(request,'home.html',context={'form':form,'request_list':zip(requested_list,user_list, profile_list,book_count),'notification_count':notification_count,'wished_list': zip(wished_list,wished_user_list, wished_profile_list,wished_book_count,boiii),})
+	return render(request, 'home.html')
+
 def about(request):
 	return render(request,'about.html')
 
