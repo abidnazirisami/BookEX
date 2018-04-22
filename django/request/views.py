@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.urls import *
 from pages.models import Boiii, Book, Author
+from request.models import *
 from .models import *
 from .forms import *
 from django.http import HttpResponseRedirect
@@ -12,6 +13,15 @@ from django.shortcuts import redirect
 def displayList(request):
     book = Book.objects.all()
     return render(request, 'request/search_result.html', context={'book': book})
+
+@login_required
+def displayTopRequest(request):
+    bookinfo = []
+    requestlist = Wishlist.objects.order_by('count').reverse()[:10]
+    for book in requestlist:
+        bookinfo.append(Book.objects.get(isbn=book.isbn))
+    return render(request, 'request/list_of_books.html', context={'book': zip(requestlist,bookinfo)})
+
 
 @login_required
 def addToRequestQueue(request):
@@ -50,16 +60,32 @@ def addToRequestQueue(request):
                 requested_book = isbnlib.goom(use_isbn)
                 requested_book = requested_book[0]
             authors = requested_book['Authors']
-
-            author_string = bytes()
-            isFirst = True
+            cur_author_string=''
+            isFword=True
             for author in authors:
-                if isFirst:
-                    isFirst=False
+                if isFword:
+                    isFword=False
                 else:
-                    author_string+=', '.encode('ascii', 'ignore')
-                print(author)
-                author_string+=author.encode('ascii','ignore')
+                    cur_author_string+=', '
+                isFirst=True
+                isOdd=True
+                for c in author:
+                    if c is '[':
+                        pass
+                    elif c is ']':
+                        pass
+                    else:
+                        if isFirst and c is '\'':
+                            isFirst=False
+                            isOdd=False
+                        elif c is '\'' and isOdd and not isFirst:
+                            cur_author_string+=','
+                            isOdd=False
+                        elif c is '\'' and not isOdd:
+                            isOdd=True
+                        else:
+                            cur_author_string+=c
+            
             book_title = requested_book['Title']
             isAvail = False
             if Book.objects.filter(isbn=use_isbn).exists() :
@@ -69,11 +95,10 @@ def addToRequestQueue(request):
                 book_date = 1996
                 if not requested_book['Year'] is '':
                     book_date = requested_book['Year']
-                add_author = Author.objects.create(author_name=authors)
+                add_author = Author.objects.create(author_name=cur_author_string)
                 Book.objects.create(isbn=use_isbn, author_id=add_author, publisher=book_publisher,
                                                book_name=book_title, publish_year=book_date)
-            new_string = author_string.decode('utf-8')
-            new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=new_string, book_name=book_title, isAvailable=isAvail) 
+            new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=cur_author_string, book_name=book_title, isAvailable=isAvail) 
             wishes.append(new_wish)
 
     if not len(use_isbns) is 0:
@@ -163,7 +188,11 @@ def searchBook(request):
         for new_books in new_book:
             if not new_books.book_name in book_names:
                 book_names.append(new_books.book_name)
-        return render(request, 'request/search_book.html', context={'books': book_names, 'error': "", 'wished_books':wishlist, 'haswishes':haswishes})
+        bookinfo = []
+        requestlist = Wishlist.objects.order_by('count').reverse()[:10]
+        for book in requestlist:
+            bookinfo.append(Book.objects.get(isbn=book.isbn))
+        return render(request, 'request/search_book.html', context={'requsted_book': zip(requestlist,bookinfo),'books': book_names, 'error': "", 'wished_books':wishlist, 'haswishes':haswishes})
 
 @login_required
 def showWishlist(request):
@@ -278,3 +307,10 @@ def addToWishlist(request, req_isbn):
         for new_books in new_book:
             book_names.append(new_books.book_name)
         return render(request, 'request/search_book.html', context={'books': book_names, 'error': "You didn't select any books :("})
+
+@login_required
+def pendingTransactions(request):
+    cur_user = OurUser.objects.get(user=request.user)
+    to_receive = Boiii.objects.filter(receiver_id=cur_user, received=False).exclude(id=cur_user)
+    to_donate = Boiii.objects.filter(id=cur_user, received=False).exclude(receiver_id=cur_user)
+    return render(request, 'request/pending.html', context={'receive':to_receive, 'donate':to_donate})

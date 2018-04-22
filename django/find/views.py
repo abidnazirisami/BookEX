@@ -12,6 +12,14 @@ def displayBooks(request):
     return render(request, 'find/search_result.html', context = {'book':book})
 
 @login_required
+def displayTopDonor(request):
+    user_donor_list = []
+    donorlist = OurUser.objects.order_by('donate_count').reverse()[:10]
+    for donors in donorlist:
+        user_donor_list.append(User.objects.get(user = donors.user_id))
+    return render(request, 'list_of_donors.html', context={'donors': zip(donorlist,user_donor_list)})
+
+@login_required
 def searchBook(request):
     if request.method == "POST":
         search = request.POST.get('find_book',None)
@@ -82,7 +90,11 @@ def searchBook(request):
         for new_books in new_book:
             if not new_books.book_name in book_names:
                 book_names.append(new_books.book_name)
-        return render(request, 'find/search_book.html', context={'books': book_names, 'error': "", 'available_books' : new_book})
+        user_donor_list = []
+        donorlist = OurUser.objects.order_by('donate_count').reverse()[:10]
+        for donors in donorlist:
+            user_donor_list.append(User.objects.get(user = donors.user_id))
+        return render(request, 'find/search_book.html', context={'books': book_names,'donors': zip(donorlist,user_donor_list), 'error': "", 'available_books' : new_book})
 @login_required
 def donate(request):
     if request.method == "POST":
@@ -112,12 +124,40 @@ def donate(request):
                     find_book = isbnlib.goom(temp_isbn)
                     find_book = find_book[0]
                 authors = find_book['Authors']
+                #print(authors)
+                cur_author_string=''
+                isFword=True
+                for author in authors:
+                    if isFword:
+                        isFword=False
+                    else:
+                        cur_author_string+=', '
+                    isFirst=True
+                    isOdd=True
+                    for c in author:
+                        if c is '[':
+                            pass
+                        elif c is ']':
+                            pass
+                        else:
+                            if isFirst and c is '\'':
+                                isFirst=False
+                                isOdd=False
+                            elif c is '\'' and isOdd and not isFirst:
+                                cur_author_string+=','
+                                isOdd=False
+                            elif c is '\'' and not isOdd:
+                                isOdd=True
+                            else:
+                                cur_author_string+=c
+                    
+                #print(cur_author_string)
                 book_publisher = find_book['Publisher']
                 book_title = find_book['Title']
                 book_date=1996
                 if not find_book['Year'] is '':
                     book_date = find_book['Year']
-                add_author = Author.objects.create(author_name = authors)
+                add_author = Author.objects.create(author_name = cur_author_string)
                 add_book = Book.objects.create(isbn = use_isbn,author_id = add_author,publisher = book_publisher,book_name = book_title,publish_year=book_date)
                 curUser = OurUser.objects.get(user = request.user)
                 new_boi = Boiii.objects.create(id = curUser,isbn = add_book)

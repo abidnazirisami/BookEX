@@ -9,7 +9,7 @@
   <div class="col-lg-6 w3-padding-large w3-container">  
     <form autocomplete="off" method="POST" class="post-form form-inline" >
       {% csrf_token %}
-      <div class="autocomplete">
+      <div class="autocomplete w3-margin-left">
         <div class="input-group" style="position: relative; z-index: 99;">        
           <input type="text" name="find_book" id="find_book" class="form-control" placeholder="Search for...">
         <span class="input-group-btn">
@@ -31,24 +31,92 @@
   </div>
   
 </div><!-- /.row -->
-<div class="w3-margin-top">
-  {% if haswishes %}
-  <h2 class="w3-padding-large"> Wishlist for {{user.first_name}} </h2>
-  <div class="w3-row-padding">
-    {% for book in wished_books %}
-    <div class="w3-col m12 w3-padding-small">
-      <div class="w3-container w3-card w3-padding-large">  
-        <h3>{{book.book_name}}</h3>
-        <i>{{book.author_name}}</i>
-        <p> Wished for: {{book.count}} copies </p>
-      </div>
-    </div> 
-    {% endfor %}
+<div class="w3-row">
+  <div class="w3-col m6">
+    <div class="w3-margin-top w3-margin-right">
+      {% if haswishes %}
+      <h2 class="w3-padding-large"> Wishlist for {{user.first_name}} {{user.last_name}}</h2>
+      <ul class="list-group">
+        {% for book in wished_books %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">  
+            <a href="{% url 'viewbookprofile' req_isbn=book.isbn %}"><h3>{{book.book_name}}</h3>
+            <i>{{book.author_name}}</i><br>
+            {% if book.rating >= 1.0 %}
+            <span class="fa fa-star checked"></span>
+            {% else %}
+            <span class="fa fa-star"></span>
+            {% endif %}
+            {% if book.rating >= 2.0 %}
+            <span class="fa fa-star checked"></span>
+            {% else %}
+            <span class="fa fa-star"></span>
+            {% endif %}
+            {% if book.rating >= 3.0 %}
+            <span class="fa fa-star checked"></span>
+            {% else %}
+            <span class="fa fa-star"></span>
+            {% endif %}
+            {% if book.rating >= 4.0 %}
+            <span class="fa fa-star checked"></span>
+            {% else %}
+            <span class="fa fa-star"></span>
+            {% endif %}
+            {% if book.rating >= 5.0 %}
+            <span class="fa fa-star checked"></span>
+            {% else %}
+            <span class="fa fa-star"></span>
+            {% endif %}
+            </a>
+            <span class="badge" style="background-image: linear-gradient(lightseagreen,teal);box-shadow: 0px 1px 4px -2px #333;">{{book.count}}</span>
+          </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+        <h2 class="w3-padding-large"> You currently don't have anything on your wishlist </h2>
+      {% endif %}
+    </div>
   </div>
-  {% else %}
-    <h2 class="w3-padding-large"> You currently don't have anything on your wishlist </h2>
-  {% endif %}
+  <div class="w3-col m6">
+    <div class="w3-margin-top w3-margin-left">
+      <h2 class="w3-padding-large" style="text-align: right;">Top Wished Books</h2>
+        <ul class="list-group">
+        {% for info,books in requsted_book %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="{% url 'viewbookprofile' req_isbn=books.isbn %}"><h3>{{books.book_name}}</h3>
+            <i>{{books.author_id.author_name}}</i><br>
+            {% if book.rating >= 1.0 %}
+            <span class="fa fa-star checked"></span>
+            {% else %}
+            <span class="fa fa-star"></span>
+            {% endif %}
+            {% if book.rating >= 2.0 %}
+            <span class="fa fa-star checked"></span>
+            {% else %}
+            <span class="fa fa-star"></span>
+            {% endif %}
+            {% if book.rating >= 3.0 %}
+            <span class="fa fa-star checked"></span>
+            {% else %}
+            <span class="fa fa-star"></span>
+            {% endif %}
+            {% if book.rating >= 4.0 %}
+            <span class="fa fa-star checked"></span>
+            {% else %}
+            <span class="fa fa-star"></span>
+            {% endif %}
+            {% if book.rating >= 5.0 %}
+            <span class="fa fa-star checked"></span>
+            {% else %}
+            <span class="fa fa-star"></span>
+            {% endif %}
+            </a>
+            <span class="badge" style="background-image: linear-gradient(orangered,gold);box-shadow: 0px 1px 4px -2px #333;">{{info.count}}</span>
+        </li>
+        {% endfor %} 
+        </ul>
+    </div>
   </div>
+</div>
 <script>
 function autocomplete(inp, arr) {
   /*the autocomplete function takes two arguments,

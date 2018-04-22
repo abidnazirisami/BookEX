@@ -49,12 +49,37 @@ def addBook(request):
 			else:
 				find_book = isbnlib.meta(use_isbn)
 				authors = find_book['Authors']
+				cur_author_string=''
+				isFword=True
+				for author in authors:
+					if isFword:
+						isFword=False
+					else:
+						cur_author_string+=', '
+					isFirst=True
+					isOdd=True
+					for c in author:
+						if c is '[':
+							pass
+						elif c is ']':
+							pass
+						else:
+							if isFirst and c is '\'':
+								isFirst=False
+								isOdd=False
+							elif c is '\'' and isOdd and not isFirst:
+								cur_author_string+=','
+								isOdd=False
+							elif c is '\'' and not isOdd:
+								isOdd=True
+							else:
+								cur_author_string+=c
 				book_publisher = find_book['Publisher']
 				book_title = find_book['Title']
 				book_date=1996
 				if not find_book['Year'] is '':
 					book_date = find_book['Year']
-				add_author = Author.objects.create(author_name = authors)
+				add_author = Author.objects.create(author_name = cur_author_string)
 				add_book = Book.objects.create(isbn = use_isbn,author_id = add_author,publisher = book_publisher,book_name = book_title,publish_year=book_date)
 				curUser = OurUser.objects.get(user = request.user)
 				new_boi = Boiii.objects.create(id = curUser,isbn = add_book)

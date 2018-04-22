@@ -10,4 +10,6 @@ urlpatterns = [
     path('wishlist/', views.showWishlist, name='wishlist'),
     path('addNew/', views.addNew, name='addNew'),
     path('wish/<req_isbn>/', views.addToWishlist, name='addtowishlist'),
+    path('topRequest/', views.displayTopRequest, name = 'request_list'),
+    path('pending/', views.pendingTransactions, name = 'pending'),
 ]

@@ -12,7 +12,7 @@ class Wishlist(models.Model):
 	author_name = models.CharField(max_length=500,default='Not available')
 	edition = models.IntegerField(default = 1)
 	count = models.IntegerField(default = 1)
-	book_name = models.CharField(max_length=100,default='Not available')
+	book_name = models.CharField(max_length=500,default='Not available')
 	isAvailable = models.BooleanField(default=False)
 	hasReceived = models.BooleanField(default=False)
 	isEmergency = models.BooleanField(default=False)

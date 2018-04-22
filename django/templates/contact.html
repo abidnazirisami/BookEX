@@ -7,16 +7,29 @@
 
 {% block content %}
 
-<div class="w3-container w3-card w3-white ">
-  <div class="w3-row w3-roboto w3-container w3-padding-large" style="margin-top: 150px;padding-right: 10px; padding-left: 10px">
+<div class="w3-container w3-card w3-white w3-center">
+  <div class="w3-row w3-roboto w3-container w3-padding-large" style="padding-right: 10px; padding-left: 10px">
     <h1 class="w3-wide w3-roboto w3-center"> Contact US </h1> 
   </div>
-  <div class="w3-container w3-content " style="font-size: 12px" id="address">
-    <h4 class="w3-opacity w3-left"><i>Any advice? Drop a note!</i></h4>
+  <div class="w3-container w3-center w3-content">
+    {% load static %}
+  <img src="{% static 'team_bookex.jpeg' %}" class="img-rounded w3-border"  style="height: 40%; width: 40%;">
+  </div>
+  <div class="w3-container w3-content w3-center" style="font-size: 12px" id="address">
+    <h4 class="w3-opacity "><i>Any advice? Drop a note!</i></h4>
   </div>
   <div class="w3-container w3-content " style="font-size: 14px" id="address">
-    <i><h4 class="fa fa-map-marker" style="width:30px"></h4></i> Dhaka, Bangladesh<br>
-    <i><h4 class="fa fa-envelope" style="width:30px"></h4> </i> Email: BookEX@gmail.com<br>
+    <i><h4 class="fa fa-map-marker" style="width:30px"></h4></i> University of Dhaka, Bangladesh<br>
+    <div class="w3-row">
+      <div class="w3-col m4">
+      <i><h4 class="fa fa-envelope" style="width:30px"></h4> </i> Email: abidnazirisami@gmail.com
+      </div>
+      <div class="w3-col m4">
+      <i><h4 class="fa fa-envelope" style="width:30px"></h4> </i> Email: raidanahian@gmail.com
+      </div>
+      <div class="w3-col m4">
+      <i><h4 class="fa fa-envelope" style="width:30px"></h4> </i> Email: jerinmahfida@gmail.com
+      </div>
     </div>
   </div>
 </div>

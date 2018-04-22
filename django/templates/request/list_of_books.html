@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="w3-container w3-card w3-padding-large">
+  <h2 class="w3-center">Top Wished Books</h2>
+
+  <table border = "1" class="w3-margin-bottom w3-wide">
+    <tr>
+      <th>Book Name</th>
+      <th>Author(s)</th> 
+      <th>Rating</th>
+      <th>Wished Count</th>
+    </tr>
+    {% for info,books in book %}
+    <tr>
+    	<td><a href="{% url 'viewbookprofile' req_isbn=books.isbn %}">{{books.book_name}} </a></td>
+      <td>{{books.author_id.author_name}}</td>
+      <td style="width: 150px;">
+      {% if book.rating >= 1.0 %}
+      <span class="fa fa-star checked"></span>
+      {% else %}
+      <span class="fa fa-star"></span>
+      {% endif %}
+      {% if book.rating >= 2.0 %}
+      <span class="fa fa-star checked"></span>
+      {% else %}
+      <span class="fa fa-star"></span>
+      {% endif %}
+      {% if book.rating >= 3.0 %}
+      <span class="fa fa-star checked"></span>
+      {% else %}
+      <span class="fa fa-star"></span>
+      {% endif %}
+      {% if book.rating >= 4.0 %}
+      <span class="fa fa-star checked"></span>
+      {% else %}
+      <span class="fa fa-star"></span>
+      {% endif %}
+      {% if book.rating >= 5.0 %}
+      <span class="fa fa-star checked"></span>
+      {% else %}
+      <span class="fa fa-star"></span>
+      {% endif %}
+      </td> 
+      <td>{{info.count}}</td>
+    </tr>
+    {% endfor %} 
+  </table>
+{% endblock %}

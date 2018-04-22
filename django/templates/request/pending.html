@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title> Pending </title>
+<link rel="icon" href="{% static 'bookex-2.ico' %}" type="image/x-icon"> 
+{% endblock %}
+{% block content %}
+
+<div class="w3-container">
+{% if receive %}
+  <h2 class="w3-padding-large w3-center"> Yet to receive </h2>
+  <div class="w3-row-padding">
+    {% for book in receive %}
+    <div class="w3-col m12 w3-padding-small">
+      <div class="w3-container w3-card w3-padding-large">  
+         <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
+           {% load static %}
+            <div class="profile-header-container">   
+              <div class="profile-header-img">
+                    <img class="img-rounded" src="{{book.photo.url}}" alt="Photo" style="width:250px; height: 250px;">
+              </div>
+            </div>
+         </a>
+      </div>
+    </div> 
+    {% endfor %}
+  </div>
+{% endif %}
+{% if donate %}
+  <h2 class="w3-padding-large w3-center"> Yet to donate </h2>
+  <div class="w3-row-padding">
+    {% for book in donate %}
+    <div class="w3-col m12 w3-padding-small">
+      <div class="w3-container w3-card w3-padding-large">  
+         <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
+           {% load static %}
+            <div class="profile-header-container">   
+              <div class="profile-header-img">
+                    <img class="img-rounded" src="{{book.photo.url}}" alt="Photo" style="width:250px; height: 250px;">
+              </div>
+            </div>
+         </a>
+      </div>
+    </div> 
+    {% endfor %}
+  </div>
+{% endif %}
+</div>
+{% endblock %}

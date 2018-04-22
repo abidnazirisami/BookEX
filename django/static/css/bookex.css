@@ -4,6 +4,7 @@
 h1,h2,h3,h4,h5,h6 {
     letter-spacing: 5px;
 }
+
 a:hover {
   text-decoration:none;
 }
@@ -65,10 +66,17 @@ p.small {
   font-size: 15px;
 }
 
-button:hover {
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
 
+
+button:hover {
+	transition: all 0.2s;
+}
+button:active:after {
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s
+}
 form.search input[type=text] {
 	width: 50%;
 	height: 50px;
@@ -204,6 +212,7 @@ img {
     top: 0;
     left: 0;
     background: url("/static/teal.jpg") 0 no-repeat;
+    background-color: teal;
     background-size: cover;
     overflow-x: hidden;
     transition: 0.5s;
@@ -217,7 +226,7 @@ img {
     font-size: 15px;
     color: #f1f1f1 important;
     display: block;
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 
@@ -262,3 +271,68 @@ img {
     -webkit-transform: rotate(270deg); /* Chrome, Safari, Opera */
     transform: rotate(270deg);
 }
+
+.glass{
+  /* background styles */
+  position: relative;
+  display: inline-block;
+  padding: 15px 25px;
+  background-color: green; /*for compatibility with older browsers*/
+  background-image: linear-gradient(green,lightgreen);
+
+  /* text styles */
+  text-decoration: none;
+  color: #fff;
+  font-size: 25px;
+  font-family: sans-serif;
+  font-weight: 100;
+  order-radius: 3px;
+  box-shadow: 0px 1px 4px -2px #333;
+  text-shadow: 0px -1px #333;
+}
+.glass:after{
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: calc(100% - 4px);
+  height: 50%;
+  background: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.2));
+}
+.glass:hover{
+  background: linear-gradient(#073,#0fa);
+}
+nav {
+  position: relative;
+}
+nav .badge {
+  position: relative;
+  bottom: 16px;
+  right: 18px;
+  font-size: 12px;
+  background: #67c1ef;
+  border-color: #30aae9;
+  background-image: -webkit-linear-gradient(top, #acddf6, #67c1ef);
+  background-image: -moz-linear-gradient(top, #acddf6, #67c1ef);
+  background-image: -o-linear-gradient(top, #acddf6, #67c1ef);
+  background-image: linear-gradient(to bottom, #acddf6, #67c1ef);
+}
+nav .badge.red {
+  background: #fa623f;
+  border-color: #fa5a35;
+  background-image: -webkit-linear-gradient(top, #fc9f8a, #fa623f);
+  background-image: -moz-linear-gradient(top, #fc9f8a, #fa623f);
+  background-image: -o-linear-gradient(top, #fc9f8a, #fa623f);
+  background-image: linear-gradient(to bottom, #fc9f8a, #fa623f);
+}
+
+.badge.red {
+  background: #fa623f;
+  border-color: #fa5a35;
+  background-image: -webkit-linear-gradient(top, #fc9f8a, #fa623f);
+  background-image: -moz-linear-gradient(top, #fc9f8a, #fa623f);
+  background-image: -o-linear-gradient(top, #fc9f8a, #fa623f);
+  background-image: linear-gradient(to bottom, #fc9f8a, #fa623f);
+}
+
+
