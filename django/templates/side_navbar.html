@@ -95,7 +95,7 @@
 	</div>
 	{% endfor %}
 <!-- Heeeeeeeeeeeeeeeeeeeeeeeeeelllllllllllllllllllo -->
-	{% for request,user,profile,cnt in wished_list %}
+	{% for request,user,profile,cnt,boi in wished_list %}
 	<div class="w3-container">		  	
 		<div class="w3-card w3-margin-top w3-teal w3-padding-small w3-container" style="position: relative;">
 			<span class="label label-success w3-right" style="margin-top: 5px;">Wished: {{request.count}}</span>
@@ -111,6 +111,8 @@
 		{% else %}
 		th edition
 		{% endif %}
+		<br>Condition : {{boi.condition}}/5.0<br>
+
 		</i>
 		
 		<div class="w3-margin-top" style="padding-bottom: 15px;margin-bottom: 5px;">
@@ -118,7 +120,7 @@
 			<button class="btn btn-info btn-xs w3-right" onclick="return reject()" style="margin-top: -5px;">Cancel</button>
 				<div id="overlay3">
 				  <div id="text">
-					  <button class="btn btn-warning btn-sm w3-left" onclick="off()">Back</button><br>
+					  <button class="btn btn-warning btn-sm w3-left" onclick="return off()">Back</button><br>
 					  <h2>Are you sure you want to reject the offer from {{profile.first_name}} {{profile.last_name}} ? </h2>
 					  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="off()" >Confirm</button>
 				  </div>
@@ -127,7 +129,7 @@
 				<button class="btn btn-info btn-xs w3-right w3-margin-right" onclick="return confirm()" style="margin-top: -5px;">Confirm</button>
 					<div id="overlay2">
 						  <div id="text">
-						  <button class="btn btn-warning btn-sm w3-left" onclick="off()">Back</button><br>
+						  <button class="btn btn-warning btn-sm w3-left" onclick="return off()">Back</button><br>
 						  <h2>Have you received the book from {{profile.first_name}} {{profile.last_name}} ? </h2>
 						  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="off()" >Confirm</button>
 			  		</div>
