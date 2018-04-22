@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import *
 from django.urls import *
 from pages.models import *
 from request.models import *
@@ -10,88 +10,71 @@ from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from typing import List, Any
 from .forms import UploadFileForm
+from .urls import *
 
-
-def sideNav(request, current_user):
-	if not OurUser.objects.filter(user=current_user).exists():
+@login_required
+def notifications(request):
+	current_user = request.user
+	if not OurUser.objects.filter(user = current_user).exists():
 		current_user.first_name = current_user.username
 		current_user.save()
-		newUser = OurUser.objects.create(user = current_user,user_name = current_user.username)
-	userid = OurUser.objects.get(user = current_user)
-	if request.method=="POST":
-		################################################################
-		# For Raida:
-		form = UploadFileForm(request.POST, request.FILES)
-		#print(request.FILES)
-		#print(request.POST['username'])
-		#print(request.POST['isbn'])
-		#print(request.POST['condition'])
-		donate_isbn = request.POST['isbn']
-		donate_condition = request.POST['condition']
-		receiver = request.POST['username']
-		donor = userid
-		donate_book = Boiii.objects.filter(isbn=donate_isbn, id=donor, donated=False)[0]
-		donate_book.donated = True
-		if form.is_valid(): 
-			if 'Photo' in request.FILES:
-				donate_book.photo = request.FILES['Photo']
-		donate_book.condition=donate_condition
-		donate_book.receiver_id=OurUser.objects.get(user_name=request.POST['username']) 
-		donate_book.save()
-		################################################################
+		current_profile = OurUser.objects.create(user = current_user, user_name = current_user.username)
+	else:
+		current_profile = OurUser.objects.get(user = current_user)
+
+	##########################################################################################
+
 	form = UploadFileForm()
-	donated_list =[]
-	if Boiii.objects.filter(id_id = userid).exists():
-		donated_list = Boiii.objects.values('id_id','isbn_id').filter(id_id = userid).distinct()
-	print(donated_list)
-	requested_list = []
-	user_list = []
-	profile_list=[]
+
+
+	##########################################################################################
 	notification_count=0
-	book_count = []
-	wished_list = []
-	wished_user_list = []
-	wished_profile_list = []
-	wished_book_count = []
-	boiii = []
-	for donate_worthy in donated_list:
-		cur_isbn = donate_worthy['isbn_id']
-		#print(cur_isbn)
-		if Wishlist.objects.filter(isbn = cur_isbn):
-			wished_object = list(Wishlist.objects.filter(isbn = cur_isbn).exclude(user_id=request.user))
-			wished_object2 = list(Wishlist.objects.filter(isbn = cur_isbn))
-			#print(wished_object)
-			for wish in wished_object:
-				cur_count = Boiii.objects.values('id_id','isbn_id').filter(id_id = userid,isbn_id = cur_isbn, donated=False).count()
-				if cur_count > 0:
-					requested_list.append(wish)
-					book_count.append(cur_count)
-					cur_boiii = Boiii.objects.filter(id_id = userid,isbn_id = cur_isbn, donated=False)
-					cur_boiii_ob = cur_boiii[0]
-					cur_user = list(OurUser.objects.filter(user_id = wish.user_id))
-					user_list.append(cur_user[0])
-					profile_list.append(User.objects.get(username=cur_user[0].user_name))
-					notification_count+=1
-			for wish in wished_object2:
-				cur_wish_count = Boiii.objects.values('id_id', 'isbn_id').filter(receiver_id_id=userid, isbn_id=cur_isbn, donated=True, received = False).exclude(id_id=userid).count()
-				if cur_wish_count > 0:
-					wished_list.append(wish)
-					wished_book_count.append(cur_wish_count)
-					cur_boiii = Boiii.objects.filter(receiver_id_id=userid, isbn_id=cur_isbn, donated=True, received = False).exclude(id_id=userid)
-					cur_boiii_ob = cur_boiii[0]
-					boiii.append(cur_boiii_ob)
-					cur_user = list(OurUser.objects.filter(user_id=cur_boiii_ob.id_id))
-					wished_user_list.append(cur_user[0])
-					wished_profile_list.append(User.objects.get(username=cur_user[0].user_name))
-					notification_count += 1
-	return form,requested_list,user_list,profile_list,book_count,notification_count,wished_list,wished_user_list,wished_profile_list,wished_book_count,boiii
+	# The books I have added to the library:
+	can_donate_boiii = Boiii.objects.filter(id = current_profile, donated = False)
+	will_donate_boiii = []
+	will_donate_book = []
+	will_donate_wish = []
+	will_donate_count = []
+	for boi in can_donate_boiii:
+		# The books that people except me have wished:
+		lets_donate = Wishlist.objects.filter(isbn = boi.isbn.isbn).exclude(user = current_user) # Arrrgh
+		print(lets_donate)
+		for wish in lets_donate:
+			# These are the books that I will be asked to donate in the notifications:
+			will_donate_wish.append(wish)
+			will_donate_book.append(Book.objects.get(isbn = wish.isbn))
+			will_donate_boiii.append(Boiii.objects.filter(id = current_profile, isbn = wish.isbn, donated = False)[0])
+			will_donate_count.append(len(Boiii.objects.filter(id = current_profile, isbn = wish.isbn, donated = False)))
+			notification_count += 1
+	# The wishes I made that has been met
+	will_receive_boiii = Boiii.objects.filter(receiver_id = current_profile, donated = True, received = False)
+	will_receive_book = []
+	will_receive_wish = []
+	will_receive_from = []
+	for boi in will_receive_boiii:
+		print(boi.isbn)
+		will_receive_book.append(boi.isbn) # For some reason, boi.isbn is a book type object -_-
+		will_receive_wish.append(Wishlist.objects.get(isbn = boi.isbn.isbn, user = current_user))
+		will_receive_from.append(User.objects.get(username = boi.id.user_name))
+		notification_count += 1
+	return form, zip(will_donate_book,will_donate_boiii,will_donate_wish,will_donate_count), zip(will_receive_book,will_receive_boiii,will_receive_wish,will_receive_from), notification_count
+
+
 def homepage(request):
 	current_user = request.user
+	
 	if current_user.is_authenticated:
-		form,requested_list,user_list,profile_list,book_count,notification_count,wished_list,wished_user_list,wished_profile_list,wished_book_count,boiii=sideNav(request, current_user)
-		return render(request,'home.html',context={'form':form,'request_list':zip(requested_list,user_list, profile_list,book_count),'notification_count':notification_count,'wished_list': zip(wished_list,wished_user_list, wished_profile_list,wished_book_count,boiii),})
+		if not OurUser.objects.filter(user = current_user).exists():
+			current_user.first_name = current_user.username
+			current_user.save()
+			current_profile = OurUser.objects.create(user = current_user, user_name = current_user.username)
+		else:
+			current_profile = OurUser.objects.get(user = current_user)
+		form, donate, receive, notification_count = notifications(request)
+		return render(request,'home.html',context={'form':form,'donate':donate,'receive': receive, 'notification_count' : notification_count})
 	return render(request, 'home.html')
 
+@login_required
 def confirmDonation(request):
 	current_user = request.user
 	print(request.GET['boiii'][14:-1])
@@ -100,13 +83,33 @@ def confirmDonation(request):
 	cur_boiii = Boiii.objects.get(book_id = request.GET['boiii'][14:-1])
 	cur_wish = Wishlist.objects.get(id = request.GET['wishlist'][17:-1])
 	cur_boiii.received = True
+	cur_wish.count = cur_wish.count - 1;
 	cur_boiii.save()
-	cur_wish.delete()
+	if cur_wish.count > 0:
+		cur_wish.save()
+	else:
+		cur_wish.delete()
 	
-	if current_user.is_authenticated:
-		form,requested_list,user_list,profile_list,book_count,notification_count,wished_list,wished_user_list,wished_profile_list,wished_book_count,boiii=sideNav(request, current_user)
-		return render(request,'home.html',context={'form':form,'request_list':zip(requested_list,user_list, profile_list,book_count),'notification_count':notification_count,'wished_list': zip(wished_list,wished_user_list, wished_profile_list,wished_book_count,boiii),})
-	return render(request, 'home.html')
+	return redirect('home')
+
+@login_required
+def donate(request):
+	form = UploadFileForm(request.POST, request.FILES)
+	donate_isbn = request.POST['isbn']
+	donate_condition = request.POST['condition']
+	receiver_name = request.POST['username']
+	donor_user = request.user
+	donor = OurUser.objects.get(user = donor_user)
+	donate_book = Boiii.objects.filter(isbn=donate_isbn, id=donor, donated=False)[0]
+	donate_book.donated = True
+	if form.is_valid(): 
+		if 'Photo' in request.FILES:
+			donate_book.photo = request.FILES['Photo']
+	donate_book.condition=donate_condition
+	donate_book.receiver_id=OurUser.objects.get(user_name=receiver_name) 
+	donate_book.save()
+
+	return redirect('home')
 
 def about(request):
 	return render(request,'about.html')
@@ -114,3 +117,4 @@ def about(request):
 
 def contact(request):
 	return render(request,'contact.html')
+

@@ -1,4 +1,3 @@
-
 {% load static %}
 <style>
 #overlay {
@@ -48,24 +47,42 @@
     transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%);
 }
+#text2{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: white;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+}
+#text3{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: white;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+}
 
 </style>
 
 <div id="mySidenav" class="sidenav">
 	<a href="{% url 'home' %}" class="w3-bar-item w3-center zoom w3-roboto"><p class="w3-xxlarge"><b style="text-decoration: none; color: white">Book</b><b style="text-decoration: none; color: orange">EX</b></p></a>
-	<font color = "white" class="w3-wide w3-margin-left w3-margin-bottom"> Notifications: </font>
+	<div class="w3-margin-bottom">
+		<font color = "white" class="w3-wide w3-margin-left"> Notifications: </font>
+	</div>
   	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-	{% for request,user,profile,cnt in request_list %}
+	{% for book,boi,wish,cnt in donate %}
 	<div class="w3-container">
-		<div class="w3-card w3-margin-top w3-teal w3-padding-small w3-container" style="position: relative;">
-			<span class="label label-success w3-right" style="margin-top: 5px;">Requested: {{request.count}}</span>
-			<p class="small"><a href="{% url 'viewprofile' username=user.user_name %}">{{profile.first_name}} {{profile.last_name}}</a>Requested on {{request.request_date}} </p>
- 			<a href="{% url 'viewbookprofile' req_isbn=request.isbn %}"><h4>{{request.book_name}}</h4> </a> 
-			<i>{{request.author_name}}, 
-			{{request.edition}}
-			{% if request.edition is 1 %}
+		<div class="w3-card w3-margin-bottom w3-teal w3-padding-small w3-container" style="position: relative;">
+			<span class="label label-success w3-right" style="margin-top: 5px;">Requested: {{wish.count}}</span>
+			<p class="small"><a href="{% url 'viewprofile' username=wish.user.username %}">{{wish.user.first_name}} {{wish.user.last_name}}</a>Requested on {{wish.request_date}} </p>
+ 			<a href="{% url 'viewbookprofile' req_isbn=wish.isbn %}"><h4>{{wish.book_name}}</h4> </a> 
+			<i>{{wish.author_name}}, 
+			{{wish.edition}}
+			{% if wish.edition is 1 %}
 			st edition
-			{% elif request.edition is 2 %}
+			{% elif wish.edition is 2 %}
 			nd edition
 			{% else %}
 			th edition
@@ -73,40 +90,41 @@
 			</i>	
 			<div class="w3-margin-top" style="padding-bottom: 15px;margin-bottom: 5px;">
 				<span class="label label-info w3-left">You have: {{cnt}}</span>
-				<button class="btn btn-info btn-xs w3-right" onclick="return on('{{request.isbn}}', '{{profile}}')" style="margin-top: -5px;">Donate</button>
+				<button class="btn btn-info btn-xs w3-right" onclick="return on('{{wish.isbn}}', '{{wish.user.username}}')" style="margin-top: -5px;">Donate</button>
 			</div>
 		</div>
 	</div>
+
+
 	<div id="overlay">
 	  <div id="text">
 	  	<button class="btn btn-warning btn-sm w3-left" onclick="off()">Back</button><br>
-		  <form method="POST" class="post-form" enctype='multipart/form-data'>
+		  <form action="{% url 'donate_final' %}" method="POST" class="post-form" enctype='multipart/form-data'>
 			  {% csrf_token %}
 			  <h2>Do you want to donate this book?</h2>
-			  <input type="hidden" name="username" id="username" value="{{profile}}">
-			  <input type="hidden" name="isbn" id="isbn" value="{{request.isbn}}">
+			  <input type="hidden" name="username" id="username" value="{{wish.user.username}}">
+			  <input type="hidden" name="isbn" id="isbn" value="{{wish.isbn}}">
 			  <label for="condition">Condition</label>
 			  <input type="range" name="condition" list="tickmarks" min="0" max="5" step=".1" oninput="displaylabel(this.value)">
 		       <em id="rangeValLabel" style="font-style: normal;">Satisfactory</em>
 			  <br>{{form.as_p}}
-			  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="off()" >Confirm</button>
+			  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="return donated();" >Confirm</button>
 		  </form>
 	  </div>
 	</div>
 	{% endfor %}
+
 <!-- Heeeeeeeeeeeeeeeeeeeeeeeeeelllllllllllllllllllo -->
-	{% for request,user,profile,cnt,boi in wished_list %}
+	{% for book, boi, wish, profile in receive %}
 	<div class="w3-container">		  	
-		<div class="w3-card w3-margin-top w3-teal w3-padding-small w3-container" style="position: relative;">
-			<span class="label label-success w3-right" style="margin-top: 5px;">Wished: {{request.count}}</span>
-				
-		<p class="small"><a href="{% url 'viewprofile' username=user.user_name %}">{{profile.first_name}} {{profile.last_name}}</a>approved your request on {{request.request_date}} </p>
-		 <a href="{% url 'viewbookprofile' req_isbn=request.isbn %}"><h4>{{request.book_name}}</h4> </a> 
-		<i>{{request.author_name}}, 
-		{{request.edition}}
-		{% if request.edition is 1 %}
+	  <div class="w3-card w3-margin-bottom w3-teal w3-padding-small w3-container" style="position: relative;">
+		<p class="small"><a href="{% url 'viewprofile' username=profile.username %}">{{profile.first_name}} {{profile.last_name}}</a>approved the request you made on {{wish.request_date}} </p>
+		 <a href="{% url 'viewbookprofile' req_isbn=wish.isbn %}"><h4>{{wish.book_name}}</h4> </a> 
+		<i>{{wish.author_name}}, 
+		{{wish.edition}}
+		{% if wish.edition is 1 %}
 		st edition
-		{% elif request.edition is 2 %}
+		{% elif wish.edition is 2 %}
 		nd edition
 		{% else %}
 		th edition
@@ -116,72 +134,77 @@
 		</i>
 		
 		<div class="w3-margin-top" style="padding-bottom: 15px;margin-bottom: 5px;">
-			<span class="label label-info w3-left">You have: {{cnt}}</span>
-			<button class="btn btn-info btn-xs w3-right" onclick="return reject()" style="margin-top: -5px;">Cancel</button>
-				<div id="overlay3">
-				  <div id="text">
-					  <button class="btn btn-warning btn-sm w3-left" onclick="return off()">Back</button><br>
-					  <h2>Are you sure you want to reject the offer from {{profile.first_name}} {{profile.last_name}} ? </h2>
-					  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="return off()" >Confirm</button>
-					  
-
+		    
+		    <button class="btn btn-info btn-xs w3-right" onclick="return reject()" style="margin-top: -5px;">Cancel</button>
+			<button class="btn btn-info btn-xs w3-right w3-margin-right" onclick="return confirm()" style="margin-top: -5px;">Confirm</button>
+			<div id="overlay2">
+			  <div id="text2">
+			  	<button class="btn btn-warning btn-sm w3-left" onclick="return back2();">Back</button><br>
+			    <h2>Have you received the book from {{profile.first_name}} {{profile.last_name}} ? </h2>
+				<form action="{% url 'confirm_donation' %}">
+				  <input type="hidden" name="boiii" id="boiii" value="{{boi}}">
+				  <input type="hidden" name="wishlist" id="wishlist" value="{{wish}}">
+				
+			  	  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="return finalConfirm('{{boi}}', '{{wish}}')" >Confirm</button>
+					</form>
 				  </div>
-				</div>
-
-				<button class="btn btn-info btn-xs w3-right w3-margin-right" onclick="return confirm()" style="margin-top: -5px;">Confirm</button>
-					<div id="overlay2">
-						  <div id="text">
-						  <button class="btn btn-warning btn-sm w3-left" onclick="return off()">Back</button><br>
-						  <h2>Have you received the book from {{profile.first_name}} {{profile.last_name}} ? </h2>
-							<form action="{% url 'confirm_donation' %}">
-							  <input type="hidden" name="boiii" id="boiii" value="{{boi}}">
-							  <input type="hidden" name="wishlist" id="wishlist" value="{{request}}">
-							
-						  	  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="return finalConfirm('{{boi}}', '{{request}}')" >Confirm</button>
-			  				</form>
-			  		</div>
-				</div>
 			</div>
-				</div>
+			<div id="overlay3">
+			  <div id="text3">
+				  <button class="btn btn-warning btn-sm w3-left" onclick="return back3();">Back</button><br>
+				  <h2>Are you sure you want to reject the offer from {{profile.first_name}} {{profile.last_name}} ? </h2>
+				  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="return off()" >Confirm</button>
+			  </div>
 			</div>
 
-		{% endfor %}
+		</div>
+	  </div>
+	</div>
+
+	{% endfor %}
 <!--                Shesh                        -->
 	
-			<script>
-			function on(val, usr) {
-			    document.getElementById("overlay").style.display = "block";
-			    document.getElementById("isbn").value = val;
-			    document.getElementById("username").value = usr;
-			}
-			function off() {
-				document.getElementById("overlay").style.display = "none";
-				document.getElementById("overlay2").style.display = "none";
-				document.getElementById("overlay3").style.display = "none";
-			} 
-			function confirm() {
-				document.getElementById("overlay2").style.display = "block";
-			}
-			function reject() {
-			    document.getElementById("overlay3").style.display = "block";
-			}
-			function displaylabel(val) {
-				var ret;
-				if(val >= 0 && val < 5/3) ret = "Poor";
-				else if(val >= 5/3 && val < 10/3) ret = "Satisfactory";
-				else ret="Excellent";
-				document.getElementById('rangeValLabel').innerHTML = ret;
-			}
-			function finalConfirm(val1, val2){
-				document.getElementById("overlay2").style.display = "none";
-				document.getElementById("boiii").value = val1;
-			    document.getElementById("wishlist").value = val2;
-			}
-			</script>
-		</div>
 	
-	<script>
-
+</div>
+	
+<script>
+function on(val, usr) {
+    document.getElementById("overlay").style.display = "block";
+    document.getElementById("isbn").value = val;
+    document.getElementById("username").value = usr;
+}
+function donated() {
+	alert("Thank you for donating!");
+	document.getElementById("overlay").style.display = "none";
+}
+function off() {
+	document.getElementById("overlay").style.display = "none";
+}
+function back2() {
+	document.getElementById("overlay2").style.display = "none";
+}
+function back3() {
+	document.getElementById("overlay3").style.display = "none";
+} 
+function confirm() {
+	document.getElementById("overlay2").style.display = "block";
+}
+function reject() {
+    document.getElementById("overlay3").style.display = "block";
+}
+function displaylabel(val) {
+	var ret;
+	if(val >= 0 && val < 5/3) ret = "Poor";
+	else if(val >= 5/3 && val < 10/3) ret = "Satisfactory";
+	else ret="Excellent";
+	document.getElementById('rangeValLabel').innerHTML = ret;
+}
+function finalConfirm(val1, val2){
+	alert("Congrats on your book! We hope you like it ^_^")
+	document.getElementById("overlay2").style.display = "none";
+	document.getElementById("boiii").value = val1;
+    document.getElementById("wishlist").value = val2;
+}
 function openNav() {
 	document.getElementById("mySidenav").style.width = "20%";
     document.getElementById("main").style.marginLeft = "20%";

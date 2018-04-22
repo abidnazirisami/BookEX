@@ -59,6 +59,7 @@ position: absolute;
 	.rating2 a {
 		float:none
 	}
+
 </style>
 
 {% block content %}
@@ -69,14 +70,19 @@ position: absolute;
         	<div class="profile-header-container">   
     		  <div class="profile-header-img">
                 <img class="img-rounded" src="{{book.photo.url}}" alt="Dp" style="width:250px; height: 250px;">
+              	<!-- badge -->
+              	
               </div>
-              <div class="rating rating2">
+              	<div class="w3-center" style="margin-left: 40%">
+                    <span class="stars">5</span>
+              	</div>
+              <!--div class="rating rating2">
               	<a href="1" title="Give 1 stars">★</a>
               	<a href="2" title="Give 2 stars">★</a>
               	<a href="3" title="Give 3 stars">★</a>
               	<a href="4" title="Give 4 stars">★</a>
               	<a href="5" title="Give 5 stars">★</a>
-              </div>
+              </div-->
        		</div>
 		<div class="w3-center">
 			<p class="w3-wide ">
@@ -117,4 +123,15 @@ position: absolute;
     </div>
 </div>
     
+<script>
+$(function() {
+    $('span.stars').stars();
+});
+$.fn.stars = function() {
+    return $(this).each(function() {
+        $(this).html($('<span />').width(Math.max(0, (Math.min(5, parseFloat($(this).html())))) * 16));
+    });
+}
+
+</script>
 {% endblock %}
