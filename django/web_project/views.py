@@ -25,8 +25,9 @@ def homepage(request):
 			# For Raida:
 			form = UploadFileForm(request.POST, request.FILES)
 			#print(request.FILES)
-			if form.is_valid() and request.FILES['Photo']:
-				print(request.FILES['Photo'])
+			if form.is_valid():
+				if 'photo' in request.FILES:
+					print(request.FILES['Photo'])
 			#print(request.POST['username'])
 			#print(request.POST['isbn'])
 			#print(request.POST['condition'])
@@ -36,8 +37,9 @@ def homepage(request):
 			donor = userid
 			donate_book = Boiii.objects.filter(isbn=donate_isbn, id=donor, donated=False)[0]
 			donate_book.donated = True
-			if form.is_valid() and request.FILES['Photo']:
-				donate_book.photo = request.FILES['Photo']
+			if form.is_valid(): 
+				if 'photo' in request.FILES:
+					donate_book.photo = request.FILES['Photo']
 			donate_book.condition=donate_condition
 			donate_book.receiver_id=OurUser.objects.get(user_name=request.POST['username']) 
 			donate_book.save()

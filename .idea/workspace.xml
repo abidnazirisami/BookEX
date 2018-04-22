@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="74cfedce-7793-4167-9644-ed7222b41d31" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django/pages/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/django/pages/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django/pages/migrations/0002_auto_20180422_0143.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/django/request/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/django/request/migrations/0001_initial.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/django/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/django/templates/home.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/django/web_project/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/django/web_project/views.py" afterDir="false" />
     </list>
@@ -54,8 +50,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/django/web_project/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="78" column="51" selection-start-line="78" selection-start-column="51" selection-end-line="78" selection-end-column="51" />
+            <state relative-caret-position="249">
+              <caret line="28" column="44" lean-forward="true" selection-start-line="28" selection-start-column="44" selection-end-line="28" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -682,8 +678,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/django/web_project/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="78" column="51" selection-start-line="78" selection-start-column="51" selection-end-line="78" selection-end-column="51" />
+        <state relative-caret-position="249">
+          <caret line="28" column="44" lean-forward="true" selection-start-line="28" selection-start-column="44" selection-end-line="28" selection-end-column="44" />
         </state>
       </provider>
     </entry>
