@@ -310,7 +310,25 @@ def addToWishlist(request, req_isbn):
 
 @login_required
 def pendingTransactions(request):
+    receive_book = []
+    receive_author = []
+    donate_book = []
+    donate_author = []
     cur_user = OurUser.objects.get(user=request.user)
-    to_receive = Boiii.objects.filter(receiver_id=cur_user, received=False).exclude(id=cur_user)
-    to_donate = Boiii.objects.filter(id=cur_user, received=False).exclude(receiver_id=cur_user)
-    return render(request, 'request/pending.html', context={'receive':to_receive, 'donate':to_donate})
+    to_receive = list(Boiii.objects.filter(receiver_id=cur_user, received=False).exclude(id=cur_user))
+    to_donate = list(Boiii.objects.filter(id=cur_user, received=False).exclude(receiver_id=cur_user))
+
+    for receive in to_receive:
+        cur_book = Book.objects.get(isbn = receive.isbn_id)
+        cur_author = Author.objects.get(author_id = cur_book.author_id.author_id)
+        receive_book.append(cur_book)
+        receive_author.append(cur_author)
+
+    for donate in to_donate:
+        cur_book = Book.objects.get(isbn = receive.isbn_id)
+        cur_author = Author.objects.get(author_id = cur_book.author_id.author_id)
+        donate_book.append(cur_book)
+        donate_author.append(cur_author)
+
+
+    return render(request, 'request/pending.html', context={'receive':zip(to_receive, receive_book, receive_author), 'donate' : zip(to_donate,donate_book,donate_author)})
