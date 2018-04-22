@@ -10,7 +10,7 @@
 {% if receive %}
   <h2 class="w3-padding-large w3-center"> Yet to receive </h2>
   <div class="w3-row-padding">
-    {% for book in receive %}
+    {% for book,re_book,author in receive %}
     <div class="w3-col m12 w3-padding-small">
       <div class="w3-container w3-card w3-padding-large">  
          <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
@@ -19,6 +19,8 @@
               <div class="profile-header-img">
                     <img class="img-rounded" src="{{book.photo.url}}" alt="Photo" style="width:250px; height: 250px;">
               </div>
+              {{re_book.book_name}}<br>
+              {{author.author_name}}
             </div>
          </a>
       </div>
@@ -29,7 +31,7 @@
 {% if donate %}
   <h2 class="w3-padding-large w3-center"> Yet to donate </h2>
   <div class="w3-row-padding">
-    {% for book in donate %}
+    {% for book,d_book,author in donate %}
     <div class="w3-col m12 w3-padding-small">
       <div class="w3-container w3-card w3-padding-large">  
          <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
@@ -38,6 +40,8 @@
               <div class="profile-header-img">
                     <img class="img-rounded" src="{{book.photo.url}}" alt="Photo" style="width:250px; height: 250px;">
               </div>
+              {{d_book.book_name}}<br>
+              {{author.author_name}}
             </div>
          </a>
       </div>
