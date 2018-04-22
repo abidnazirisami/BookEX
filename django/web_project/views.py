@@ -76,7 +76,7 @@ def sideNav(request, current_user):
 				cur_wish_count = Boiii.objects.values('id_id', 'isbn_id').filter(receiver_id_id=userid, isbn_id=cur_isbn, donated=True, received = False).exclude(id_id=userid).count()
 				if cur_wish_count > 0:
 					wished_list.append(wish)
-					wished_book_count.append(cur_count)
+					wished_book_count.append(cur_wish_count)
 					cur_boiii = Boiii.objects.filter(receiver_id_id=userid, isbn_id=cur_isbn, donated=True, received = False).exclude(id_id=userid)
 					cur_boiii_ob = cur_boiii[0]
 					boiii.append(cur_boiii_ob)
