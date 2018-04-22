@@ -94,8 +94,18 @@ def homepage(request):
 
 def confirmDonation(request):
 	current_user = request.user
-	print(request.GET['boiii'])
-	print(request.GET['wishlist'])
+	print(request.GET['boiii'][14:-1])
+	print(request.GET['wishlist'][17:-1])
+	#cur_wish = Wishlist()
+	cur_boiii = Boiii()
+	cur_boiii = Boiii.objects.get(book_id = request.GET['boiii'][14:-1])
+	cur_wish = Wishlist.objects.get(id = request.GET['wishlist'][17:-1])
+	#cur_wish = request.GET['wishlist']
+	#cur_boiii = request.GET['boiii']
+	cur_boiii.received = True
+	#cur_boiii.save()
+	cur_wish.delete()
+	
 	if current_user.is_authenticated:
 		form,requested_list,user_list,profile_list,book_count,notification_count,wished_list,wished_user_list,wished_profile_list,wished_book_count,boiii=sideNav(request, current_user)
 		return render(request,'home.html',context={'form':form,'request_list':zip(requested_list,user_list, profile_list,book_count),'notification_count':notification_count,'wished_list': zip(wished_list,wished_user_list, wished_profile_list,wished_book_count,boiii),})
