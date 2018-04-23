@@ -136,3 +136,6 @@ def about(request):
 def contact(request):
 	return render(request,'contact.html')
 
+def story(request):
+	return render(request,'story.html')
+

@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.homepage, name='home'),
+    path('storyOfUs', views.story, name='story'),
     path('confirmed', views.confirmDonation, name='confirm_donation'),
     path('cancelled', views.confirmRejection, name='confirm_rejection'),
     path('donated', views.donate, name='donate_final'),

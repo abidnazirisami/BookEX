@@ -7,6 +7,15 @@
 <title>BookEX - Home</title>
 {% endblock %}
 
+<style>
+a.ex1:hover, a.ex1:active {color: red;}
+a.ex2:hover, a.ex2:active {font-size: 150%;}
+a.ex3:hover, a.ex3:active {background: red;}
+a.ex4:hover, a.ex4:active {font-family: monospace;}
+a.ex5:visited, a.ex5:link {text-decoration: none;}
+a.ex5:hover, a.ex5:active {text-decoration: underline;}
+</style>
+
 {% block content %}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {% if user.is_authenticated %}
@@ -44,30 +53,29 @@
 	    	 </a>
 		</div>
   </div>
-<div class="w3-col m3 w3-large w3-margin-top" style="padding-right: 10px; padding-left: 10px">
-  <div class="w3-card" style="width:100%">
-		{% load static %}
-		<a href="{% url 'addbook' %}">
-		<img src="{% static 'img.jpg' %}" alt="Find Books" style="width:100%; height: 100%">
-		
-		 <div class="w3-container">
-      		<h4><b>Find with ISBN</b></h4>
-    	 </div>
-    	 </a>
-	</div>
-  </div>
-	  <div class="w3-col m3 w3-large w3-margin-top" style="padding-right: 10px; padding-left: 10px">
-			    <div class="w3-card" style="width:100%">
-					{% load static %}
-					<a href="{% url 'requestbook' %}">
-					<img src="{% static 'request_book.jpg' %}" alt="Request Books" style="width:100%; height: 100%">
-					
-					 <div class="w3-container">
-			      		<h4><b>Request Books</b></h4>
-			    	 </div>
-			    	 </a>
+	<div class="w3-col m3 w3-large w3-margin-top" style="padding-right: 10px; padding-left: 10px">
+		<div class="w3-card" style="width:100%">
+			{% load static %}
+			<a href="{% url 'addbook' %}">
+			<img src="{% static 'img.jpg' %}" alt="Find Books" style="width:100%; height: 100%">
+				<div class="w3-container">
+		      		<h4><b>Find with ISBN</b></h4>
+		    	</div>
+	    	 </a>
 		</div>
-	  </div>
+	</div>
+	<div class="w3-col m3 w3-large w3-margin-top" style="padding-right: 10px; padding-left: 10px">
+		<div class="w3-card" style="width:100%">
+			{% load static %}
+			<a href="{% url 'requestbook' %}">
+				<img src="{% static 'request_book.jpg' %}" alt="Request Books" style="width:100%; height: 100%">
+			
+				<div class="w3-container">
+		      		<h4><b>Request Books</b></h4>
+		    	</div>
+	    	</a>
+		</div>
+	</div>
 </div>
 
 
@@ -80,13 +88,13 @@
 		<div class="slider-wrapper"><!-- innermost wrapper element -->
 			<img src="{% static 'sami.jpg' %}" alt="Sami" class="slide" /><!-- slides -->
 			<img src="{% static 'Mahfida.jpg' %}" alt="Nitu" class="slide" /><!-- slides -->
-			<img src="{% static 'Nahian.jpg' %}" alt="Raida" class="slide" /><!-- slides -->
-			<img src="{% static 'Mahfida.jpg' %}" alt="Nitu" class="slide" /><!-- slides -->
+			<img src="{% static 'Nahian.jpg' %}" alt="Raida" class="slide" /><!-- slides -->	
 		</div>
 	</div>	
 </div>
-
-
+<div style="position: absolute;top: 400px; left:48%;z-index: 999;">
+	<a class="w3-button w3-opacity w3-padding-large w3-large w3-hover-teal" href="{% url 'story' %}">BookEX</a>
+</div>
 <script>
 (function() {
 	
