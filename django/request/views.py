@@ -17,9 +17,18 @@ def displayList(request):
 @login_required
 def displayTopRequest(request):
     bookinfo = []
-    requestlist = Wishlist.objects.order_by('count').reverse()[:10]
-    for book in requestlist:
-        bookinfo.append(Book.objects.get(isbn=book.isbn))
+    requestlist = []
+    book_all = Book.objects.all()
+    for book in book_all:
+        cur_book = Book.objects.get(isbn=book.isbn)
+        cur_wish = Wishlist.objects.filter(isbn = cur_book)
+        count = 0
+        for wishes in cur_wish:
+            count = count + wishes.count
+        if count > 0:
+            bookinfo.append(cur_book)
+            cur_wish.count = count
+            requestlist.append(cur_wish)
     return render(request, 'request/list_of_books.html', context={'book': zip(requestlist,bookinfo)})
 
 
@@ -188,11 +197,42 @@ def searchBook(request):
         for new_books in new_book:
             if not new_books.book_name in book_names:
                 book_names.append(new_books.book_name)
+        
         bookinfo = []
-        requestlist = Wishlist.objects.order_by('count').reverse()[:10]
-        for book in requestlist:
-            bookinfo.append(Book.objects.get(isbn=book.isbn))
-        return render(request, 'request/search_book.html', context={'requsted_book': zip(requestlist,bookinfo),'books': book_names, 'error': "", 'wished_books':wishlist, 'haswishes':haswishes})
+        requestlist = []
+        book_all = Book.objects.all()
+        for book in book_all:
+            cur_book = Book.objects.get(isbn=book.isbn)
+            cur_wish = Wishlist.objects.filter(isbn = book.isbn)
+            count = 0
+            print(cur_wish)
+            print(cur_book)
+            for wishes in cur_wish:
+                count = count + wishes.count
+            if count > 0:
+                bookinfo.append(cur_book)
+                cur_wish[0].count = count
+                requestlist.append(cur_wish[0])
+            temp_wish = Wishlist()
+            temp_book = Book()
+            i = 0
+            j = 0
+            for wishes_out , books_out in zip(requestlist,bookinfo):
+                j = 0
+                for wishes_in , books_in in zip(requestlist,bookinfo):
+                    if wishes_out.count > wishes_in.count:
+                        temp_wish = requestlist[i]
+                        requestlist[i] = requestlist[j]
+                        requestlist[j] = temp_wish
+                        temp_book = bookinfo[i]
+                        bookinfo[j] = bookinfo[j]
+                        bookinfo[j] = temp_book
+
+                    j = j + 1
+                i = i + 1
+            zipped = zip(requestlist[:10],bookinfo[:10])
+            #zipped.order_by('bookinfo.count').reverse()[:10]
+        return render(request, 'request/search_book.html', context={'requsted_book': zipped ,'books': book_names, 'error': "", 'wished_books':wishlist, 'haswishes':haswishes})
 
 @login_required
 def showWishlist(request):
@@ -333,3 +373,19 @@ def pendingTransactions(request):
         has_donate=True
 
     return render(request, 'request/pending.html', context={'receive':zip(to_receive, receive_book, receive_author), 'donate' : zip(to_donate,donate_book,donate_author), 'has_receive':has_receive, 'has_donate':has_donate})
+@login_required
+def confirmWishRejection(request):
+    current_user = request.user
+    print(request.GET['book'][17:-1])
+    cur_wish = Wishlist.objects.get(id = request.GET['book'][17:-1])
+    cur_wish.count = cur_wish.count - 1
+    if cur_wish.count > 0:
+        cur_wish.save()
+    else:
+        cur_wish.delete()
+    haswishes=False
+    wishlist = []
+    if Wishlist.objects.filter(user=request.user).exists():
+        haswishes=True
+        wishlist = Wishlist.objects.all().filter(user=request.user)
+    return render(request, 'request/show_wishlist.html', context={'haswishes':haswishes, 'books': wishlist})
