@@ -96,19 +96,19 @@
 	</div>
 
 
-	<div id="overlay">
+	<div id="overlay" class="w3-card ">
 	  <div id="text">
 	  	<button class="btn btn-warning btn-sm w3-left" onclick="off()">Back</button><br>
 		  <form action="{% url 'donate_final' %}" method="POST" class="post-form" enctype='multipart/form-data'>
 			  {% csrf_token %}
-			  <h2>Do you want to donate this book?</h2>
-			  <input type="hidden" name="username" id="username" value="{{wish.user.username}}">
-			  <input type="hidden" name="isbn" id="isbn" value="{{wish.isbn}}">
-			  <label for="condition">Condition</label>
-			  <input type="range" name="condition" list="tickmarks" min="0" max="5" step=".1" oninput="displaylabel(this.value)">
-		       <em id="rangeValLabel" style="font-style: normal;">Satisfactory</em>
+			  <h3 style="margin-top: 30px">Do you want to donate this book?</h3>
+			  <input type="hidden" name="username" style="margin-top: 20px" id="username" value="{{wish.user.username}}">
+			  <input type="hidden" name="isbn" style="margin-top: 20px" id="isbn" value="{{wish.isbn}}">
+			  <label for="condition" style="margin-top: 20px">Condition</label>
+			  <input type="range" name="condition" style="margin-top: 20px" list="tickmarks" min="0" max="5" step=".1" oninput="displaylabel(this.value)">
+		       <em id="rangeValLabel" style="font-style: normal; margin-top: 05px">Satisfactory</em><br>
 			  <br>{{form.as_p}}
-			  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="return donated();" >Confirm</button>
+			  <button class="btn btn-info btn-sm w3-right" type="submit" style="margin-top: 05px" onclick="return donated();" >Confirm</button>
 		  </form>
 	  </div>
 	</div>
@@ -137,22 +137,22 @@
 			<div id="overlay2">
 			  <div id="text2">
 			  	<button class="btn btn-warning btn-sm w3-left" onclick="return back2();">Back</button><br>
-			    <h2>Have you received the book from {{profile.first_name}} {{profile.last_name}} ? </h2>
+			    <h3 style="margin-top: 30px">Have you received the book from {{profile.first_name}} {{profile.last_name}} ? </h3>
 				<form action="{% url 'confirm_donation' %}">
 				  <input type="hidden" name="boiii" id="boiii" value="{{boi}}">
 				  <input type="hidden" name="wishlist" id="wishlist" value="{{wish}}">
-			  	  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="return finalConfirm('{{boi}}', '{{wish}}')" >Confirm</button>
+			  	  <button class="btn btn-info btn-sm w3-right" style="margin-top: 25px" type="submit" onclick="return finalConfirm('{{boi}}', '{{wish}}')" >Confirm</button>
 				</form>
 			  </div>
 			</div>
 			<div id="overlay3">
 			  <div id="text3">
 				  <button class="btn btn-warning btn-sm w3-left" onclick="return back3();">Back</button><br>
-				  <h2>Are you sure you want to reject the offer from {{profile.first_name}} {{profile.last_name}} ? </h2>
+				  <h3 style="margin-top: 30px">Are you sure you want to reject the offer from {{profile.first_name}} {{profile.last_name}} ? </h3>
 				  <form action="{% url 'confirm_rejection' %}">
 				  <input type="hidden" name="boiii" id="boiii" value="{{boi}}">
 				  <input type="hidden" name="wishlist" id="wishlist" value="{{wish}}">
-				  	<button class="btn btn-info btn-xs w3-right" type="submit" onclick="return finalReject('{{boi}}', '{{wish}}')"" >Confirm</button>
+				  	<button class="btn btn-info btn-xs w3-right" style="margin-top: 25px" type="submit" onclick="return finalReject('{{boi}}', '{{wish}}')"" >Confirm</button>
 			  	</form>
 			  </div>
 			</div>
