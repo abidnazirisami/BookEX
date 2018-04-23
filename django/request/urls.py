@@ -13,4 +13,5 @@ urlpatterns = [
     path('topRequest/', views.displayTopRequest, name = 'request_list'),
     path('pending/', views.pendingTransactions, name = 'pending'),
     path('cancelled', views.confirmWishRejection, name='confirm_wish_cancel'),
+    path('cancell', views.confirmDonateRejection, name='confirm_donate_cancel'),
 ]

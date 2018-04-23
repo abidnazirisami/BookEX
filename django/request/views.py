@@ -354,25 +354,31 @@ def pendingTransactions(request):
     receive_author = []
     donate_book = []
     donate_author = []
+    donated_to = []
+    my_donator = []
     cur_user = OurUser.objects.get(user=request.user)
     to_receive = list(Boiii.objects.filter(receiver_id=cur_user, donated=True, received=False).exclude(id=cur_user))
     to_donate = list(Boiii.objects.filter(id=cur_user, donated=True, received=False).exclude(receiver_id=cur_user))
     has_receive = False
     has_donate = False
     for receive in to_receive:
+        cur_donator = OurUser.objects.get(id = receive.id_id)
         cur_book = Book.objects.get(isbn = receive.isbn_id)
         cur_author = Author.objects.get(author_id = cur_book.author_id.author_id)
         receive_book.append(cur_book)
         receive_author.append(cur_author)
+        my_donator.append(cur_donator)
         has_receive=True
     for donate in to_donate:
+        cur_receiver = OurUser.objects.get(id = donate.receiver_id_id)
         cur_book = Book.objects.get(isbn = donate.isbn_id)
         cur_author = Author.objects.get(author_id = cur_book.author_id.author_id)
         donate_book.append(cur_book)
         donate_author.append(cur_author)
+        donated_to.append(cur_receiver)
         has_donate=True
 
-    return render(request, 'request/pending.html', context={'receive':zip(to_receive, receive_book, receive_author), 'donate' : zip(to_donate,donate_book,donate_author), 'has_receive':has_receive, 'has_donate':has_donate})
+    return render(request, 'request/pending.html', context={'receive':zip(to_receive, receive_book, receive_author, my_donator), 'donate' : zip(to_donate,donate_book,donate_author,donated_to), 'has_receive':has_receive, 'has_donate':has_donate})
 @login_required
 def confirmWishRejection(request):
     current_user = request.user
@@ -388,4 +394,11 @@ def confirmWishRejection(request):
     if Wishlist.objects.filter(user=request.user).exists():
         haswishes=True
         wishlist = Wishlist.objects.all().filter(user=request.user)
-    return render(request, 'request/show_wishlist.html', context={'haswishes':haswishes, 'books': wishlist})
+    return redirect('wishlist')
+
+def confirmDonateRejection(request):
+    boiii_id = request.GET['boiii'][14:-1]
+    boiii = Boiii.objects.get(pk = boiii_id)
+    boiii.donated = False;
+    boiii.save()
+    return redirect('pending')

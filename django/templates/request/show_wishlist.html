@@ -20,7 +20,7 @@
           <input type="hidden" name="wishlist" id="wishlist" value="{{wish}}">
             <form action="{% url 'confirm_wish_cancel' %}">
               <input type="hidden" name="book" id="book" value="{{book}}">
-              <button class="btn btn-info btn-xs w3-right" type="submit" onclick="return finalReject('{{book}}')" >Cancel</button>
+              <button class="btn btn-warning btn-sm w3-right" type="submit" onclick="return finalReject()" >Remove from wishlist</button>
             </form>
         </div>
       </div>
@@ -31,14 +31,12 @@
   <h2 class="w3-padding-large"> You currently don't have anything on your wishlist </h2>
 {% endif %}
 </div>
-{% endblock %}
 <script>
 
-function reject() {
-    document.getElementById("overlay3").style.display = "block";
-}
-function finalReject(val1){
+function finalReject(){
   alert("One book removed from wishlist")
 }
 </script>
+
+{% endblock %}
 

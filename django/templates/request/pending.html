@@ -10,9 +10,10 @@
 {% if has_receive %}
   <h1 class="w3-padding-large w3-center"><u>Yet to Receive</u></h1>
   <div class="w3-row-padding">
-    {% for book,re_book,author in receive %}
+    {% for book,re_book,author,cur_user in receive %}
     <div class="w3-col m12 w3-padding-small">
-      <div class="w3-container w3-card w3-padding-large">  
+      <div class="w3-container w3-card w3-padding-large">
+      <h4>From:<i><a href="{% url 'viewprofile' username=cur_user.user_name %}">{{cur_user.user_name}}</a></i></h4><br>  
          <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
            {% load static %}
             <div class="profile-header-container">   
@@ -43,9 +44,10 @@
 {% if has_donate %}
   <h1 class="w3-padding-large w3-center"><u>Yet to Donate</u></h1>
   <div class="w3-row-padding">
-    {% for book,d_book,author in donate %}
+    {% for book,d_book,author,cur_user in donate %}
     <div class="w3-col m12 w3-padding-small">
       <div class="w3-container w3-card w3-padding-large">  
+         <h4>To:<i><a href="{% url 'viewprofile' username=cur_user.user_name %}">{{cur_user.user_name}}</a></i></h4><br>
          <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
            {% load static %}
             <div class="profile-header-container">   
@@ -62,7 +64,11 @@
               <p>by <i class="authors">{{author.author_name}}</i></p>
             </p>
             <div style="padding-top: 140px">
-              <button class="btn btn-info btn-s w3-right" type="submit" onclick="return donated();" >Donation Cancel</button>              
+              <input type="hidden" name="wishlist" id="wishlist" value="{{wish}}">
+            <form action="{% url 'confirm_donate_cancel' %}">
+                <input type="hidden" name="boiii" id="boiii" value="{{book}}">
+                <button class="btn btn-info btn-s w3-right" type="submit" onclick="return donated();" >Cancel Donation</button>   
+              </form>           
             </div> 
           </div>
          </div>
