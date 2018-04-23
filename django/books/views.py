@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from pages.models import Boiii,Book,Author
+from rating.models import *
 from .forms import *
 from django.shortcuts import redirect
 import isbnlib
@@ -117,6 +118,7 @@ def addNew(request):
 
 @login_required
 def viewBookProfile(request, req_isbn):
+	review = []
 	current_book = Book()
 	current_author = Author()
 	if Book.objects.filter(pk=req_isbn).exists():
@@ -124,7 +126,8 @@ def viewBookProfile(request, req_isbn):
 	print(current_book.book_name)
 	if Author.objects.filter(pk=current_book.author_id_id).exists():
 		current_author = Author.objects.get(pk=current_book.author_id_id)
-	return render(request, 'books/book_profile.html', context={'book': current_book, 'author': current_author, })
+	review = Review.objects.filter(isbn = current_book)
+	return render(request, 'books/book_profile.html', context={'book': current_book, 'author': current_author,'review' : review })
 
 
 @login_required

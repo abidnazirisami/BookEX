@@ -74,7 +74,7 @@ position: absolute;
               	
               </div>
               	<div class="w3-center" style="margin-left: 40%">
-                    <span class="stars">5</span>
+                    <span class="stars">{{book.rating}}</span>
               	</div>
               <!--div class="rating rating2">
               	<a href="1" title="Give 1 stars">★</a>
@@ -84,13 +84,14 @@ position: absolute;
               	<a href="5" title="Give 5 stars">★</a>
               </div-->
        		</div>
-       		<a href="{% url 'rate' isbn=book.isbn %}" class="btn w3-margin-bottom w3-margin-right w3-right"><i class="fa fa-star" style="font-size:18px;color: tomato;">Rate</i></a>
-		<div class="w3-center">
+       		
 			<p class="w3-wide ">
-
-			<h2>{{book.book_name}}</h2>
+			<h2>{{book.book_name}}</h2><a href="{% url 'rate' isbn=book.isbn %}" class="btn w3-margin-bottom w3-margin-right w3-right"><i class="fa fa-edit" style="font-size:18px;color: tomato;">Rate 'n Review</i></a>
 			<p>by <i class="authors">{{author.author_name}}</i></p>
-			</p> 
+			</p>		
+		
+			 
+
 			<p > {{book.edition}}
 			{% if book.edition == 1 %}
 			st edition
@@ -100,7 +101,7 @@ position: absolute;
 			th edition
 			{% endif %}
 			</p>
-		</div>      	
+		      	
     </div>
     <div class="w3-twothird w3-padding-large w3-margin-top" style="text-align:left ;max-width:1950px;padding-left: 10px">
     	<p class="w3-wide" style="font-family: Courier"><u><h1>About</h1></u>
@@ -139,4 +140,8 @@ $.fn.stars = function() {
 }
 
 </script>
+<div>
+	{% for cur_review in review %}
+		{{cur_review.review}}<br>
+	{% endfor %}
 {% endblock %}
