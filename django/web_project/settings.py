@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'books', # The app for keeping track of the books
     'request', # The app to handle requests
     'find', # The app to handle search
+    'rating', # The app to rate books
 ]
 
 MIDDLEWARE = [

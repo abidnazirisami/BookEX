@@ -33,4 +33,5 @@ urlpatterns = [
     path('book/', include('books.urls')),
     path('find/', include('find.urls')),
     path('request/', include('request.urls')),
+    path('rating/', include('rating.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

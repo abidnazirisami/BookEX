@@ -89,7 +89,10 @@ def confirmDonation(request):
 	if cur_wish.count > 0:
 		cur_wish.save()
 	else:
-		cur_wish.delete()	
+		cur_wish.delete()
+	cur_book = Book.objects.get(pk = cur_boiii.isbn_id)
+	cur_book.count = cur_book.count - 1
+	cur_book.save()
 	return redirect('home')
 
 

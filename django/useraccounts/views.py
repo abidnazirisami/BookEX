@@ -23,7 +23,7 @@ def showUserProfile(request):
 	new_list = list()
 	author_name_list = list()
 	book = list()
-	book = Boiii.objects.all()
+	book = Boiii.objects.filter()
 	for books in book:
 		if books.id == current_profile:
 			print(books.isbn.isbn)
