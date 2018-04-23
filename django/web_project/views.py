@@ -92,6 +92,21 @@ def confirmDonation(request):
 		cur_wish.delete()	
 	return redirect('home')
 
+
+@login_required
+def confirmRejection(request):
+	current_user = request.user
+	print(request.GET['boiii'][14:-1])
+	print(request.GET['wishlist'][17:-1])
+	cur_boiii = Boiii()
+	cur_boiii = Boiii.objects.get(book_id = request.GET['boiii'][14:-1])
+	cur_wish = Wishlist.objects.get(id = request.GET['wishlist'][17:-1])
+	cur_boiii.donated = False
+	cur_boiii.receiver_id_id = None
+	cur_boiii.save()
+	return redirect('home')
+
+
 @login_required
 def donate(request):
 	form = UploadFileForm(request.POST, request.FILES)

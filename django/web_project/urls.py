@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.homepage, name='home'),
     path('confirmed', views.confirmDonation, name='confirm_donation'),
+    path('cancelled', views.confirmRejection, name='confirm_rejection'),
     path('donated', views.donate, name='donate_final'),
     path('aboutUs', TemplateView.as_view(template_name='about.html'), name='aboutUs'),
     path('contactUs', views.contact, name='contact'),
