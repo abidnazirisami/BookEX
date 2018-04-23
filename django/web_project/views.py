@@ -62,7 +62,7 @@ def sideNav(request, current_user):
 			wished_object2 = list(Wishlist.objects.filter(isbn = cur_isbn))
 			#print(wished_object)
 			for wish in wished_object:
-				cur_count = Boiii.objects.values('id_id','isbn_id').filter(id_id = userid,isbn_id = cur_isbn, donated=False).count()
+				cur_count = Boiii.objects.values('receiver_id_id','isbn_id').filter(id_id = userid,isbn_id = cur_isbn, donated=False).count()
 				if cur_count > 0:
 					requested_list.append(wish)
 					book_count.append(cur_count)
@@ -72,6 +72,13 @@ def sideNav(request, current_user):
 					user_list.append(cur_user[0])
 					profile_list.append(User.objects.get(username=cur_user[0].user_name))
 					notification_count+=1
+	donated_list = []
+	if Boiii.objects.filter(id_id = userid).exists():
+		donated_list = Boiii.objects.values('id_id','isbn_id').filter(receiver_id_id = userid).distinct()
+	for donate_worthy in donated_list:
+		cur_isbn = donate_worthy['isbn_id']
+		if Wishlist.objects.filter(isbn = cur_isbn):
+			wished_object2 = list(Wishlist.objects.filter(isbn = cur_isbn))
 			for wish in wished_object2:
 				cur_wish_count = Boiii.objects.values('id_id', 'isbn_id').filter(receiver_id_id=userid, isbn_id=cur_isbn, donated=True, received = False).exclude(id_id=userid).count()
 				if cur_wish_count > 0:
@@ -80,7 +87,7 @@ def sideNav(request, current_user):
 					cur_boiii = Boiii.objects.filter(receiver_id_id=userid, isbn_id=cur_isbn, donated=True, received = False).exclude(id_id=userid)
 					cur_boiii_ob = cur_boiii[0]
 					boiii.append(cur_boiii_ob)
-					cur_user = list(OurUser.objects.filter(user_id=cur_boiii_ob.id_id))
+					cur_user = list(OurUser.objects.filter(id=cur_boiii_ob.id_id))
 					wished_user_list.append(cur_user[0])
 					wished_profile_list.append(User.objects.get(username=cur_user[0].user_name))
 					notification_count += 1
@@ -100,13 +107,17 @@ def confirmDonation(request):
 	cur_boiii = Boiii.objects.get(book_id = request.GET['boiii'][14:-1])
 	cur_wish = Wishlist.objects.get(id = request.GET['wishlist'][17:-1])
 	cur_boiii.received = True
+	cur_wish.count = cur_wish.count - 1;
 	cur_boiii.save()
-	cur_wish.delete()
-	
+	if cur_wish.count > 0:
+		cur_wish.save()
+	else:
+		cur_wish.delete()
 	if current_user.is_authenticated:
 		form,requested_list,user_list,profile_list,book_count,notification_count,wished_list,wished_user_list,wished_profile_list,wished_book_count,boiii=sideNav(request, current_user)
 		return render(request,'home.html',context={'form':form,'request_list':zip(requested_list,user_list, profile_list,book_count),'notification_count':notification_count,'wished_list': zip(wished_list,wished_user_list, wished_profile_list,wished_book_count,boiii),})
 	return render(request, 'home.html')
+
 
 def about(request):
 	return render(request,'about.html')
