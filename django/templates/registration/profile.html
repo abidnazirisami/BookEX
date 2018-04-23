@@ -49,14 +49,14 @@
 	</div>
 {% if donated %}
 <div class=" w3-margin-top w3-row">
-<div class="w3-col m12 w3-center book-card w3-margin-top w3-margin-bottom">
-	<div class="alert alert-info w3-wide">
-		Book(s) Donated:
-		<strong>{{profile.donate_count}} </strong>
-	</div>
+	<div class="w3-col m12 w3-center book-card w3-margin-top w3-margin-bottom" >
+		<div class="alert alert-info w3-wide" >
+			Book(s) Donated:
+			<strong>{{profile.donate_count}} </strong>
+		</div>
 
-		  {% for new_list,author_name_list in book %}
-		  <div class="w3-card w3-container w3-padding-large w3-margin-bottom">
+		{% for new_list,author_name_list in book %}
+		<div class="w3-card w3-container w3-padding-large w3-margin-bottom">
 			<a href="{% url 'viewbookprofile' req_isbn=new_list.isbn %}"><h3>{{new_list.book_name}}</a></h6>
 			<h6>{{author_name_list}}</h6>
 			<p>
@@ -87,10 +87,12 @@
 			{% endif %}
 			</p>
 			<i>{{new_list.publish_year}}</i>
-		  </div>
-
-		{% endfor %} 
-</div>
+			<!--div style="padding-top: -10px">
+					<button class="btn btn-info btn-s w3-right" type="submit" onclick="return donated();" >Donation Cancel</button>
+			</div-->              
+		</div>
+	{% endfor %} 
+	</div>
 </div>
 {% else %}
 <div class=" w3-margin-top w3-row">
