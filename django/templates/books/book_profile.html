@@ -64,7 +64,7 @@ position: absolute;
 
 {% block content %}
 <!-- Profile-->
-<div class="w3-container w3-card w3-white w3-margin-top ">
+<div class="w3-container w3-card w3-white w3-margin-top " style="padding-top: 35px;padding-bottom: 50px ">
 	<div class="w3-third" style="max-width:1950px;padding-right: 10px">
 	    	{% load static %}
         	<div class="profile-header-container">   
@@ -119,8 +119,12 @@ position: absolute;
 		<p class="w3-wide ">ISBN: {{book.isbn}} </p><br>
 	</div>
 	<div class="w3-twothird w3-container w3-right w3-margin-bottom">
-      <a href="{% url 'donatewithisbn' use_isbn=book.isbn %}"><button  class="w3-button w3-border w3-hover-teal w3-right w3-round w3-margin-left w3-margin-right">Donate</button></a>
-      <a href="{% url 'addtowishlist' req_isbn=book.isbn %}"><button  class="w3-button w3-border w3-hover-teal w3-right w3-round">Add to Wishlist</button></a>
+      <a href="{% url 'donatewithisbn' use_isbn=book.isbn %}">
+      	<button  class="w3-button w3-border w3-hover-teal w3-right w3-round w3-margin-left w3-margin-right">Donate</button>
+      </a>
+      <a href="{% url 'addtowishlist' req_isbn=book.isbn %}">
+      	<button  class="w3-button w3-border w3-hover-teal w3-right w3-round">Add to Wishlist</button>
+      </a>
     </div>
 </div>
     
