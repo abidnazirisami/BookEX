@@ -19,8 +19,23 @@
               <div class="profile-header-img">
                     <img class="img-rounded" src="{{book.photo.url}}" alt="Photo" style="width:250px; height: 250px;">
               </div>
-              {{re_book.book_name}}<br>
-              {{author.author_name}}
+                <div class="w3-center">
+                  <p class="w3-wide ">
+
+                  <h2>{{re_book.book_name}}</h2>
+                  <p>by <i class="authors">{{author.author_name}}</i></p>
+                  </p> 
+                  <p > {{book.edition}}
+                  {% if book.edition == 1 %}
+                  st edition
+                  {% elif book.edtion == 2 %}
+                  nd edition
+                  {% else %]
+                  th edition
+                  {% endif %}
+                  </p>
+              </div>
+              
             </div>
          </a>
       </div>
