@@ -17,9 +17,8 @@
         <i>{{book.author_name}}</i><br><br>
         <p> Wished for: {{book.count}} copies </p><br>
         <div class="w3-container" style="margin-top: -55px; margin-bottom: 15px; margin-right: -15px">
-          <input type="hidden" name="wishlist" id="wishlist" value="{{wish}}">
             <form action="{% url 'confirm_wish_cancel' %}">
-              <input type="hidden" name="book" id="book" value="{{book}}">
+              <input type="hidden" name="wishlist" id="wishlist" value="{{book.id}}">
               <button class="btn btn-warning btn-sm w3-right" type="submit" onclick="return finalReject()" >Remove from wishlist</button>
             </form>
         </div>

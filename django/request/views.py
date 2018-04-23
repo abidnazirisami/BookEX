@@ -361,13 +361,16 @@ def pendingTransactions(request):
     to_donate = list(Boiii.objects.filter(id=cur_user, donated=True, received=False).exclude(receiver_id=cur_user))
     has_receive = False
     has_donate = False
+    to_receive_wish = []
     for receive in to_receive:
         cur_donator = OurUser.objects.get(id = receive.id_id)
         cur_book = Book.objects.get(isbn = receive.isbn_id)
         cur_author = Author.objects.get(author_id = cur_book.author_id.author_id)
+        cur_wish = Wishlist.objects.get(isbn = cur_book.isbn,user = request.user )
         receive_book.append(cur_book)
         receive_author.append(cur_author)
         my_donator.append(cur_donator)
+        to_receive_wish.append(cur_wish)
         has_receive=True
     for donate in to_donate:
         cur_receiver = OurUser.objects.get(id = donate.receiver_id_id)
@@ -378,12 +381,11 @@ def pendingTransactions(request):
         donated_to.append(cur_receiver)
         has_donate=True
 
-    return render(request, 'request/pending.html', context={'receive':zip(to_receive, receive_book, receive_author, my_donator), 'donate' : zip(to_donate,donate_book,donate_author,donated_to), 'has_receive':has_receive, 'has_donate':has_donate})
+    return render(request, 'request/pending.html', context={'receive':zip(to_receive, receive_book, receive_author, my_donator,to_receive_wish), 'donate' : zip(to_donate,donate_book,donate_author,donated_to), 'has_receive':has_receive, 'has_donate':has_donate})
 @login_required
 def confirmWishRejection(request):
     current_user = request.user
-    print(request.GET['book'][17:-1])
-    cur_wish = Wishlist.objects.get(id = request.GET['book'][17:-1])
+    cur_wish = Wishlist.objects.get(id = request.GET['wishlist'])
     cur_wish.count = cur_wish.count - 1
     if cur_wish.count > 0:
         cur_wish.save()
@@ -397,7 +399,7 @@ def confirmWishRejection(request):
     return redirect('wishlist')
 
 def confirmDonateRejection(request):
-    boiii_id = request.GET['boiii'][14:-1]
+    boiii_id = request.GET['boiii']
     boiii = Boiii.objects.get(pk = boiii_id)
     boiii.donated = False;
     boiii.save()

@@ -78,11 +78,11 @@ def homepage(request):
 @login_required
 def confirmDonation(request):
 	current_user = request.user
-	print(request.GET['boiii'][14:-1])
-	print(request.GET['wishlist'][17:-1])
+	print(request.GET['boiii'])
+	print(request.GET['wishlist'])
 	cur_boiii = Boiii()
-	cur_boiii = Boiii.objects.get(book_id = request.GET['boiii'][14:-1])
-	cur_wish = Wishlist.objects.get(id = request.GET['wishlist'][17:-1])
+	cur_boiii = Boiii.objects.get(book_id = request.GET['boiii'])
+	cur_wish = Wishlist.objects.get(id = request.GET['wishlist'])
 	cur_boiii.received = True
 	cur_wish.count = cur_wish.count - 1;
 	cur_boiii.save()
@@ -99,11 +99,11 @@ def confirmDonation(request):
 @login_required
 def confirmRejection(request):
 	current_user = request.user
-	print(request.GET['boiii'][14:-1])
-	print(request.GET['wishlist'][17:-1])
+	print(request.GET['boiii'])
+	print(request.GET['wishlist'])
 	cur_boiii = Boiii()
-	cur_boiii = Boiii.objects.get(book_id = request.GET['boiii'][14:-1])
-	cur_wish = Wishlist.objects.get(id = request.GET['wishlist'][17:-1])
+	cur_boiii = Boiii.objects.get(book_id = request.GET['boiii'])
+	cur_wish = Wishlist.objects.get(id = request.GET['wishlist'])
 	cur_boiii.donated = False
 	cur_boiii.receiver_id_id = None
 	cur_boiii.save()

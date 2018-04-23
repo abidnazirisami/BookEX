@@ -10,7 +10,7 @@
 {% if has_receive %}
   <h1 class="w3-padding-large w3-center"><u>Yet to Receive</u></h1>
   <div class="w3-row-padding">
-    {% for book,re_book,author,cur_user in receive %}
+    {% for book,re_book,author,cur_user,wish in receive %}
     <div class="w3-col m12 w3-padding-small">
       <div class="w3-container w3-card w3-padding-large">
       <h4>From:<i><a href="{% url 'viewprofile' username=cur_user.user_name %}">{{cur_user.user_name}}</a></i></h4><br>  
@@ -30,10 +30,17 @@
               <p>by <i class="authors">{{author.author_name}}</i></p>
             </p>
             <div style="padding-top: 140px">
-                
-            <button class="btn btn-info btn-s w3-right" onclick="return reject()" style="margin-top: -5px;">Cancel</button>
-            <button class="btn btn-info btn-s w3-right w3-margin-right" onclick="return confirm()" style="margin-top: -5px;">Confirm</button>
-    
+              
+                <form action="{% url 'confirm_rejection' %}">
+                    <input type="hidden" name="wishlist" id="wishlist" value="{{wish}}">
+                    <input type="hidden" name="boiii" id="boiii" value="{{book}}">
+                      <button class="btn btn-info btn-s w3-right" onclick="return  finalReject('{{boi}}', '{{wish}}')" style="margin-top: -5px;">Cancel</button>
+                    </form>
+                    <form action="{% url 'confirm_donation' %}">
+                        <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
+                        <input type="hidden" name="boiii" id="boiii" value="{{book.book_id}}">
+                          <button class="btn btn-info btn-s w3-right w3-margin-right" onclick="return finalConfirm('{{boiii}}', '{{wish}}'" style="margin-top: -5px;">Confirm</button>
+                        </form>
             </div> 
           </div>
       </div>
@@ -64,7 +71,7 @@
               <p>by <i class="authors">{{author.author_name}}</i></p>
             </p>
             <div style="padding-top: 140px">
-              <input type="hidden" name="wishlist" id="wishlist" value="{{wish}}">
+              <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
             <form action="{% url 'confirm_donate_cancel' %}">
                 <input type="hidden" name="boiii" id="boiii" value="{{book}}">
                 <button class="btn btn-info btn-s w3-right" type="submit" onclick="return donated();" >Cancel Donation</button>   
@@ -83,4 +90,19 @@
   </div>
   {% endif %}
 </div>
+<script>
+function finalConfirm(val1, val2){
+  alert("Congrats on your book! We hope you like it ^_^")
+  document.getElementById("overlay2").style.display = "none";
+  document.getElementById("boiii").value = val1;
+    document.getElementById("wishlist").value = val2;
+}
+function finalReject(val1, val2){
+  alert("We respect your decision ^_^")
+  document.getElementById("overlay2").style.display = "none";
+  document.getElementById("boiii").value = val1;
+    document.getElementById("wishlist").value = val2;
+}
+</script>
+
 {% endblock %}
