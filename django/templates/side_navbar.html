@@ -142,8 +142,6 @@
 				<form action="{% url 'confirm_donation' %}">
 				  <input type="hidden" name="boiii" id="boiii" value="{{boi.book_id}}">
 				  <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
-				  {{boi.book_id}}<br>
-				  {{wish.id}}
 			  	  <button class="btn btn-info btn-sm w3-right" style="margin-top: 25px" type="submit" onclick="return finalConfirm()" >Confirm</button>
 				</form>
 			  </div>
