@@ -32,8 +32,8 @@
             <div style="padding-top: 140px">
               
                 <form action="{% url 'confirm_rejection' %}">
-                    <input type="hidden" name="wishlist" id="wishlist" value="{{wish}}">
-                    <input type="hidden" name="boiii" id="boiii" value="{{book}}">
+                    <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
+                    <input type="hidden" name="boiii" id="boiii" value="{{book.book_id}}">
                       <button class="btn btn-info btn-s w3-right" onclick="return  finalReject('{{boi}}', '{{wish}}')" style="margin-top: -5px;">Cancel</button>
                     </form>
                     <form action="{% url 'confirm_donation' %}">
@@ -73,7 +73,7 @@
             <div style="padding-top: 140px">
               <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
             <form action="{% url 'confirm_donate_cancel' %}">
-                <input type="hidden" name="boiii" id="boiii" value="{{book}}">
+                <input type="hidden" name="boiii" id="boiii" value="{{book.book_id}}">
                 <button class="btn btn-info btn-s w3-right" type="submit" onclick="return donated();" >Cancel Donation</button>   
               </form>           
             </div> 

@@ -80,7 +80,6 @@ def confirmDonation(request):
 	current_user = request.user
 	print(request.GET['boiii'])
 	print(request.GET['wishlist'])
-	cur_boiii = Boiii()
 	cur_boiii = Boiii.objects.get(book_id = request.GET['boiii'])
 	cur_wish = Wishlist.objects.get(id = request.GET['wishlist'])
 	cur_boiii.received = True
@@ -101,7 +100,6 @@ def confirmRejection(request):
 	current_user = request.user
 	print(request.GET['boiii'])
 	print(request.GET['wishlist'])
-	cur_boiii = Boiii()
 	cur_boiii = Boiii.objects.get(book_id = request.GET['boiii'])
 	cur_wish = Wishlist.objects.get(id = request.GET['wishlist'])
 	cur_boiii.donated = False
