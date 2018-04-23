@@ -17,8 +17,11 @@
         <i>{{book.author_name}}</i><br><br>
         <p> Wished for: {{book.count}} copies </p><br>
         <div class="w3-container" style="margin-top: -55px; margin-bottom: 15px; margin-right: -15px">
-          <button class="btn btn-info btn-s w3-right" onclick="return reject()" >Cancel</button>
-          <button class="btn btn-info btn-s w3-right w3-margin-right" onclick="return confirm()" >Confirm</button>
+          <input type="hidden" name="wishlist" id="wishlist" value="{{wish}}">
+            <form action="{% url 'confirm_wish_cancel' %}">
+              <input type="hidden" name="book" id="book" value="{{book}}">
+              <button class="btn btn-info btn-xs w3-right" type="submit" onclick="return finalReject('{{book}}')" >Cancel</button>
+            </form>
         </div>
       </div>
     </div> 
@@ -29,3 +32,13 @@
 {% endif %}
 </div>
 {% endblock %}
+<script>
+
+function reject() {
+    document.getElementById("overlay3").style.display = "block";
+}
+function finalReject(val1){
+  alert("One book removed from wishlist")
+}
+</script>
+

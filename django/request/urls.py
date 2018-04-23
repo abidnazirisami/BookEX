@@ -12,4 +12,5 @@ urlpatterns = [
     path('wish/<req_isbn>/', views.addToWishlist, name='addtowishlist'),
     path('topRequest/', views.displayTopRequest, name = 'request_list'),
     path('pending/', views.pendingTransactions, name = 'pending'),
+    path('cancelled', views.confirmWishRejection, name='confirm_wish_cancel'),
 ]
