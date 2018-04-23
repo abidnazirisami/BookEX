@@ -19,15 +19,32 @@
               <div class="w3-third  profile-header-img">
                     <img class="img-rounded" src="{{book.photo.url}}" alt="Photo" style="width:250px; height: 250px;">
               </div>
-                <div class="w3-twothird w3-center">
-                  <p class="w3-wide ">
-                  <h2>{{re_book.book_name}}</h2>
-                  <p>by <i class="authors">{{author.author_name}}</i></p>
-                  </p> 
-              </div>
-              
             </div>
-         </a>
+          </a>
+          <div class="w3-twothird w3-center">
+            <p class="w3-wide ">
+              <h2>{{re_book.book_name}}</h2>
+              <p>by <i class="authors">{{author.author_name}}</i></p>
+            </p>
+            <div style="padding-top: 70px">
+                
+            <button class="btn btn-info btn-xs w3-right" onclick="return reject()" style="margin-top: -5px;">Cancel</button>
+            <button class="btn btn-info btn-xs w3-right w3-margin-right" onclick="return confirm()" style="margin-top: -5px;">Confirm</button>
+            <h2>Have you received the book from {{profile.first_name}} {{profile.last_name}} ? </h2><br>
+            <form action="{% url 'confirm_donation' %}">
+              <input type="hidden" name="boiii" id="boiii" value="{{boi}}">
+              <input type="hidden" name="wishlist" id="wishlist" value="{{wish}}">
+              <button class="btn btn-info btn-xs w3-right w3-bottom" type="submit" onclick="return finalConfirm('{{boi}}', '{{wish}}')" >Confirm</button>
+            </form>
+            <h2>Are you sure you want to reject the offer from {{profile.first_name}} {{profile.last_name}} ? </h2><br>
+            <form action="{% url 'confirm_rejection' %}">
+              <input type="hidden" name="boiii" id="boiii" value="{{boi}}">
+              <input type="hidden" name="wishlist" id="wishlist" value="{{wish}}">
+              <button class="btn btn-info btn-xs w3-right" type="submit" onclick="return finalReject('{{boi}}', '{{wish}}')"" >Confirm</button>
+            </form>
+
+            </div> 
+          </div>
       </div>
     </div> 
     {% endfor %}
@@ -42,22 +59,82 @@
          <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
            {% load static %}
             <div class="profile-header-container">   
-              <div class="profile-header-img">
+              <div class="w3-third profile-header-img">
                     <img class="img-rounded" src="{{book.photo.url}}" alt="Photo" style="width:250px; height: 250px;">
               </div>
-              {{d_book.book_name}}<br>
-              {{author.author_name}}
             </div>
-         </a>
+          </a>
+          <div class="w3-twothird w3-center">
+            <p class="w3-wide ">
+              <h2>{{d_book.book_name}}</h2>
+              <p>by <i class="authors">{{author.author_name}}</i></p>
+            </p> 
+            <form action="{% url 'donate_final' %}" method="POST" class="post-form" enctype='multipart/form-data'>
+              {% csrf_token %}
+              <h2>Do you want to donate this book?</h2>
+              <input type="hidden" name="username" id="username" value="{{wish.user.username}}">
+              <input type="hidden" name="isbn" id="isbn" value="{{wish.isbn}}">
+              <label for="condition">Condition</label>
+              <input type="range" name="condition" list="tickmarks" min="0" max="5" step=".1" oninput="displaylabel(this.value)">
+                 <em id="rangeValLabel" style="font-style: normal;">Satisfactory</em>
+              <br>{{form.as_p}}
+              <button class="btn btn-info btn-xs w3-right" type="submit" onclick="return donated();" >Donation Confirm</button>
+            </form>
+          </div>
+         </div>
       </div>
     </div> 
-    {% endfor %}
+  {% endfor %}
   </div>
-{% endif %}
-{% if not has_receive and not has_donate %}
-<div class="fullscreen nothingtodo"  style="padding-top: 40px; padding-right: 40px;">
-<h1 class="w3-padding-large w3-center w3-margin-top"> Nothing to donate </h1>
+  {% endif %}
+  {% if not has_receive and not has_donate %}
+  <div class="fullscreen nothingtodo"  style="padding-top: 40px; padding-right: 40px;">
+    <h1 class="w3-padding-large w3-center w3-margin-top"> Nothing to donate </h1>
+  </div>
+  {% endif %}
 </div>
-{% endif %}
-</div>
+<script>
+function on(val, usr) {
+    document.getElementById("overlay").style.display = "block";
+    document.getElementById("isbn").value = val;
+    document.getElementById("username").value = usr;
+}
+function donated() {
+  alert("Thank you for donating!");
+  document.getElementById("overlay").style.display = "none";
+}
+function off() {
+  document.getElementById("overlay").style.display = "none";
+}
+function back2() {
+  document.getElementById("overlay2").style.display = "none";
+}
+function back3() {
+  document.getElementById("overlay3").style.display = "none";
+} 
+function confirm() {
+  document.getElementById("overlay2").style.display = "block";
+}
+function reject() {
+    document.getElementById("overlay3").style.display = "block";
+}
+function displaylabel(val) {
+  var ret;
+  if(val >= 0 && val < 5/3) ret = "Poor";
+  else if(val >= 5/3 && val < 10/3) ret = "Satisfactory";
+  else ret="Excellent";
+  document.getElementById('rangeValLabel').innerHTML = ret;
+}
+function finalConfirm(val1, val2){
+  alert("Congrats on your book! We hope you like it ^_^")
+  document.getElementById("overlay2").style.display = "none";
+  document.getElementById("boiii").value = val1;
+    document.getElementById("wishlist").value = val2;
+}
+function finalReject(val1, val2){
+  alert("We respect your decision ^_^")
+  document.getElementById("overlay2").style.display = "none";
+  document.getElementById("boiii").value = val1;
+    document.getElementById("wishlist").value = val2;
+}
 {% endblock %}
