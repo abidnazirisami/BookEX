@@ -29,6 +29,7 @@ def notifications(request):
 
 	##########################################################################################
 	notification_count=0
+
 	# The books I have added to the library:
 	can_donate_boiii = Boiii.objects.filter(id = current_profile, donated = False)
 	will_donate_boiii = []
@@ -89,8 +90,25 @@ def confirmDonation(request):
 		cur_wish.save()
 	else:
 		cur_wish.delete()
-	
+	cur_book = Book.objects.get(pk = cur_boiii.isbn_id)
+	cur_book.count = cur_book.count - 1
+	cur_book.save()
 	return redirect('home')
+
+
+@login_required
+def confirmRejection(request):
+	current_user = request.user
+	print(request.GET['boiii'][14:-1])
+	print(request.GET['wishlist'][17:-1])
+	cur_boiii = Boiii()
+	cur_boiii = Boiii.objects.get(book_id = request.GET['boiii'][14:-1])
+	cur_wish = Wishlist.objects.get(id = request.GET['wishlist'][17:-1])
+	cur_boiii.donated = False
+	cur_boiii.receiver_id_id = None
+	cur_boiii.save()
+	return redirect('home')
+
 
 @login_required
 def donate(request):

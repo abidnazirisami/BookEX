@@ -153,7 +153,11 @@
 			  <div id="text3">
 				  <button class="btn btn-warning btn-sm w3-left" onclick="return back3();">Back</button><br>
 				  <h2>Are you sure you want to reject the offer from {{profile.first_name}} {{profile.last_name}} ? </h2>
-				  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="return off()" >Confirm</button>
+				  <form action="{% url 'confirm_rejection' %}">
+				  <input type="hidden" name="boiii" id="boiii" value="{{boi}}">
+				  <input type="hidden" name="wishlist" id="wishlist" value="{{wish}}">
+				  	<button class="btn btn-info btn-xs w3-right" type="submit" onclick="return finalReject('{{boi}}', '{{wish}}')"" >Confirm</button>
+			  	</form>
 			  </div>
 			</div>
 
@@ -201,6 +205,12 @@ function displaylabel(val) {
 }
 function finalConfirm(val1, val2){
 	alert("Congrats on your book! We hope you like it ^_^")
+	document.getElementById("overlay2").style.display = "none";
+	document.getElementById("boiii").value = val1;
+    document.getElementById("wishlist").value = val2;
+}
+function finalReject(val1, val2){
+	alert("We respect your decision ^_^")
 	document.getElementById("overlay2").style.display = "none";
 	document.getElementById("boiii").value = val1;
     document.getElementById("wishlist").value = val2;
