@@ -130,11 +130,8 @@
 		th edition
 		{% endif %}
 		<br>Condition : {{boi.condition}}/5.0<br>
-
 		</i>
-		
 		<div class="w3-margin-top" style="padding-bottom: 15px;margin-bottom: 5px;">
-		    
 		    <button class="btn btn-info btn-xs w3-right" onclick="return reject()" style="margin-top: -5px;">Cancel</button>
 			<button class="btn btn-info btn-xs w3-right w3-margin-right" onclick="return confirm()" style="margin-top: -5px;">Confirm</button>
 			<div id="overlay2">
@@ -144,10 +141,9 @@
 				<form action="{% url 'confirm_donation' %}">
 				  <input type="hidden" name="boiii" id="boiii" value="{{boi}}">
 				  <input type="hidden" name="wishlist" id="wishlist" value="{{wish}}">
-				
 			  	  <button class="btn btn-info btn-xs w3-right" type="submit" onclick="return finalConfirm('{{boi}}', '{{wish}}')" >Confirm</button>
-					</form>
-				  </div>
+				</form>
+			  </div>
 			</div>
 			<div id="overlay3">
 			  <div id="text3">
