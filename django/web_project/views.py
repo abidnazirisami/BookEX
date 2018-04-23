@@ -136,4 +136,20 @@ def contact(request):
 
 def story(request):
 	return render(request,'story.html')
-
+'''need to pass boiii.book_id'''
+@login_required
+def dontDonate(request):
+	current_user = request.user
+	print(request.GET['boiii'])
+	#print(request.GET['wishlist'])
+	cur_boiii = Boiii.objects.get(book_id = request.GET['boiii'])
+	cur_book = Boiii.objects.get(isbn = cur_boiii.isbn)
+	cur_user = OurUser.objects.get(user = current_user)
+	#cur_wish = Wishlist.objects.get(id = request.GET['wishlist'])
+	cur_user.donated_count = cur_user.donated_count - 1
+	
+	cur_book.count = cur_book.count - 1
+	cur_user.save()
+	cur_book.save()
+	cur_boiii.delete()
+	return redirect('home')
