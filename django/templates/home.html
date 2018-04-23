@@ -10,15 +10,16 @@
 {% block content %}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {% if user.is_authenticated %}
+<!--Notifications-->
 <nav>
-		<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;
+	<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;
 		{% if notification_count > 0 %}
 		<span class="badge red">{{notification_count}}</span>
 		{% endif %}
-
-		</span>
-	</nav>
+	</span>
+</nav>
 {% include 'side_navbar.html' %}
+<!--Notifications-->
 	<div class="w3-row ">
 	  <div class="w3-col m3 w3-large w3-margin-top" style="padding-right: 10px; padding-left: 10px">
 		<div class="w3-card" style="width:100%">
@@ -72,18 +73,81 @@
 
 {% else %}
 {% load static %}
-<div>
-	<div class="w3-display-container w3-content" style="margin-top:120px;margin-bottom: 50px;padding-left: 60px;padding-right: 60px; width:100%; height: 100%">
-		 <!-- Slideshow container -->
-	  <img class="mySlides" src="{% static 'BookEX.png' %}" style="width:100%; height: 100%">
-	  <img class="mySlides" src="{% static 'review_recommodation.png' %}" style="width:100%; height: 100%">
-	  <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
-	  <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
-    </div>
+
+{% load static %}
+<div class="fullscreen" style="padding-top: 70px;">
+	<div class="slider" id="main-slider"><!-- outermost container element -->
+		<div class="slider-wrapper"><!-- innermost wrapper element -->
+			<img src="{% static 'sami.jpg' %}" alt="Sami" class="slide" /><!-- slides -->
+			<img src="{% static 'Mahfida.jpg' %}" alt="Nitu" class="slide" /><!-- slides -->
+			<img src="{% static 'Nahian.jpg' %}" alt="Raida" class="slide" /><!-- slides -->
+			<img src="{% static 'Mahfida.jpg' %}" alt="Nitu" class="slide" /><!-- slides -->
+		</div>
+	</div>	
 </div>
 
 
 <script>
+(function() {
+	
+	function Slideshow( element ) {
+		this.el = document.querySelector( element );
+		this.init();
+	}
+	
+	Slideshow.prototype = {
+		init: function() {
+			this.wrapper = this.el.querySelector( ".slider-wrapper" );
+			this.slides = this.el.querySelectorAll( ".slide" );
+			this.previous = this.el.querySelector( ".slider-previous" );
+			this.next = this.el.querySelector( ".slider-next" );
+			this.index = 0;
+			this.total = this.slides.length;
+			this.timer = null;
+			this.action();	
+		},
+		_slideTo: function( slide ) {
+			var currentSlide = this.slides[slide];
+			currentSlide.style.opacity = 1;
+			
+			for( var i = 0; i < this.slides.length; i++ ) {
+				var slide = this.slides[i];
+				if( slide !== currentSlide ) {
+					slide.style.opacity = 0;
+				}
+			}
+		},
+		action: function() {
+			var self = this;
+			self.timer = setInterval(function() {
+				self.index++;
+				if( self.index == self.slides.length ) {
+					self.index = 0;
+				}
+				self._slideTo( self.index );
+				
+			}, 5000);
+		},
+		stopStart: function() {
+			var self = this;
+			
+			self.el.addEventListener( "mouseout", function() {
+				self.action();
+				
+			}, false);
+		}
+		
+		
+	};
+	
+	document.addEventListener( "DOMContentLoaded", function() {
+		
+		var slider = new Slideshow( "#main-slider" );
+		
+	});
+	
+	
+})();
 
 var slideIndex = 1;
 showDivs(slideIndex);
@@ -97,13 +161,13 @@ function showDivs(n) {
   if (n > x.length) {slideIndex = 1}    
   if (n < 1) {slideIndex = x.length}
   for (i = 0; i < x.length; i++) {
+   	 x[i].style.opacity = "0";
      x[i].style.display = "none";  
   }
   x[slideIndex-1].style.display = "block";
+  x[slideIndex-1].style.opacity = "1";
    // Change image every 3 seconds
 }
 </script>
-  <!--a href="{% url 'signup' %}"><img src="{% static 'JoinUs.png' %}" alt="Join us!" class="zoom" style="width:30%;padding-top: 230px;"></a>
-</div-->
 {% endif %}
 {% endblock %}

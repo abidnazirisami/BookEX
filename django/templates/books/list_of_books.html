@@ -2,7 +2,16 @@
 
 {% block content %}
 
-
+<!--Notifications-->
+<nav>
+  <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;
+    {% if notification_count > 0 %}
+    <span class="badge red">{{notification_count}}</span>
+    {% endif %}
+  </span>
+</nav>
+{% include 'side_navbar.html' %}
+<!--Notifications-->
 <div class="w3-container w3-card w3-padding-large">
   <h2 class="w3-center w3-margin-bottom">Available Book List</h2>
   <ul class="list-group">

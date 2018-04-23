@@ -315,20 +315,21 @@ def pendingTransactions(request):
     donate_book = []
     donate_author = []
     cur_user = OurUser.objects.get(user=request.user)
-    to_receive = list(Boiii.objects.filter(receiver_id=cur_user, received=False).exclude(id=cur_user))
-    to_donate = list(Boiii.objects.filter(id=cur_user, received=False).exclude(receiver_id=cur_user))
-
+    to_receive = list(Boiii.objects.filter(receiver_id=cur_user, donated=True, received=False).exclude(id=cur_user))
+    to_donate = list(Boiii.objects.filter(id=cur_user, donated=True, received=False).exclude(receiver_id=cur_user))
+    has_receive = False
+    has_donate = False
     for receive in to_receive:
         cur_book = Book.objects.get(isbn = receive.isbn_id)
         cur_author = Author.objects.get(author_id = cur_book.author_id.author_id)
         receive_book.append(cur_book)
         receive_author.append(cur_author)
-
+        has_receive=True
     for donate in to_donate:
-        cur_book = Book.objects.get(isbn = receive.isbn_id)
+        cur_book = Book.objects.get(isbn = donate.isbn_id)
         cur_author = Author.objects.get(author_id = cur_book.author_id.author_id)
         donate_book.append(cur_book)
         donate_author.append(cur_author)
+        has_donate=True
 
-
-    return render(request, 'request/pending.html', context={'receive':zip(to_receive, receive_book, receive_author), 'donate' : zip(to_donate,donate_book,donate_author)})
+    return render(request, 'request/pending.html', context={'receive':zip(to_receive, receive_book, receive_author), 'donate' : zip(to_donate,donate_book,donate_author), 'has_receive':has_receive, 'has_donate':has_donate})

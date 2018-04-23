@@ -7,7 +7,7 @@
 {% block content %}
 
 <div class="w3-container">
-{% if receive %}
+{% if has_receive %}
   <h2 class="w3-padding-large w3-center"> Yet to receive </h2>
   <div class="w3-row-padding">
     {% for book,re_book,author in receive %}
@@ -43,7 +43,7 @@
     {% endfor %}
   </div>
 {% endif %}
-{% if donate %}
+{% if has_donate %}
   <h2 class="w3-padding-large w3-center"> Yet to donate </h2>
   <div class="w3-row-padding">
     {% for book,d_book,author in donate %}
@@ -63,6 +63,11 @@
     </div> 
     {% endfor %}
   </div>
+{% endif %}
+{% if not has_receive and not has_donate %}
+<div class="fullscreen nothingtodo"  style="padding-top: 40px; padding-right: 40px;">
+<h1 class="w3-padding-large w3-center w3-margin-top"> Nothing to donate </h1>
+</div>
 {% endif %}
 </div>
 {% endblock %}

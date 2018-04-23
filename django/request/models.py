@@ -17,3 +17,4 @@ class Wishlist(models.Model):
 	hasReceived = models.BooleanField(default=False)
 	isEmergency = models.BooleanField(default=False)
 	request_date = models.DateField(auto_now=False, auto_now_add=True)
+
