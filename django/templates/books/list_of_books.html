@@ -24,32 +24,7 @@
       {% endif %}
     	<a href="{% url 'viewbookprofile' req_isbn=books.isbn %}"><h4>{{books.book_name}}</h4>
       <i>{{books.author_id.author_name}}</i><br>
-      {% if book.rating >= 1.0 %}
-      <span class="fa fa-star checked"></span>
-      {% else %}
-      <span class="fa fa-star"></span>
-      {% endif %}
-      {% if book.rating >= 2.0 %}
-      <span class="fa fa-star checked"></span>
-      {% else %}
-      <span class="fa fa-star"></span>
-      {% endif %}
-      {% if book.rating >= 3.0 %}
-      <span class="fa fa-star checked"></span>
-      {% else %}
-      <span class="fa fa-star"></span>
-      {% endif %}
-      {% if book.rating >= 4.0 %}
-      <span class="fa fa-star checked"></span>
-      {% else %}
-      <span class="fa fa-star"></span>
-      {% endif %}
-      {% if book.rating >= 5.0 %}
-      <span class="fa fa-star checked"></span>
-      {% else %}
-      <span class="fa fa-star"></span>
-      {% endif %}
-      
+      <span class="stars">{{books.rating}}</span>
       </a>
     </li>
     {% endfor %} 
@@ -61,5 +36,16 @@
     </div>
   </div>
 </div>
+  
+<script>
+$(function() {
+    $('span.stars').stars();
+});
+$.fn.stars = function() {
+    return $(this).each(function() {
+        $(this).html($('<span />').width(Math.max(0, (Math.min(5, parseFloat($(this).html())))) * 16));
+    });
+}
 
+</script>
 {% endblock %}

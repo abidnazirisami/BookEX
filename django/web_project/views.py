@@ -143,13 +143,13 @@ def dontDonate(request):
 	print(request.GET['boiii'])
 	#print(request.GET['wishlist'])
 	cur_boiii = Boiii.objects.get(book_id = request.GET['boiii'])
-	cur_book = Boiii.objects.get(isbn = cur_boiii.isbn)
+	cur_book = Book.objects.get(isbn = cur_boiii.isbn_id)
 	cur_user = OurUser.objects.get(user = current_user)
 	#cur_wish = Wishlist.objects.get(id = request.GET['wishlist'])
-	cur_user.donated_count = cur_user.donated_count - 1
+	cur_user.donate_count = cur_user.donate_count - 1
 	
 	cur_book.count = cur_book.count - 1
 	cur_user.save()
 	cur_book.save()
 	cur_boiii.delete()
-	return redirect('home')
+	return redirect('pending')

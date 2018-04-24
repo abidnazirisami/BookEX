@@ -7,6 +7,42 @@
 {% block content %}
 
 <div class="w3-container">
+{% if think_donate %}
+  <h1 class="w3-padding-large w3-center"><u>Yet to Find Receiver</h1>
+  <div class="w3-row-padding">
+    {% for book,d_book,author in want_to_donate %}
+    <div class="w3-col m12 w3-padding-small">
+      <div class="w3-container w3-card w3-padding-large">
+         <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
+           {% load static %}
+            <div class="profile-header-container">   
+              <div class="w3-third profile-header-img">
+                    <img class="img-rounded" src="{{book.photo.url}}" alt="Photo" style="width:250px; height: 250px;">
+              </div>
+            </div>
+          </a>
+          <div class="w3-twothird w3-center">
+            <p class="w3-wide ">
+              <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
+                <h2>{{d_book.book_name}}</h2>
+              </a>
+              <p>by <i class="authors">{{author.author_name}}</i></p>
+            </p>
+            <div style="padding-top: 140px">
+              <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
+            <form action="{% url 'donation_cancel' %}">
+                <input type="hidden" name="boiii" id="boiii" value="{{book.book_id}}">
+                <button class="btn btn-info btn-s w3-right" type="submit" onclick="return donated();" >Remove from Donation List</button>   
+              </form>           
+            </div> 
+          </div>
+         </div>
+      </div>
+    </div> 
+  {% endfor %}
+  </div>
+  {% endif %}
+
 {% if has_receive %}
   <h1 class="w3-padding-large w3-center"><u>Yet to Receive</u></h1>
   <div class="w3-row-padding">
@@ -84,7 +120,7 @@
   {% endfor %}
   </div>
   {% endif %}
-  {% if not has_receive and not has_donate %}
+  {% if not has_receive and not has_donate and not think_donate%}
   <div class="fullscreen nothingtodo"  style="padding-top: 40px; padding-right: 40px;">
     <h1 class="w3-padding-large w3-center w3-margin-top"> Nothing to donate </h1>
   </div>
