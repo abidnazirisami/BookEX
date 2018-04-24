@@ -367,7 +367,7 @@ nav .badge.red {
   width: 100%;
   height: 100%;
   opacity: 0;
-  transition: opacity 3s linear;
+  transition: opacity 1.5s linear;
 }
 
 .slider-wrapper > .slide:first-child {
@@ -375,11 +375,14 @@ nav .badge.red {
 }
 span.stars, span.stars span {
     display: block;
-    background: url("/static/star.png") 0 -16px repeat-x;
+    background: url("/static/Patrick_Star.png") 0 -16px repeat-x;
     width: 80px;
     height: 16px;
+    z-index: 900;
 }
 
 span.stars span {
     background-position: 0 0;
+    z-index: 900;
 }
+

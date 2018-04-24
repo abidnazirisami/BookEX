@@ -8,12 +8,12 @@
 
 <div class="w3-container">
 {% if haswishes %}
-  <h2 class="w3-padding-large w3-center"> Wishlist for <br><i>{{user.first_name}} {{user.last_name}}</i></h2>
+  <h2 class="w3-padding-large w3-center"> Your Wishlist</h2>
   <div class="w3-row-padding">
+  <ul class="list-group">
     {% for book in books %}
-    <div class="w3-col m12 w3-padding-large">
-      <div class="w3-container w3-card w3-padding-large" style="padding-top: 10px">  
-         <a href="{% url 'viewbookprofile' req_isbn=book.isbn %}"> <h3>{{book.book_name}}</h3></a><br>
+      <li class="list-group-item d-flex justify-content-between align-items-center"> 
+         <a href="{% url 'viewbookprofile' req_isbn=book.isbn %}"> <h3>{{book.book_name}}</h3></a>
         <i>{{book.author_name}}</i><br><br>
         <p> Wished for: {{book.count}} copies </p><br>
         <div class="w3-container" style="margin-top: -55px; margin-bottom: 15px; margin-right: -15px">
@@ -22,15 +22,23 @@
               <button class="btn btn-warning btn-sm w3-right" type="submit" onclick="return finalReject()" >Remove from wishlist</button>
             </form>
         </div>
-      </div>
-    </div> 
+      </li>
     {% endfor %}
+    </ul>
   </div>
 {% else %}
   <h2 class="w3-padding-large"> You currently don't have anything on your wishlist </h2>
 {% endif %}
 </div>
 <script>
+$(function() {
+    $('span.stars').stars();
+});
+$.fn.stars = function() {
+    return $(this).each(function() {
+        $(this).html($('<span />').width(Math.max(0, (Math.min(5, parseFloat($(this).html())))) * 16));
+    });
+}
 
 function finalReject(){
   alert("One book removed from wishlist")
