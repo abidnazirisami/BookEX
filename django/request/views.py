@@ -41,74 +41,81 @@ def addToRequestQueue(request):
     new_book_names = request.POST.getlist('book_name', None)
     new_counts = request.POST.getlist('count', None)
     for use_isbn in use_isbns:
-        if isbnlib.is_isbn10(use_isbn):
-            use_isbn = isbnlib.to_isbn13(use_isbn)
-            if isbnlib.is_isbn13(use_isbn):
-                edition_list = isbnlib.editions(use_isbn, service='any')
-                if(len(edition_list) != 0):
-                    use_isbn = edition_list[0]
         if Wishlist.objects.filter(isbn=use_isbn, user=request.user).exists():
             wished = Wishlist.objects.get(isbn=use_isbn, user=request.user)
             wished.count+=1
             wished.save()
             wished.author_name=wished.author_name
             wishes.append(wished)
-        elif not isbnlib.is_isbn13(use_isbn):
-            author_string = new_authors[cnt]
-            book_title = new_book_names[cnt]
-            isAvail = False
-
-            new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=author_string, book_name=book_title, isAvailable=isAvail) 
-            if Book.objects.filter(isbn=use_isbn).exists() and int(float(new_counts[cnt])) > 0:
-                isAvail=True
-            wishes.append(new_wish)
-            cnt+=1
         else:
-            requested_book = isbnlib.meta(use_isbn)
-            if requested_book is None:
-                requested_book = isbnlib.goom(use_isbn)
-                requested_book = requested_book[0]
-            authors = requested_book['Authors']
-            cur_author_string=''
-            isFword=True
-            for author in authors:
-                if isFword:
-                    isFword=False
-                else:
-                    cur_author_string+=', '
-                isFirst=True
-                isOdd=True
-                for c in author:
-                    if c is '[':
-                        pass
-                    elif c is ']':
-                        pass
-                    else:
-                        if isFirst and c is '\'':
-                            isFirst=False
-                            isOdd=False
-                        elif c is '\'' and isOdd and not isFirst:
-                            cur_author_string+=','
-                            isOdd=False
-                        elif c is '\'' and not isOdd:
-                            isOdd=True
-                        else:
-                            cur_author_string+=c
-            
-            book_title = requested_book['Title']
-            isAvail = False
-            if Book.objects.filter(isbn=use_isbn).exists() :
-                isAvail=True
+            if isbnlib.is_isbn10(use_isbn):
+                use_isbn = isbnlib.to_isbn13(use_isbn)
+                if isbnlib.is_isbn13(use_isbn):
+                    edition_list = isbnlib.editions(use_isbn, service='any')
+                    if(len(edition_list) != 0):
+                        use_isbn = edition_list[0]
+            if Wishlist.objects.filter(isbn=use_isbn, user=request.user).exists():
+                wished = Wishlist.objects.get(isbn=use_isbn, user=request.user)
+                wished.count+=1
+                wished.save()
+                wished.author_name=wished.author_name
+                wishes.append(wished)
+            elif not isbnlib.is_isbn13(use_isbn):
+                author_string = new_authors[cnt]
+                book_title = new_book_names[cnt]
+                isAvail = False
+
+                new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=author_string, book_name=book_title, isAvailable=isAvail) 
+                if Book.objects.filter(isbn=use_isbn).exists() and int(float(new_counts[cnt])) > 0:
+                    isAvail=True
+                wishes.append(new_wish)
+                cnt+=1
             else:
-                book_publisher = requested_book['Publisher']
-                book_date = 1996
-                if not requested_book['Year'] is '':
-                    book_date = requested_book['Year']
-                add_author = Author.objects.create(author_name=cur_author_string)
-                Book.objects.create(isbn=use_isbn, author_id=add_author, publisher=book_publisher,
-                                               book_name=book_title, publish_year=book_date)
-            new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=cur_author_string, book_name=book_title, isAvailable=isAvail) 
-            wishes.append(new_wish)
+                requested_book = isbnlib.meta(use_isbn)
+                if requested_book is None:
+                    requested_book = isbnlib.goom(use_isbn)
+                    requested_book = requested_book[0]
+                authors = requested_book['Authors']
+                cur_author_string=''
+                isFword=True
+                for author in authors:
+                    if isFword:
+                        isFword=False
+                    else:
+                        cur_author_string+=', '
+                    isFirst=True
+                    isOdd=True
+                    for c in author:
+                        if c is '[':
+                            pass
+                        elif c is ']':
+                            pass
+                        else:
+                            if isFirst and c is '\'':
+                                isFirst=False
+                                isOdd=False
+                            elif c is '\'' and isOdd and not isFirst:
+                                cur_author_string+=','
+                                isOdd=False
+                            elif c is '\'' and not isOdd:
+                                isOdd=True
+                            else:
+                                cur_author_string+=c
+                
+                book_title = requested_book['Title']
+                isAvail = False
+                if Book.objects.filter(isbn=use_isbn).exists() :
+                    isAvail=True
+                else:
+                    book_publisher = requested_book['Publisher']
+                    book_date = 1996
+                    if not requested_book['Year'] is '':
+                        book_date = requested_book['Year']
+                    add_author = Author.objects.create(author_name=cur_author_string)
+                    Book.objects.create(isbn=use_isbn, author_id=add_author, publisher=book_publisher,
+                                                   book_name=book_title, publish_year=book_date)
+                new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=cur_author_string, book_name=book_title, isAvailable=isAvail) 
+                wishes.append(new_wish)
 
     if not len(use_isbns) is 0:
         wishes.sort(key=lambda x: x.count ,reverse=True)
