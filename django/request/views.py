@@ -132,9 +132,13 @@ def addToRequestQueue(request):
 def searchBook(request):
     haswishes=False
     wishlist = []
+    wishlist_book = []
     if Wishlist.objects.filter(user=request.user).exists():
         haswishes=True
         wishlist = Wishlist.objects.all().filter(user=request.user)
+        for wishlists in wishlist:
+            if Book.objects.filter(isbn = wishlists.isbn).exists():
+                wishlist_book.append(Book.objects.get(isbn = wishlists.isbn))
     if request.method == "POST":
         search = request.POST.get('find_book',None)
         if search is None or search == '':
@@ -142,7 +146,7 @@ def searchBook(request):
             book_names=[]
             for new_books in new_book:
                 book_names.append(new_books.book_name)
-            return render(request, 'request/search_book.html', context={'books': book_names, 'error': "Enter a valid keyword", 'wished_books' : wishlist, 'haswishes': haswishes})
+            return render(request, 'request/search_book.html', context={'books': book_names, 'error': "Enter a valid keyword", 'wished_books' : zip(wishlist,wishlist_book), 'haswishes': haswishes })
         #print(search)
         exists = False
         new_list = list()
@@ -212,8 +216,8 @@ def searchBook(request):
             cur_book = Book.objects.get(isbn=book.isbn)
             cur_wish = Wishlist.objects.filter(isbn = book.isbn)
             count = 0
-            print(cur_wish)
-            print(cur_book)
+            #print(cur_wish)
+            #print(cur_book)
             for wishes in cur_wish:
                 count = count + wishes.count
             if count > 0:
@@ -239,16 +243,20 @@ def searchBook(request):
                 i = i + 1
             zipped = zip(requestlist[:10],bookinfo[:10])
             #zipped.order_by('bookinfo.count').reverse()[:10]
-        return render(request, 'request/search_book.html', context={'requsted_book': zipped ,'books': book_names, 'error': "", 'wished_books':wishlist, 'haswishes':haswishes})
+        return render(request, 'request/search_book.html', context={'requsted_book': zipped ,'books': book_names, 'error': "", 'wished_books':zip(wishlist,wishlist_book), 'haswishes':haswishes })
 
 @login_required
 def showWishlist(request):
     haswishes=False
     wishlist = []
+    wishlist_book = []
     if Wishlist.objects.filter(user=request.user).exists():
         haswishes=True
         wishlist = Wishlist.objects.all().filter(user=request.user)
-    return render(request, 'request/show_wishlist.html', context={'haswishes':haswishes, 'books': wishlist})
+        for wish in wishlist:
+            if Book.objects.filter(isbn = wish.isbn).exists():
+                wishlist_book.append(Book.objects.get(isbn = wish.isbn))
+    return render(request, 'request/show_wishlist.html', context={'haswishes':haswishes, 'books': zip(wishlist, wishlist_book)})
 
 @login_required
 def addNew(request):

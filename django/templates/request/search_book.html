@@ -13,7 +13,7 @@
         <div class="input-group" style="position: relative; z-index: 99;">        
           <input type="text" name="find_book" id="find_book" class="form-control" placeholder="Search for...">
         <span class="input-group-btn">
-          <button class="btn btn-default" type="submit">Go!</button>
+          <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
         </span>
         </div><!-- /input-group -->
       </div>
@@ -37,37 +37,20 @@
       {% if haswishes %}
       <h2 class="w3-padding-large"> Wishlist for {{user.first_name}} {{user.last_name}}</h2>
       <ul class="list-group">
-        {% for book in wished_books %}
+        {% for book, wished in wished_books %}
           <li class="list-group-item d-flex justify-content-between align-items-center">  
             <a href="{% url 'viewbookprofile' req_isbn=book.isbn %}"><h3>{{book.book_name}}</h3>
             <i>{{book.author_name}}</i><br>
-            {% if book.rating >= 1.0 %}
-            <span class="fa fa-star checked"></span>
-            {% else %}
-            <span class="fa fa-star"></span>
-            {% endif %}
-            {% if book.rating >= 2.0 %}
-            <span class="fa fa-star checked"></span>
-            {% else %}
-            <span class="fa fa-star"></span>
-            {% endif %}
-            {% if book.rating >= 3.0 %}
-            <span class="fa fa-star checked"></span>
-            {% else %}
-            <span class="fa fa-star"></span>
-            {% endif %}
-            {% if book.rating >= 4.0 %}
-            <span class="fa fa-star checked"></span>
-            {% else %}
-            <span class="fa fa-star"></span>
-            {% endif %}
-            {% if book.rating >= 5.0 %}
-            <span class="fa fa-star checked"></span>
-            {% else %}
-            <span class="fa fa-star"></span>
-            {% endif %}
             </a>
+            {% if wished.rating == 0.0 %}
+            <span><i>No stars yet</i></span>
             <span class="badge" style="background-image: linear-gradient(lightseagreen,teal);box-shadow: 0px 1px 4px -2px #333;">{{book.count}}</span>
+            {% else %}
+            <span class="badge" style="background-image: linear-gradient(lightseagreen,teal);box-shadow: 0px 1px 4px -2px #333;">{{book.count}}</span>
+            <div><span class="stars">{{wished.rating}}</span></div>
+            {% endif %}
+            
+            
           </li>
         {% endfor %}
       </ul>
@@ -78,39 +61,22 @@
   </div>
   <div class="w3-col m6">
     <div class="w3-margin-top w3-margin-left">
-      <h2 class="w3-padding-large" style="text-align: right;">Top Wished Books</h2>
+      <h2 class="w3-padding-large" style="text-align: right;">Trending wishes</h2>
         <ul class="list-group">
         {% for info,books in requsted_book %}
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <a href="{% url 'viewbookprofile' req_isbn=books.isbn %}"><h3>{{books.book_name}}</h3>
             <i>{{books.author_id.author_name}}</i><br>
-            {% if book.rating >= 1.0 %}
-            <span class="fa fa-star checked"></span>
-            {% else %}
-            <span class="fa fa-star"></span>
-            {% endif %}
-            {% if book.rating >= 2.0 %}
-            <span class="fa fa-star checked"></span>
-            {% else %}
-            <span class="fa fa-star"></span>
-            {% endif %}
-            {% if book.rating >= 3.0 %}
-            <span class="fa fa-star checked"></span>
-            {% else %}
-            <span class="fa fa-star"></span>
-            {% endif %}
-            {% if book.rating >= 4.0 %}
-            <span class="fa fa-star checked"></span>
-            {% else %}
-            <span class="fa fa-star"></span>
-            {% endif %}
-            {% if book.rating >= 5.0 %}
-            <span class="fa fa-star checked"></span>
-            {% else %}
-            <span class="fa fa-star"></span>
-            {% endif %}
             </a>
+            {% if book.rating == 0.0 %}
+            <span><i>No stars yet</i></span>
             <span class="badge" style="background-image: linear-gradient(orangered,gold);box-shadow: 0px 1px 4px -2px #333;">{{info.count}}</span>
+            {% else %}
+            <span class="badge" style="background-image: linear-gradient(orangered,gold);box-shadow: 0px 1px 4px -2px #333;">{{info.count}}</span>
+            <div><span class="stars">{{books.rating}}</span></div>
+            {% endif %}
+            
+            
         </li>
         {% endfor %} 
         </ul>
@@ -220,5 +186,15 @@ function autocomplete(inp, arr) {
 var book = {{ books|safe }};
 autocomplete(document.getElementById("find_book"), book);
 </script>
+<script>
+$(function() {
+    $('span.stars').stars();
+});
+$.fn.stars = function() {
+    return $(this).each(function() {
+        $(this).html($('<span />').width(Math.max(0, (Math.min(5, parseFloat($(this).html())))) * 16));
+    });
+}
 
+</script>
 {% endblock %}

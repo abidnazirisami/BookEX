@@ -3,6 +3,8 @@ from pages.models import *
 from rating.models import *
 from .forms import *
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+
 # Create your views here.
 
 @login_required
@@ -41,6 +43,20 @@ def mail(request,receiver):
 def messages(request):
 	cur_user = OurUser.objects.get(user=request.user)
 	users = OurUser.objects.all()
+	error=''
+	if request.method=="POST":
+		search = request.POST.get('search', 'Empty')
+		print(search)
+		print(len(search))
+		if search!='Empty' and len(search) > 0:
+			if OurUser.objects.filter(user_name= search).exists():
+				rec = OurUser.objects.get(user_name= search)
+				return redirect('mail', receiver=rec.user.id)
+			else:
+				error='No user found with the username '
+				error+=search	
+		else:
+			error = 'Please enter a valid username'
 	mail_list=[]
 	for user in users:
 		if Message.objects.filter(to_user=cur_user, from_user=user).exists() or Message.objects.filter(from_user=cur_user, to_user=user).exists():
@@ -49,5 +65,9 @@ def messages(request):
 			mails = mails_to|mails_from
 			mails.order_by('sent_on').reverse()
 			mail_list.append(mails[len(mails) - 1])
-
-	return render(request, 'mail/messages.html', context={'mail_list' : mail_list})
+	userlist = OurUser.objects.all().exclude(user=request.user)
+	usernames=[]
+	for users in userlist:
+		usernames.append(users.user_name)
+	print(usernames)
+	return render(request, 'mail/messages.html', context={'mail_list' : mail_list, 'users': usernames, 'error':error})

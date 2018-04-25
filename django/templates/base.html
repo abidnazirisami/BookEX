@@ -35,7 +35,7 @@
             <a href="{% url 'profile' %}" class="w3-bar-item w3-button  w3-hover-white w3-right w3-round-xxlarge">{{ user.username }}</a>
             <a href="{% url 'pending' %}" class="w3-bar-item w3-button w3-hover-white w3-right w3-round-xxlarge">Pending</a>
 
-            <a href="{% url 'messages' %}" class="w3-bar-item w3-button w3-hover-white w3-right w3-round-xxlarge">Messages {% if unread_messages > 0 %}<span class="badge-2 red">{{unread_messages}}</span>{% endif %}</a>
+            <a href="{% url 'messages' %}" class="w3-bar-item w3-button w3-hover-white w3-right w3-round-xxlarge">Messages {% if unread_messages > 0 %}<span class="badge badge-2 red">{{unread_messages}}</span>{% endif %}</a>
 
             
           </div>
