@@ -16,7 +16,7 @@
          <a href="{% url 'viewbookprofile' req_isbn=book.isbn %}"> <h3>{{book.book_name}}</h3>
         <i>{{book.author_name}}</i></a><br>
         {% if wish.rating == 0.0 %}
-          <div><span><i>No stars yet</i></span></div>
+          <div><span><i class="no-star">No stars yet</i></span></div>
           {% else %}
           <div><span class="stars">{{wish.rating}}</span></div>
         {% endif %}

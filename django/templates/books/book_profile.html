@@ -19,10 +19,10 @@
               	<!-- badge -->
               	
               </div>
-              	<div class="w3-center" style="margin-left: 40%">
+              	<div align="center">
                     
                     {% if book.rating == 0.0 %}
-                    <span><i class="w3-left" style="margin-right: 40%;">No stars yet</i></span>
+                    <span><i class="no-star">No stars yet</i></span>
                     {% else %}
                     <span class="stars">{{book.rating}}</span>
                     {% endif %}

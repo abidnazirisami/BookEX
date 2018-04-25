@@ -40,7 +40,11 @@
       {% endif %}
     	<a href="{% url 'viewbookprofile' req_isbn=books.isbn %}"><h4>{{books.book_name}}</h4>
       <i>{{books.author_id.author_name}}</i><br>
-      <span class="stars">{{books.rating}}</span>
+      {% if books.rating == 0 %}
+      <div><span><i class="no-star">No stars yet</i></span></div>
+      {% else %}
+      <div><span class="stars">{{books.rating}}</span></div>
+      {% endif %}
       </a>
     </li>
     {% endfor %} 
