@@ -5,6 +5,9 @@
 <link rel="icon" href="{% static 'chat.ico' %}" type="image/x-icon">
 {% endblock %}
 {% block content %}
+<!--Notifications-->
+{% include 'side_navbar.html' %}
+<!--Notifications-->
 <div class="w3-card w3-container w3-round w3-padding-large light-bg-card" style="width:50%; margin: 0 auto;">
 	<h2 class="w3-padding-large w3-center">Inbox</h2>
   <form autocomplete="off" method="POST" class="post-form form-inline" >

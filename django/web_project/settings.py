@@ -70,6 +70,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'mail.context_processors.messageCount',
+                'mail.context_processors.pendingCount',
+                'mail.context_processors.notifications',
             ],
         },
     },

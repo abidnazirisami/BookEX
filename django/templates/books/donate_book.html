@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<!--Notifications-->
+{% include 'side_navbar.html' %}
+<!--Notifications-->
 {% if error %}
 <div class="alert alert-warning">
 <strong>Warning:</strong> {{ error }}

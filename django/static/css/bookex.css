@@ -314,10 +314,13 @@ img {
   background: linear-gradient(#073,#0fa);
 }
 .badge-2 {
+  text-align: center;
   position: relative;
+  letter-spacing: 0 important;
   bottom: 12px;
   right: 14px;
   margin-right: -10px;
+  padding-right: -10px;
   font-size: 12px;
   background: #67c1ef;
   border-color: #30aae9;
@@ -339,6 +342,8 @@ nav {
   position: relative;
 }
 nav .badge {
+  text-align: center;
+  letter-spacing: 0 important;
   position: relative;
   bottom: 16px;
   right: 18px;

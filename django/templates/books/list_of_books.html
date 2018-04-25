@@ -3,13 +3,6 @@
 {% block content %}
 
 <!--Notifications-->
-<nav>
-  <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;
-    {% if notification_count > 0 %}
-    <span class="badge red">{{notification_count}}</span>
-    {% endif %}
-  </span>
-</nav>
 {% include 'side_navbar.html' %}
 <!--Notifications-->
 <form autocomplete="off" method="POST" class="post-form form-inline" >

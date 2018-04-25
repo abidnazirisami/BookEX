@@ -5,7 +5,9 @@
 <link rel="icon" href="{% static 'bookex-2.ico' %}" type="image/x-icon"> 
 {% endblock %}
 {% block content %}
-
+<!--Notifications-->
+{% include 'side_navbar.html' %}
+<!--Notifications-->
 <div class="w3-container">
 {% if haswishes %}
   <h2 class="w3-padding-large w3-center"> Your Wishlist</h2>

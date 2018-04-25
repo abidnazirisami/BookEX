@@ -5,7 +5,6 @@ from .forms import *
 from django.shortcuts import redirect
 import isbnlib
 from django.contrib.auth.decorators import login_required
-from web_project.views import notifications
 from fuzzywuzzy import fuzz
 
 @login_required
@@ -34,8 +33,8 @@ def displayBooks(request):
 	allbooks = Book.objects.all()
 	for books in allbooks:
 		book_names.append(books.book_name)
-	form, donate, receive, notification_count = notifications(request)
-	return render(request, 'books/list_of_books.html', context = {'book_names':book_names,'book':book, 'form':form,'donate':donate,'receive': receive, 'notification_count' : notification_count})
+	
+	return render(request, 'books/list_of_books.html', context = {'book_names':book_names,'book':book,})
 
 @login_required
 def addBook(request):
