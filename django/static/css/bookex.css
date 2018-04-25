@@ -207,7 +207,7 @@ img {
 .rain-card {
   background: url("/static/rain.jpg") 0 no-repeat;
   background-size: cover;
-  opacity: 0.5;
+  box-shadow: 0 20px 20px #333;
 }
 .sidenav {
     height: 100%;
@@ -307,6 +307,28 @@ img {
 .glass:hover{
   background: linear-gradient(#073,#0fa);
 }
+.badge {
+  position: relative;
+  bottom: 12px;
+  right: 14px;
+  margin-right: -10px;
+  font-size: 12px;
+  background: #67c1ef;
+  border-color: #30aae9;
+  background-image: -webkit-linear-gradient(top, #acddf6, #67c1ef);
+  background-image: -moz-linear-gradient(top, #acddf6, #67c1ef);
+  background-image: -o-linear-gradient(top, #acddf6, #67c1ef);
+  background-image: linear-gradient(to bottom, #acddf6, #67c1ef);
+}
+
+.badge.red {
+  background: #fa623f;
+  border-color: #fa5a35;
+  background-image: -webkit-linear-gradient(top, #fc9f8a, #fa623f);
+  background-image: -moz-linear-gradient(top, #fc9f8a, #fa623f);
+  background-image: -o-linear-gradient(top, #fc9f8a, #fa623f);
+  background-image: linear-gradient(to bottom, #fc9f8a, #fa623f);
+}
 nav {
   position: relative;
 }
@@ -331,14 +353,7 @@ nav .badge.red {
   background-image: linear-gradient(to bottom, #fc9f8a, #fa623f);
 }
 
-.badge.red {
-  background: #fa623f;
-  border-color: #fa5a35;
-  background-image: -webkit-linear-gradient(top, #fc9f8a, #fa623f);
-  background-image: -moz-linear-gradient(top, #fc9f8a, #fa623f);
-  background-image: -o-linear-gradient(top, #fc9f8a, #fa623f);
-  background-image: linear-gradient(to bottom, #fc9f8a, #fa623f);
-}
+
 
 .fullscreen{
     position: fixed;
@@ -391,3 +406,17 @@ span.stars span {
     z-index: 900;
 }
 
+hr {
+  border: none;
+  position: absolute;
+  left: 0;
+  height: 20px;
+  width: 100%;
+  height: 50px;
+  margin-top: 0;
+  margin-left: -24px;
+  margin-right: -24px;
+  border-bottom: 0;
+  box-shadow: 0 20px 20px -20px #333;
+  margin: -50px auto 10px; 
+}

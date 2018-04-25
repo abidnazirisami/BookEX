@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}
-<title>Message</title>
+{% load static %}
+<link rel="icon" href="{% static 'chat.ico' %}" type="image/x-icon">
+<title>Messages</title>
+
 {% endblock %}
 {% block content %}
 <style type="text/css">
@@ -11,13 +14,15 @@
 		border-bottom: 0 none;
 	}
 </style>
-<div class="w3-card w3-container w3-padding-large rain-card" style="width:50%; margin: 0 auto;">
-	<div>
+<div class="w3-card w3-container w3-padding-large rain-card" style="width:50%; margin: 0 auto;position: relative;">
+	<div style="text-shadow: 0px 2px gray;">
 		<div class="w3-margin-bottom w3-margin-top" style="text-align: center;">
 		<a style="text-align: center;" href="{% url 'viewprofile' username=chat.user_name %}"><h2> {{chat.user.first_name}} {{chat.user.last_name}} </h2>
-		<i>{{chat.user_name}} {%if seen%}has seen your last message{%endif%}</i></a>
+		<i style="text-shadow: 0px 0px gray;">@{{chat.user_name}}</i></a>
 		</div>
+
 	</div>
+	<hr>
 	<form method="POST" class="post-form">
 	{% csrf_token %}
 	<ul class="list-group" style="box-shadow: none;background-color: transparent;">
@@ -26,14 +31,15 @@
 			<div class="w3-container">
 			{% if cur_user.user == user %}
 			
-			<div class="w3-right">
-				<kbd class=" w3-padding-small" style="background-color: teal; font-size: 20px; font-family:  'Roboto Slab', serif;">{{mail.text}}</kbd>
+			<div class="w3-right" style="text-align: right;">
+				<kbd class=" w3-padding-small" style="background-color: teal; font-size: 16px; font-family: 'Helvetica Neue', serif;">{{mail.text}}</kbd>
+				<i style="font-size: 12px;"> <br>{%if seen%}seen{%endif%} </i>
 			</div>
 			
 			{% else %}
 			
 			<div class="w3-left">	
-				 <kbd class="w3-padding-small" style="background-color: grey; font-size: 20px; font-family:  'Roboto Slab', serif;">{{mail.text}}</kbd>
+				 <kbd class="w3-padding-small" style="background-color: grey; font-size: 16px; font-family:  'Helvetica Neue', serif;">{{mail.text}}</kbd>
 			</div>
 			
 			{% endif %}
@@ -41,13 +47,27 @@
 			</li>
 			{%endfor%}
 			
-		<li class="list-group-item d-flex justify-content-between align-items-right borderless">
-		  	<textarea name="text" required="True" class="form-control" id="text" rows="10" cols="10" placeholder="Write your message . . ."></textarea></td>
-		</li>
-	</ul>
-	  <div class="w3-right" style="margin-bottom: 10px;margin-right: 10px;">
+	</ul>	
+
+<div class="w3-padding-large">	
+  	<textarea name="text" required="True" class="form-control" id="text" rows="10" cols="10" placeholder="Write your message . . ."></textarea></td>
+	
+	
+	  <div class="w3-right" style="margin-bottom: 10px;margin-top: 10px;">
 	  	<button class="btn btn-success" type="submit"> <i class="fa fa-comment-o"> Send</i></button>
 	  </div>
 	</form>
+	</div>
 </div>
+<script type="text/javascript">
+$("#text").keypress(function (e) {
+    if(e.which == 13 && !e.shiftKey) {
+	    if($("#text").val()) {        
+	        $(this).closest("form").submit();
+	        e.preventDefault();
+	        return false;
+    	}
+    }
+});
+</script>
 {% endblock %}
