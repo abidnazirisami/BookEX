@@ -139,6 +139,10 @@ tr:nth-child(even) {
 i.username {
   font-size: 16px;
 }
+i.no-star {
+  font-size: 12px;
+  color: gray;
+}
 img {
     object-fit: cover;
 }

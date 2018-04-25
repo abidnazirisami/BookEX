@@ -57,18 +57,18 @@
       	
       	{% if mails.to_user.user == user and mails.seen == False %}
       	<p class="w3-left">
-      		<b>{{mails.from_user.user.username}}: {{mails.text}}</b>
+      		<b><i>{{mails.from_user.user.username}}:</i> {{mails.text}}</b>
       	</p>
       	{% elif mails.from_user.user == user and mails.seen == True %}
       	<p class="w3-left">
-      		{{mails.from_user.user.username}}: {{mails.text}}
+      		<i>{{mails.from_user.user.username}}:</i> {{mails.text}}
       	</p>
       	<p class="w3-right">
       		<i style="color: grey; font-size: 12px;"> Seen </i>
       	</p>
       	{% else %}
       	<p class="w3-left">
-      		{{mails.from_user.user.username}}: {{mails.text}}
+      		<i>{{mails.from_user.user.username}}:</i> {{mails.text}}
       	</p>
       	{% endif %}
       </div>
