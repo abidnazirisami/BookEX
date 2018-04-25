@@ -204,6 +204,11 @@ img {
   background: url("/static/sami.jpg") 0 fixed no-repeat;
   background-size: cover;
 }
+.rain-card {
+  background: url("/static/rain.jpg") 0 no-repeat;
+  background-size: cover;
+  opacity: 0.5;
+}
 .sidenav {
     height: 100%;
     width: 0;
@@ -375,7 +380,7 @@ nav .badge.red {
 }
 span.stars, span.stars span {
     display: block;
-    background: url("/static/Patrick_Star.png") 0 -16px repeat-x;
+    background: url("/static/star.png") 0 -16px repeat-x;
     width: 80px;
     height: 16px;
     z-index: 900;

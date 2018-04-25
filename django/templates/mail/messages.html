@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Message</title>
+{% endblock %}
+{% block content %}
+<div class="w3-card w3-container w3-round w3-padding-large" style="width:50%; margin: 0 auto;">
+	<h2 class="w3-padding-large w3-center">Inbox</h2>
+	<ul class="list-group">
+    {% for mails in mail_list %}
+    {% if mails.to_user.user == user %}
+    <a href="{% url 'mail' receiver=mails.from_user.user_id %}">
+    {% else %}
+    <a href="{% url 'mail' receiver=mails.to_user.user_id %}">
+    {% endif %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+      <div class="w3-container">
+      <div class="w3-left">
+      {% if mails.to_user.user == user %}
+      <h4>
+      	{{mails.from_user.user.first_name}}
+      	{{mails.from_user.user.last_name}} 
+      </h4>
+      
+      {% else %}
+      <h4>
+    	{{mails.to_user.user.first_name}}
+      	{{mails.to_user.user.last_name}}
+  	  </h4>
+      
+      {% endif %}
+  	  </div>
+  	  <div class="w3-right">
+  	  	<i>Sent on {{mails.sent_on}}</i>
+  	  </div>
+  	</div>
+      </li>  
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+      	<div class="w3-container">
+      	
+      	{% if mails.to_user.user == user and mails.seen == False %}
+      	<p class="w3-left">
+      		<b>{{mails.from_user.user.username}}: {{mails.text}}</b>
+      	</p>
+      	{% elif mails.from_user.user == user and mails.seen == True %}
+      	<p class="w3-left">
+      		{{mails.from_user.user.username}}: {{mails.text}}
+      	</p>
+      	<p class="w3-right">
+      		<i style="color: grey; font-size: 12px;"> Seen </i>
+      	</p>
+      	{% else %}
+      	<p class="w3-left">
+      		{{mails.from_user.user.username}}: {{mails.text}}
+      	</p>
+      	{% endif %}
+      </div>
+      </li>
+    </a>  	
+    {% endfor %}
+   	</ul>
+</div>
+{% endblock %}

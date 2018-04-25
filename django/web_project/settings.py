@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'request', # The app to handle requests
     'find', # The app to handle search
     'rating', # The app to rate books
+    'mail', #the app to handle messaging
 ]
 
 MIDDLEWARE = [

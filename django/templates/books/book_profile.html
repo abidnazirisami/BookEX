@@ -22,7 +22,7 @@
               	<div class="w3-center" style="margin-left: 40%">
                     
                     {% if book.rating == 0.0 %}
-                    <i class="w3-left">No stars yet</i>
+                    <span><i class="w3-left">No stars yet</i></span>
                     {% else %}
                     <span class="stars">{{book.rating}}</span>
                     {% endif %}

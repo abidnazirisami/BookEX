@@ -76,7 +76,7 @@
 	<div class="w3-container">
 		<div class="w3-card w3-margin-bottom w3-teal w3-padding-small w3-container" style="position: relative;">
 			<span class="label label-success w3-right" style="margin-top: 5px;">Requested: {{wish.count}}</span>
-			<p class="small"><a href="{% url 'viewprofile' username=wish.user.username %}">{{wish.user.first_name}} {{wish.user.last_name}}</a>Requested on {{wish.request_date}} </p>
+			<p class="small"><a href="{% url 'viewprofile' username=wish.user.username %}">{{wish.user.first_name}} {{wish.user.last_name}}</a></a> Requested on {{wish.request_date}}  <a href="{% url 'mail' receiver=wish.user.id %}"><i class="fa fa-comment-o"> Text</i></p>
  			<a href="{% url 'viewbookprofile' req_isbn=wish.isbn %}"><h4>{{wish.book_name}}</h4> </a> 
 			<i>{{wish.author_name}}, 
 			{{wish.edition}}
@@ -109,8 +109,7 @@
 		       <em id="rangeValLabel" style="font-style: normal; margin-top: 05px">Satisfactory</em><br>
 			  <br>{{form.as_p}}
 			  <button class="btn btn-warning btn-sm w3-right w3-margin-left" type="button" style="margin-top: 05px" onclick="off();" >Cancel</button>
-			  <button class="btn btn-info btn-sm w3-right" type="submit" style="margin-top: 05px" onclick="return donated();" >Confirm</button>
-			  
+			  <button class="btn btn-info btn-sm w3-right" type="submit" style="margin-top: 05px" onclick="return donated();" >Confirm</button>  
 		  </form>
 	  </div>
 	</div>
@@ -120,7 +119,7 @@
 	{% for book, boi, wish, profile in receive %}
 	<div class="w3-container">		  	
 	  <div class="w3-card w3-margin-bottom w3-teal w3-padding-small w3-container" style="position: relative;">
-		<p class="small"><a href="{% url 'viewprofile' username=profile.username %}">{{profile.first_name}} {{profile.last_name}}</a>approved the request you made on {{wish.request_date}} </p>
+		<p class="small"><a href="{% url 'viewprofile' username=profile.username %}">{{profile.first_name}} {{profile.last_name}}</a><a href="{% url 'mail' receiver=profile.id %}"></a>approved the request you made on {{wish.request_date}} <i class="fa fa-comment-o"> Text</i></p>
 		 <a href="{% url 'viewbookprofile' req_isbn=wish.isbn %}"><h4>{{wish.book_name}}</h4> </a> 
 		<i>
 			{{wish.author_name}}, 
@@ -144,8 +143,9 @@
 				<form action="{% url 'confirm_donation' %}">
 				  <input type="hidden" name="boiii" id="boiii" value="{{boi.book_id}}">
 				  <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
-				  <button class="btn btn-warning btn-sm w3-right w3-margin-left" type="button" style="margin-top: 05px" onclick="back2();" >Cancel</button>
-			  	  <button class="btn btn-info btn-sm w3-right" style="margin-top: 25px" type="submit" onclick="return finalConfirm()" >Confirm</button>
+				  <br>
+				  <button class="btn btn-warning btn-sm w3-right w3-margin-left" type="button" style="margin-top: 05px;" onclick="back2();" >Cancel</button>
+			  	  <button class="btn btn-info btn-sm w3-right" style="margin-top: 05px;" type="submit" onclick="return finalConfirm()" >Confirm</button>
 				</form>
 			  </div>
 			</div>
@@ -156,8 +156,9 @@
 				  <form action="{% url 'confirm_rejection' %}">
 				  <input type="hidden" name="boiii" id="boiii" value="{{boi.book_id}}">
 				  <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
-				  <button class="btn btn-warning btn-sm w3-right w3-margin-left" type="button" style="margin-top: 05px" onclick="back3();" >Cancel</button>
-				  <button class="btn btn-info btn-xs w3-right" style="margin-top: 25px" type="submit" onclick="return finalReject()"" >Confirm</button>
+				  <br>
+				  <button class="btn btn-warning btn-sm w3-right w3-margin-left" type="button" style="margin-top: 05px;" onclick="back3();" >Cancel</button>
+				  <button class="btn btn-info btn-sm w3-right" style="margin-top: 05px;" type="submit" onclick="return finalReject()">Confirm</button>
 			  	</form>
 			  </div>
 			</div>
