@@ -33,7 +33,6 @@
 			
 			<div class="w3-right" style="text-align: right;">
 				<kbd class=" w3-padding-small" style="background-color: teal; font-size: 16px; font-family: 'Helvetica Neue', serif;">{{mail.text}}</kbd>
-				<i style="font-size: 12px;"> <br>{%if seen%}seen{%endif%} </i>
 			</div>
 			
 			{% else %}
@@ -46,7 +45,9 @@
 			</div>
 			</li>
 			{%endfor%}
-			
+			<div style="margin-right: 30px; margin-top: -30px; text-align: right;">
+			<i style="font-size: 12px;"> <br>{%if seen%}seen{%endif%} </i>
+			</div>
 	</ul>	
 
 <div class="w3-padding-large">	
