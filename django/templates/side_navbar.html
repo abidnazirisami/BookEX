@@ -76,7 +76,8 @@
 	<div class="w3-container">
 		<div class="w3-card w3-margin-bottom w3-teal w3-padding-small w3-container" style="position: relative;">
 			<span class="label label-success w3-right" style="margin-top: 5px;">Requested: {{wish.count}}</span>
-			<p class="small"><a href="{% url 'viewprofile' username=wish.user.username %}">{{wish.user.first_name}} {{wish.user.last_name}}</a>Requested on {{wish.request_date}}  <a href="{% url 'mail' receiver=wish.user.id %}"><i class="fa fa-comment-o"> Text</i></a> </p>
+			<p class="small"><a href="{% url 'viewprofile' username=wish.user.username %}">{{wish.user.first_name}} {{wish.user.last_name}}</a> 
+				Requested on {{wish.request_date}}  <a href="{% url 'mail' receiver=wish.user.id %}"><i class="fa fa-comment-o zoom"> Text</i></a> </p>
  			<a href="{% url 'viewbookprofile' req_isbn=wish.isbn %}"><h4>{{wish.book_name}}</h4> </a> 
 			<i>{{wish.author_name}}, 
 			{{wish.edition}}
@@ -119,7 +120,7 @@
 	{% for book, boi, wish, profile in receive %}
 	<div class="w3-container">		  	
 	  <div class="w3-card w3-margin-bottom w3-teal w3-padding-small w3-container" style="position: relative;">
-		<p class="small"><a href="{% url 'viewprofile' username=profile.username %}">{{profile.first_name}} {{profile.last_name}} approved the request you made on {{wish.request_date}}</a> <a href="{% url 'mail' receiver=profile.id %}"><i class="fa fa-comment-o"> Text</i></a></p>
+		<p class="small"><a href="{% url 'viewprofile' username=profile.username %}">{{profile.first_name}} {{profile.last_name}}</a> approved the request you made on {{wish.request_date}} <a href="{% url 'mail' receiver=profile.id %}"><i class="fa fa-comment-o zoom"> Text</i></a></p>
 		 <a href="{% url 'viewbookprofile' req_isbn=wish.isbn %}"><h4>{{wish.book_name}}</h4> </a> 
 		<i>
 			{{wish.author_name}}, 

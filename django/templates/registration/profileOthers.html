@@ -22,13 +22,13 @@
               </div>
        		</div> 
 			<p class="w3-wide "><h2>{{cur_user.first_name}} {{cur_user.last_name}}</h2>
-			<i class="username">{{profile.user_name}}  </i></p> 
+			<i class="username">{{profile.user_name}}</i></p> 
 			<p > Member since {{cur_user.date_joined}} </p>
 			
       	
     </div>
     <div class="w3-twothird w3-padding-large w3-margin-top" style="text-align:left ;max-width:1950px;padding-left: 10px;
-    	<p class="w3-wide" style="font-family: Courier"><u><h1>About <a href="{% url 'mail' receiver=profile.user_id %}">    <i class="fa fa-comment-o fa-1x"></i></a></h1></u>
+    	<p class="w3-wide" style="font-family: Courier"><u><h1>About</h1></u>
     	</p><br>
 	</div>	
 	<div class="w3-third w3-padding-large" style="text-align:left ;max-width:1950px;padding-left: 10px;padding-right: 10px">
@@ -56,33 +56,9 @@
 		  <div class="w3-card w3-container w3-padding-large w3-margin-bottom">
 			<a href="{% url 'viewbookprofile' req_isbn=new_list.isbn %}"><h3>{{new_list.book_name}}</h3></a>
 			<h6>{{author_name_list}}</h6>
-			<p>
-			{% if new_list.rating >= 1.0 %}
-			<span class="fa fa-star checked"></span>
-			{% else %}
-			<span class="fa fa-star"></span>
-			{% endif %}
-			{% if new_list.rating >= 2.0 %}
-			<span class="fa fa-star checked"></span>
-			{% else %}
-			<span class="fa fa-star"></span>
-			{% endif %}
-			{% if new_list.rating >= 3.0 %}
-			<span class="fa fa-star checked"></span>
-			{% else %}
-			<span class="fa fa-star"></span>
-			{% endif %}
-			{% if new_list.rating >= 4.0 %}
-			<span class="fa fa-star checked"></span>
-			{% else %}
-			<span class="fa fa-star"></span>
-			{% endif %}
-			{% if new_list.rating >= 5.0 %}
-			<span class="fa fa-star checked"></span>
-			{% else %}
-			<span class="fa fa-star"></span>
-			{% endif %}
-			</p>
+			<p align = "center">
+    <span class="stars">{{new_list.rating}}</span>
+    </p>
 			<i>{{new_list.publish_year}}</i>
 		  </div>
 
@@ -100,4 +76,16 @@ Didn't donate any books yet :( </div>
 </div>
 {% endif %}
 </div>
+<script>
+$(function() {
+    $('span.stars').stars();
+});
+$.fn.stars = function() {
+    return $(this).each(function() {
+        $(this).html($('<span />').width(Math.max(0, (Math.min(5, parseFloat($(this).html())))) * 16));
+    });
+}
+
+</script>
+
 {% endblock %}
