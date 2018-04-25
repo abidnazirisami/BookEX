@@ -189,8 +189,9 @@ img {
     letter-spacing: 3px;
 }
 .light-bg-card {
-  background: url("/static/light-bg.jpg") 0 no-repeat;
+  background: url("/static/inbox.jpg") 0 no-repeat;
   background-size: cover;
+  box-shadow: 0 20px 20px #333;
 }
 .panda-card {
   background: url("/static/sad_dog.jpg") 0 no-repeat;
@@ -207,6 +208,7 @@ img {
 .rain-card {
   background: url("/static/rain.jpg") 0 no-repeat;
   background-size: cover;
+  background-color: #77baa7;
   box-shadow: 0 20px 20px #333;
 }
 .sidenav {
