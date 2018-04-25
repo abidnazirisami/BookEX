@@ -33,7 +33,7 @@ def mail(request,receiver):
 				#mail.delete()
 		else:
 			seen = False
-	if mail_list[len(mail_list)-1].to_user == sender:
+	if len(mail_list) > 0 and mail_list[len(mail_list)-1].to_user == sender:
 		seen = False
 	return render(request, 'mail/mail.html', context={'mail_list':zip(mail_list,sender_list),'seen':seen,'chat':receiver})
 
