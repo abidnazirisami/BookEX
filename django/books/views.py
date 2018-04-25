@@ -9,7 +9,30 @@ from web_project.views import notifications
 
 @login_required
 def displayBooks(request):
-	book = Book.objects.all()
+	if request.method == "POST":
+        search = request.POST.get('find_book',None)
+        if search is None or search == '':
+            book = Book.objects.all()
+			form, donate, receive, notification_count = notifications(request)
+			return render(request, 'books/list_of_books.html', context = {'book':book, 'form':form,'donate':donate,'receive': receive, 'notification_count' : notification_count})
+
+        exists = False
+        new_list = list()
+        existing_list = list()
+        author_name_list = list()
+        existing_authors = list()
+        book_table = Book.objects.all()
+        for cur_book in book_table:
+            if Author.objects.filter(pk=cur_book.author_id.author_id).exists():
+                cur_author = Author.objects.get(pk=cur_book.author_id.author_id)
+            cur_book_string = cur_book.isbn + " " + cur_book.publisher + " " + cur_author.author_name
+            cur_book_string = cur_book_string + " " + cur_book.book_name + " " + str(cur_book.publish_year)
+            #print(cur_book_string)
+            #print(fuzz.token_set_ratio(cur_book_string, search))
+            if fuzz.token_set_ratio(cur_book_string, search) > 40:
+                book.append(cur_book)
+	else:
+		book = Book.objects.all()
 	form, donate, receive, notification_count = notifications(request)
 	return render(request, 'books/list_of_books.html', context = {'book':book, 'form':form,'donate':donate,'receive': receive, 'notification_count' : notification_count})
 
