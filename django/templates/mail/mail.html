@@ -3,8 +3,8 @@
 {% load static %}
 <link rel="icon" href="{% static 'chat.ico' %}" type="image/x-icon">
 <title>Messages</title>
-
 {% endblock %}
+
 {% block content %}
 <!--Notifications-->
 {% include 'side_navbar.html' %}
@@ -21,57 +21,57 @@
 	<div style="text-shadow: 0px 2px gray;">
 
 		<div class="w3-margin-bottom w3-margin-top" style="text-align: center;">{% load static %} 
-        <img class="img-rounded" src="{{chat.photo.url}}" alt="Photo" style="width:75px; height: 75px;">
+	        <img class="img-rounded" src="{{chat.photo.url}}" alt="Photo" style="width:75px; height: 75px;">
 
-		<a style="text-align: center;" href="{% url 'viewprofile' username=chat.user_name %}"><h2>
-         {{chat.user.first_name}} {{chat.user.last_name}} </h2>
-         
-		<i style="text-shadow: 0px 0px gray;">@{{chat.user_name}}</i></a>
+			<a style="text-align: center;" href="{% url 'viewprofile' username=chat.user_name %}"><h2>
+	         {{chat.user.first_name}} {{chat.user.last_name}} </h2>
+	         
+			<i style="text-shadow: 0px 0px gray;">@{{chat.user_name}}</i></a>
 		</div>
 
 	</div>
 	<hr><br>
 	<form method="POST" class="post-form">
-	{% csrf_token %}
-	<ul class="list-group" style="box-shadow: none;background-color: transparent;">
+		{% csrf_token %}
+		<ul class="list-group" style="box-shadow: none;background-color: transparent;">
 			{%for mail,cur_user in mail_list%}
 			<li class="list-group-item d-flex justify-content-between borderless" style="background-color: transparent;">
-			<div class="w3-container">
-			{% if cur_user.user == user %}
-			
-			<div class="w3-right" style="text-align: right; margin-top: -7px;margin-bottom: -7px;">
-				<div class="w3-round-large w3-padding-small" style="background-color: teal; font-size: 14px; font-family: Tahoma, Geneva, sans-serif, serif; color: white; box-shadow: 0px 1px gray; padding-left: 2px; padding-right: 2px;">{{mail.text}}</div>
-			</div>
-			
-			{% else %}
-			
-			<div class="w3-left" style="margin-top: -7px;margin-bottom: -7px;">	
-				 <div class="w3-round-large w3-padding-small" style="background-color: darkgray; font-size: 14px; font-family:  Tahoma, Geneva, sans-serif; color: black; box-shadow: 0px 1px gray;padding-left: 2px; padding-right: 2px;">{{mail.text}}</div>
-			</div>
-			
-			{% endif %}
-			</div>
+				<div class="w3-container">
+					{% if cur_user.user == user %}
+					
+					<div class="w3-right" style="text-align: right; margin-top: -7px;margin-bottom: -7px;">
+						<div class="w3-round-large w3-padding-small" style="background-color: teal; font-size: 14px; font-family: Tahoma, Geneva, sans-serif, serif; color: white; box-shadow: 0px 1px gray; padding-left: 2px; padding-right: 2px;">{{mail.text}}
+						</div>
+					</div>
+				
+					{% else %}
+					
+					<div class="w3-left" style="margin-top: -7px;margin-bottom: -7px;">	
+						 <div class="w3-round-large w3-padding-small" style="background-color: darkgray; font-size: 14px; font-family:  Tahoma, Geneva, sans-serif; color: black; box-shadow: 0px 1px gray;padding-left: 2px; padding-right: 2px;">{{mail.text}}
+						 </div>
+					</div>
+					
+					{% endif %}
+				</div>
 			</li>
 			{%endfor%}
 			<div style="margin-right: 30px; margin-top: -30px; text-align: right;">
-			<i style="font-size: 12px;"> <br>{%if seen%}seen{%endif%} </i>
+				<i style="font-size: 12px;"> <br>{%if seen%}seen{%endif%} </i>
 			</div>
-	</ul>	
+			<div class="w3-padding-large">	
+			  	<textarea name="text" required="True" class="form-control" id="textarea" rows="3" cols="10" placeholder="Write your message . . ."></textarea>
+			  	<div class="w3-right" style="margin-bottom: 10px;margin-top: 10px;">
+			  		<button class="btn btn-success" type="submit"> <i class="fa fa-comment-o"> Send</i></button>
+				</div>
+			</div>
 
-<div class="w3-padding-large">	
-  	<textarea name="text" required="True" class="form-control" id="text" rows="3" cols="10" placeholder="Write your message . . ."></textarea></td>
-	
-	
-	  <div class="w3-right" style="margin-bottom: 10px;margin-top: 10px;">
-	  	<button class="btn btn-success" type="submit"> <i class="fa fa-comment-o"> Send</i></button>
-	  </div>
+		</ul>	
 	</form>
-	</div>
 </div>
 <script type="text/javascript">
-$("#text").keypress(function (e) {
+$("#textarea").keypress(function (e) {
     if(e.which == 13 && !e.shiftKey) {
-	    if($("#text").val()) {        
+	    if($("#textarea").val()) {        
 	        $(this).closest("form").submit();
 	        e.preventDefault();
 	        return false;

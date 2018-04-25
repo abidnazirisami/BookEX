@@ -406,7 +406,7 @@ nav .badge.red {
 }
 span.stars, span.stars span {
     display: block;
-    background: url("/static/star.png") 0 -16px repeat-x;
+    background: url("/static/gold_star.png") 0 -16px repeat-x;
     width: 80px;
     height: 16px;
     z-index: 900;

@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
-
+{% block title %}
+{% load static %}
+<link rel="icon" href="{% static 'bookex.ico' %}" type="image/x-icon"> 
+<title>ISBN</title>
+{% endblock %}
 {% block content %}
 <!--Notifications-->
 {% include 'side_navbar.html' %}

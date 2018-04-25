@@ -65,14 +65,14 @@
 	</div>
 	<div class="w3-twothird w3-container w3-right w3-margin-bottom">
       <a href="{% url 'donatewithisbn' use_isbn=book.isbn %}">
-      	<button  class="w3-button w3-border w3-hover-teal w3-right w3-round w3-margin-left w3-margin-right">Donate</button>
+      	<button  class="w3-button w3-border w3-hover-teal w3-right w3-round w3-margin-left w3-margin-right" onclick="return added()">Add to library</button>
       </a>
       <a href="{% url 'addtowishlist' req_isbn=book.isbn %}">
       	<button  class="w3-button w3-border w3-hover-teal w3-right w3-round">Add to Wishlist</button>
       </a>
     </div>
     <div class="w3-container w3-margin-right w3-margin-left w3-padding-large">
-    <h1 class="w3-center"> Reviews </h1>
+    <h1 class="w3-center">{% if review %} Reviews {% endif %}</h1>
     <ul class="list-group">
     {% for cur_review in review %}
     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -101,7 +101,9 @@ $.fn.stars = function() {
         $(this).html($('<span />').width(Math.max(0, (Math.min(5, parseFloat($(this).html())))) * 16));
     });
 }
-
+function added() {
+  alert("Added to library!");
+}
 </script>
 	
 {% endblock %}

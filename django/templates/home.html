@@ -2,8 +2,6 @@
 {% load static %}
 {% block title %}
 <link rel="icon" href="{% static 'bookex-2.ico' %}" type="image/x-icon"> 
-<link rel="firstpage" href="{% static 'BookEX.png' %}">
-<link rel="review" href="{% static 'review_recommodation.png' %}">
 <title>BookEX - Home</title>
 {% endblock %}
 
@@ -20,7 +18,7 @@
 			<a href="{% url 'list_of_books' %}">
 				<img src="{% static 'test_img.jpeg' %}" alt="Books" style="width:100%; height: 100%">
 				 <div class="w3-container">
-		      		<h4><b>Available Books</b></h4>
+		      		<h4><b>Library</b></h4>
 		    	</div>
 	    	 </a>
 		</div>
@@ -54,7 +52,7 @@
 				<img src="{% static 'request_book.jpg' %}" alt="Request Books" style="width:100%; height: 100%">
 			
 				<div class="w3-container">
-		      		<h4><b>Request Books</b></h4>
+		      		<h4><b>Request books</b></h4>
 		    	</div>
 	    	</a>
 		</div>

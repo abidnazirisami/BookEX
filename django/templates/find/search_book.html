@@ -12,9 +12,9 @@
   <div class="col-lg-6">  
     <form autocomplete="off" method="POST" class="post-form" id="searchform">
       {% csrf_token %}
-      <div class="autocomplete">
-        <div class="input-group">        
-          <input type="text" align="center" name="find_book" id="find_book" class="form-control" placeholder="Search for...">
+      <div class="autocomplete w3-margin-left">
+        <div class="input-group" style="width: 150%;">        
+          <input type="text" align="center" name="find_book" id="find_book" class="form-control" placeholder="Search for a book to add . . .">
         <span class="input-group-btn">
           <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
         </span>

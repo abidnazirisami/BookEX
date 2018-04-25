@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
-
+{% block title %}
+{% load static %}
+<link rel="icon" href="{% static 'bookex.ico' %}" type="image/x-icon"> 
+<title>Add to library</title>
+{% endblock %}
 {% block content %}
 <!--Notifications-->
 {% include 'side_navbar.html' %}
@@ -88,7 +92,7 @@ tr:nth-child(even) {
       </table>
     </div>
     <div class="w3-container w3-padding-large w3-right w3-margin-bottom">
-      <button type="submit" class="w3-button w3-border w3-hover-teal w3-left w3-round">Donate</button>
+      <button type="submit" class="w3-button w3-border w3-hover-teal w3-left w3-round" onclick="return added()">Donate</button>
     </div>
     <div class="w3-container w3-padding-large w3-right w3-margin-bottom">
       <a href="addNew" type="submit" class="w3-button w3-border w3-hover-teal w3-left w3-round" >Add a book manually</a>
@@ -105,5 +109,8 @@ $(document).ready(function() {
         }
     });
 });
+function added() {
+  alert("Added to library!");
+}
 </script>
 {% endblock %}
