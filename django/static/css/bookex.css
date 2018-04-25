@@ -307,7 +307,7 @@ img {
 .glass:hover{
   background: linear-gradient(#073,#0fa);
 }
-.badge {
+.badge-2 {
   position: relative;
   bottom: 12px;
   right: 14px;
@@ -321,7 +321,7 @@ img {
   background-image: linear-gradient(to bottom, #acddf6, #67c1ef);
 }
 
-.badge.red {
+.badge-2.red {
   background: #fa623f;
   border-color: #fa5a35;
   background-image: -webkit-linear-gradient(top, #fc9f8a, #fa623f);
