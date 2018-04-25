@@ -10,8 +10,11 @@ from web_project.views import notifications
 @login_required
 def displayBooks(request):
 	book = Book.objects.all()
+	book_names=[]
+	for books in book:
+		book_names.append(books.book_name)
 	form, donate, receive, notification_count = notifications(request)
-	return render(request, 'books/list_of_books.html', context = {'book':book, 'form':form,'donate':donate,'receive': receive, 'notification_count' : notification_count})
+	return render(request, 'books/list_of_books.html', context = {'book_names':book_names,'book':book, 'form':form,'donate':donate,'receive': receive, 'notification_count' : notification_count})
 
 @login_required
 def addBook(request):
