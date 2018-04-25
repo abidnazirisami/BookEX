@@ -59,33 +59,9 @@
 		<div class="w3-card w3-container w3-padding-large w3-margin-bottom">
 			<a href="{% url 'viewbookprofile' req_isbn=new_list.isbn %}"><h3>{{new_list.book_name}}</a></h6>
 			<h6>{{author_name_list}}</h6>
-			<p>
-			{% if new_list.rating >= 1.0 %}
-			<span class="fa fa-star checked"></span>
-			{% else %}
-			<span class="fa fa-star"></span>
-			{% endif %}
-			{% if new_list.rating >= 2.0 %}
-			<span class="fa fa-star checked"></span>
-			{% else %}
-			<span class="fa fa-star"></span>
-			{% endif %}
-			{% if new_list.rating >= 3.0 %}
-			<span class="fa fa-star checked"></span>
-			{% else %}
-			<span class="fa fa-star"></span>
-			{% endif %}
-			{% if new_list.rating >= 4.0 %}
-			<span class="fa fa-star checked"></span>
-			{% else %}
-			<span class="fa fa-star"></span>
-			{% endif %}
-			{% if new_list.rating >= 5.0 %}
-			<span class="fa fa-star checked"></span>
-			{% else %}
-			<span class="fa fa-star"></span>
-			{% endif %}
-			</p>
+			<p align = "center">
+		    <span class="stars">{{new_list.rating}}</span>
+		    </p>
 			<i>{{new_list.publish_year}}</i>
 			<!--div style="padding-top: -10px">
 					<button class="btn btn-info btn-s w3-right" type="submit" onclick="return donated();" >Donation Cancel</button>
