@@ -3,23 +3,148 @@
 <title>Rate Me!</title>
 {% endblock %}
 {% block content %}
-<div class="w3-card w3-container w3-padding-large" style="margin-top: 80px;">
-	<h2 class="w3-padding-large w3-center"> Rate the Book </h2>
+<style type="text/css">
+	.rating-2 {
+	  display: inline-block;
+	  position: relative;
+	  height: 50px;
+	  line-height: 50px;
+	  font-size: 50px;
+	}
+
+	.rating-2 label {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  height: 100%;
+	  cursor: pointer;
+	}
+
+	.rating-2 label:last-child {
+	  position: static;
+	}
+
+	.rating-2 label:nth-child(1) {
+	  z-index: 5;
+	}
+
+	.rating-2 label:nth-child(2) {
+	  z-index: 4;
+	}
+
+	.rating-2 label:nth-child(3) {
+	  z-index: 3;
+	}
+
+	.rating-2 label:nth-child(4) {
+	  z-index: 2;
+	}
+
+	.rating-2 label:nth-child(5) {
+	  z-index: 1;
+	}
+
+	.rating-2 label input {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  opacity: 0;
+	}
+
+	.rating-2 label .icon {
+	  float: left;
+	  color: transparent;
+	}
+
+	.rating-2 label:last-child .icon {
+	  color: #000;
+	}
+
+	.rating-2:not(:hover) label input:checked ~ .icon,
+	.rating-2:hover label:hover input ~ .icon {
+	  color: #09f;
+	}
+
+	.rating-2 label input:focus:not(:checked) ~ .icon:last-child {
+	  color: #000;
+	  text-shadow: 0 0 5px #09f;
+	}
+	table {
+	    font-family: arial, sans-serif;
+	    border-collapse: collapse;
+	    width: 700px;
+	}
+	td, th {
+	    border: 0;
+	    text-align: left;
+	    padding: 8px;
+	    white-space: nowrap;
+	    width: auto;
+	}
+
+	tr:nth-child(even) {
+	    background-color: white;
+	}
+</style>
+<div class="w3-card w3-container w3-padding-large" style="margin-top: 20px;">
+	<h2 class="w3-padding-large w3-center"> Rate this Book </h2>
 	<form method="POST" class="post-form">
 	{% csrf_token %}
 	<table align="center" style="margin-top: 15px">
 		<tr>
 			<td><label for="rating">Rating</label></td>
-			<td><input type="number" id="rating" name="rating" placeholder="1.0" step="0.01" min="0" max="5"></td>
+			<td>
+			<div class="rating-2" id="rating">
+			<label>
+			    <input type="radio" name="rating" value="1" />
+			    <span class="icon">★</span>
+			  </label>
+			  <label>
+			    <input type="radio" name="rating" value="2" />
+			    <span class="icon">★</span>
+			    <span class="icon">★</span>
+			  </label>
+			  <label>
+			    <input type="radio" name="rating" value="3" />
+			    <span class="icon">★</span>
+			    <span class="icon">★</span>
+			    <span class="icon">★</span>   
+			  </label>
+			  <label>
+			    <input type="radio" name="rating" value="4" />
+			    <span class="icon">★</span>
+			    <span class="icon">★</span>
+			    <span class="icon">★</span>
+			    <span class="icon">★</span>
+			  </label>
+			  <label>
+			    <input type="radio" name="rating" value="5" />
+			    <span class="icon">★</span>
+			    <span class="icon">★</span>
+			    <span class="icon">★</span>
+			    <span class="icon">★</span>
+			    <span class="icon">★</span>
+			  </label>
+			  </div>
+			  </td>
 		</tr>
 		<tr>
-			<td><label for="review">Write your review</label></td>
-		  	<td><textarea name="review" id="review" rows="08" cols="60" placeholder="Write your review here . . ."></textarea></td>
+			<td><label for="review">Review</label></td>
+		  	<td><textarea name="review" class="form-control" id="review" rows="10" cols="60" placeholder="{{placeholder}}"></textarea></td>
 		</tr>
 	</table>
-	  <div class="w3-right" style="margin-top: 30px;margin-bottom: 10px">
-	  	<input class="btn btn-success" type="submit">
+	  <div class="w3-right" style="margin-top: 30px;margin-bottom: 10px;margin-right: 25%;">
+	  	<button class="btn btn-success" type="submit">Post review</button>
 	  </div>
 	</form>
 </div>
+
+<form class="rating">
+  
+</form>
+<script type="text/javascript">
+	$(':radio').change(function() {
+	  console.log('New star rating: ' + this.value);
+	});
+</script>
 {% endblock %}

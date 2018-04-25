@@ -41,74 +41,81 @@ def addToRequestQueue(request):
     new_book_names = request.POST.getlist('book_name', None)
     new_counts = request.POST.getlist('count', None)
     for use_isbn in use_isbns:
-        if isbnlib.is_isbn10(use_isbn):
-            use_isbn = isbnlib.to_isbn13(use_isbn)
-            if isbnlib.is_isbn13(use_isbn):
-                edition_list = isbnlib.editions(use_isbn, service='any')
-                if(len(edition_list) != 0):
-                    use_isbn = edition_list[0]
         if Wishlist.objects.filter(isbn=use_isbn, user=request.user).exists():
             wished = Wishlist.objects.get(isbn=use_isbn, user=request.user)
             wished.count+=1
             wished.save()
             wished.author_name=wished.author_name
             wishes.append(wished)
-        elif not isbnlib.is_isbn13(use_isbn):
-            author_string = new_authors[cnt]
-            book_title = new_book_names[cnt]
-            isAvail = False
-
-            new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=author_string, book_name=book_title, isAvailable=isAvail) 
-            if Book.objects.filter(isbn=use_isbn).exists() and int(float(new_counts[cnt])) > 0:
-                isAvail=True
-            wishes.append(new_wish)
-            cnt+=1
         else:
-            requested_book = isbnlib.meta(use_isbn)
-            if requested_book is None:
-                requested_book = isbnlib.goom(use_isbn)
-                requested_book = requested_book[0]
-            authors = requested_book['Authors']
-            cur_author_string=''
-            isFword=True
-            for author in authors:
-                if isFword:
-                    isFword=False
-                else:
-                    cur_author_string+=', '
-                isFirst=True
-                isOdd=True
-                for c in author:
-                    if c is '[':
-                        pass
-                    elif c is ']':
-                        pass
-                    else:
-                        if isFirst and c is '\'':
-                            isFirst=False
-                            isOdd=False
-                        elif c is '\'' and isOdd and not isFirst:
-                            cur_author_string+=','
-                            isOdd=False
-                        elif c is '\'' and not isOdd:
-                            isOdd=True
-                        else:
-                            cur_author_string+=c
-            
-            book_title = requested_book['Title']
-            isAvail = False
-            if Book.objects.filter(isbn=use_isbn).exists() :
-                isAvail=True
+            if isbnlib.is_isbn10(use_isbn):
+                use_isbn = isbnlib.to_isbn13(use_isbn)
+                if isbnlib.is_isbn13(use_isbn):
+                    edition_list = isbnlib.editions(use_isbn, service='any')
+                    if(len(edition_list) != 0):
+                        use_isbn = edition_list[0]
+            if Wishlist.objects.filter(isbn=use_isbn, user=request.user).exists():
+                wished = Wishlist.objects.get(isbn=use_isbn, user=request.user)
+                wished.count+=1
+                wished.save()
+                wished.author_name=wished.author_name
+                wishes.append(wished)
+            elif not isbnlib.is_isbn13(use_isbn):
+                author_string = new_authors[cnt]
+                book_title = new_book_names[cnt]
+                isAvail = False
+
+                new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=author_string, book_name=book_title, isAvailable=isAvail) 
+                if Book.objects.filter(isbn=use_isbn).exists() and int(float(new_counts[cnt])) > 0:
+                    isAvail=True
+                wishes.append(new_wish)
+                cnt+=1
             else:
-                book_publisher = requested_book['Publisher']
-                book_date = 1996
-                if not requested_book['Year'] is '':
-                    book_date = requested_book['Year']
-                add_author = Author.objects.create(author_name=cur_author_string)
-                Book.objects.create(isbn=use_isbn, author_id=add_author, publisher=book_publisher,
-                                               book_name=book_title, publish_year=book_date)
-            new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=cur_author_string, book_name=book_title, isAvailable=isAvail) 
-            wishes.append(new_wish)
+                requested_book = isbnlib.meta(use_isbn)
+                if requested_book is None:
+                    requested_book = isbnlib.goom(use_isbn)
+                    requested_book = requested_book[0]
+                authors = requested_book['Authors']
+                cur_author_string=''
+                isFword=True
+                for author in authors:
+                    if isFword:
+                        isFword=False
+                    else:
+                        cur_author_string+=', '
+                    isFirst=True
+                    isOdd=True
+                    for c in author:
+                        if c is '[':
+                            pass
+                        elif c is ']':
+                            pass
+                        else:
+                            if isFirst and c is '\'':
+                                isFirst=False
+                                isOdd=False
+                            elif c is '\'' and isOdd and not isFirst:
+                                cur_author_string+=','
+                                isOdd=False
+                            elif c is '\'' and not isOdd:
+                                isOdd=True
+                            else:
+                                cur_author_string+=c
+                
+                book_title = requested_book['Title']
+                isAvail = False
+                if Book.objects.filter(isbn=use_isbn).exists() :
+                    isAvail=True
+                else:
+                    book_publisher = requested_book['Publisher']
+                    book_date = 1996
+                    if not requested_book['Year'] is '':
+                        book_date = requested_book['Year']
+                    add_author = Author.objects.create(author_name=cur_author_string)
+                    Book.objects.create(isbn=use_isbn, author_id=add_author, publisher=book_publisher,
+                                                   book_name=book_title, publish_year=book_date)
+                new_wish = Wishlist.objects.create(user= request.user, isbn=use_isbn, author_name=cur_author_string, book_name=book_title, isAvailable=isAvail) 
+                wishes.append(new_wish)
 
     if not len(use_isbns) is 0:
         wishes.sort(key=lambda x: x.count ,reverse=True)
@@ -354,30 +361,48 @@ def pendingTransactions(request):
     receive_author = []
     donate_book = []
     donate_author = []
+    donated_to = []
+    my_donator = []
+    want_to_donate_book = []
+    want_to_donate_author = []
     cur_user = OurUser.objects.get(user=request.user)
     to_receive = list(Boiii.objects.filter(receiver_id=cur_user, donated=True, received=False).exclude(id=cur_user))
     to_donate = list(Boiii.objects.filter(id=cur_user, donated=True, received=False).exclude(receiver_id=cur_user))
+    want_to_donate = list(Boiii.objects.filter(id=cur_user, donated=False, received=False).exclude(receiver_id=cur_user))
     has_receive = False
     has_donate = False
+    think_donate = False
+    to_receive_wish = []
     for receive in to_receive:
+        cur_donator = OurUser.objects.get(id = receive.id_id)
         cur_book = Book.objects.get(isbn = receive.isbn_id)
         cur_author = Author.objects.get(author_id = cur_book.author_id.author_id)
+        cur_wish = Wishlist.objects.get(isbn = cur_book.isbn,user = request.user )
         receive_book.append(cur_book)
         receive_author.append(cur_author)
+        my_donator.append(cur_donator)
+        to_receive_wish.append(cur_wish)
         has_receive=True
     for donate in to_donate:
+        cur_receiver = OurUser.objects.get(id = donate.receiver_id_id)
         cur_book = Book.objects.get(isbn = donate.isbn_id)
         cur_author = Author.objects.get(author_id = cur_book.author_id.author_id)
         donate_book.append(cur_book)
         donate_author.append(cur_author)
+        donated_to.append(cur_receiver)
         has_donate=True
+    for donate in want_to_donate:
+        cur_book = Book.objects.get(isbn = donate.isbn_id)
+        cur_author = Author.objects.get(author_id = cur_book.author_id.author_id)
+        want_to_donate_book.append(cur_book)
+        want_to_donate_author.append(cur_author)
+        think_donate=True
 
-    return render(request, 'request/pending.html', context={'receive':zip(to_receive, receive_book, receive_author), 'donate' : zip(to_donate,donate_book,donate_author), 'has_receive':has_receive, 'has_donate':has_donate})
+    return render(request, 'request/pending.html', context={'want_to_donate':zip(want_to_donate,want_to_donate_book,want_to_donate_author),'receive':zip(to_receive, receive_book, receive_author, my_donator,to_receive_wish), 'donate' : zip(to_donate,donate_book,donate_author,donated_to), 'has_receive':has_receive, 'has_donate':has_donate,'think_donate':think_donate})
 @login_required
 def confirmWishRejection(request):
     current_user = request.user
-    print(request.GET['book'][17:-1])
-    cur_wish = Wishlist.objects.get(id = request.GET['book'][17:-1])
+    cur_wish = Wishlist.objects.get(id = request.GET['wishlist'])
     cur_wish.count = cur_wish.count - 1
     if cur_wish.count > 0:
         cur_wish.save()
@@ -388,4 +413,11 @@ def confirmWishRejection(request):
     if Wishlist.objects.filter(user=request.user).exists():
         haswishes=True
         wishlist = Wishlist.objects.all().filter(user=request.user)
-    return render(request, 'request/show_wishlist.html', context={'haswishes':haswishes, 'books': wishlist})
+    return redirect('wishlist')
+
+def confirmDonateRejection(request):
+    boiii_id = request.GET['boiii']
+    boiii = Boiii.objects.get(pk = boiii_id)
+    boiii.donated = False;
+    boiii.save()
+    return redirect('pending')

@@ -78,11 +78,10 @@ def homepage(request):
 @login_required
 def confirmDonation(request):
 	current_user = request.user
-	print(request.GET['boiii'][14:-1])
-	print(request.GET['wishlist'][17:-1])
-	cur_boiii = Boiii()
-	cur_boiii = Boiii.objects.get(book_id = request.GET['boiii'][14:-1])
-	cur_wish = Wishlist.objects.get(id = request.GET['wishlist'][17:-1])
+	print(request.GET['boiii'])
+	print(request.GET['wishlist'])
+	cur_boiii = Boiii.objects.get(book_id = request.GET['boiii'])
+	cur_wish = Wishlist.objects.get(id = request.GET['wishlist'])
 	cur_boiii.received = True
 	cur_wish.count = cur_wish.count - 1;
 	cur_boiii.save()
@@ -99,11 +98,10 @@ def confirmDonation(request):
 @login_required
 def confirmRejection(request):
 	current_user = request.user
-	print(request.GET['boiii'][14:-1])
-	print(request.GET['wishlist'][17:-1])
-	cur_boiii = Boiii()
-	cur_boiii = Boiii.objects.get(book_id = request.GET['boiii'][14:-1])
-	cur_wish = Wishlist.objects.get(id = request.GET['wishlist'][17:-1])
+	print(request.GET['boiii'])
+	print(request.GET['wishlist'])
+	cur_boiii = Boiii.objects.get(book_id = request.GET['boiii'])
+	cur_wish = Wishlist.objects.get(id = request.GET['wishlist'])
 	cur_boiii.donated = False
 	cur_boiii.receiver_id_id = None
 	cur_boiii.save()
@@ -138,4 +136,20 @@ def contact(request):
 
 def story(request):
 	return render(request,'story.html')
-
+'''need to pass boiii.book_id'''
+@login_required
+def dontDonate(request):
+	current_user = request.user
+	print(request.GET['boiii'])
+	#print(request.GET['wishlist'])
+	cur_boiii = Boiii.objects.get(book_id = request.GET['boiii'])
+	cur_book = Book.objects.get(isbn = cur_boiii.isbn_id)
+	cur_user = OurUser.objects.get(user = current_user)
+	#cur_wish = Wishlist.objects.get(id = request.GET['wishlist'])
+	cur_user.donate_count = cur_user.donate_count - 1
+	
+	cur_book.count = cur_book.count - 1
+	cur_user.save()
+	cur_book.save()
+	cur_boiii.delete()
+	return redirect('pending')

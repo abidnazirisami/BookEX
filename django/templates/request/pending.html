@@ -7,32 +7,77 @@
 {% block content %}
 
 <div class="w3-container">
-{% if has_receive %}
-  <h1 class="w3-padding-large w3-center"><u>Yet to Receive</u></h1>
+<div class="w3-third">
+{% if think_donate %}
+  <h2 class="w3-padding-large w3-center"><u>Yet to Find Receiver</u></h2>
   <div class="w3-row-padding">
-    {% for book,re_book,author in receive %}
+    {% for book,d_book,author in want_to_donate %}
     <div class="w3-col m12 w3-padding-small">
-      <div class="w3-container w3-card w3-padding-large">  
+      <div class="w3-container w3-card w3-padding-large">
          <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
            {% load static %}
             <div class="profile-header-container">   
-              <div class="w3-third  w3-center profile-header-img">
+              <div class="profile-header-img">
                     <img class="img-rounded" src="{{book.photo.url}}" alt="Photo" style="width:250px; height: 250px;">
               </div>
             </div>
           </a>
-          <div class="w3-twothird w3-center">
-            <p class="w3-wide " style="padding-top: 30px">
+          <div class="w3-center">
+            <p class="w3-wide ">
               <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
-                <h2>{{re_book.book_name}}</h2>
+                <h4>{{d_book.book_name}}</h4>
               </a>
               <p>by <i class="authors">{{author.author_name}}</i></p>
             </p>
-            <div style="padding-top: 140px">
-                
-            <button class="btn btn-info btn-s w3-right" onclick="return reject()" style="margin-top: -5px;">Cancel</button>
-            <button class="btn btn-info btn-s w3-right w3-margin-right" onclick="return confirm()" style="margin-top: -5px;">Confirm</button>
-    
+            <div class="w3-margin-top">
+              <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
+            <form action="{% url 'donation_cancel' %}">
+                <input type="hidden" name="boiii" id="boiii" value="{{book.book_id}}">
+                <button class="btn btn-info btn-s w3-right" type="submit" onclick="return donated();" >Remove from Donation List</button>   
+              </form>           
+            </div> 
+          </div>
+         </div>
+      </div> 
+  {% endfor %}
+  </div>
+  {% endif %}
+  </div>
+<div class="w3-third">
+{% if has_receive %}
+  <h2 class="w3-padding-large w3-center"><u>Yet to Receive</u></h2>
+  <div class="w3-row-padding">
+    {% for book,re_book,author,cur_user,wish in receive %}
+    <div class="w3-col m12 w3-padding-small">
+      <div class="w3-container w3-card w3-padding-large">
+      <p>From: <i class="username"><a href="{% url 'viewprofile' username=cur_user.user_name %}">{{cur_user.user_name}}</a></i></p><br>  
+         <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
+           {% load static %}
+            <div class="profile-header-container">   
+              <div class="w3-center profile-header-img">
+                    <img class="img-rounded" src="{{book.photo.url}}" alt="Photo" style="width:250px; height: 250px;">
+              </div>
+            </div>
+          </a>
+          <div class="w3-center">
+            <p class="w3-wide " style="padding-top: 30px">
+              <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
+                <h4>{{re_book.book_name}}</h4>
+              </a>
+              <p>by <i class="authors">{{author.author_name}}</i></p>
+            </p>
+            <div class="w3-margin-top">
+              
+                <form action="{% url 'confirm_rejection' %}">
+                    <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
+                    <input type="hidden" name="boiii" id="boiii" value="{{book.book_id}}">
+                      <button class="btn btn-info btn-s w3-right" onclick="return  finalReject('{{boi}}', '{{wish}}')" style="margin-top: -5px;">Cancel</button>
+                    </form>
+                    <form action="{% url 'confirm_donation' %}">
+                        <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
+                        <input type="hidden" name="boiii" id="boiii" value="{{book.book_id}}">
+                          <button class="btn btn-info btn-s w3-right w3-margin-right" onclick="return finalConfirm('{{boiii}}', '{{wish}}'" style="margin-top: -5px;">Confirm</button>
+                        </form>
             </div> 
           </div>
       </div>
@@ -40,41 +85,63 @@
     {% endfor %}
   </div>
 {% endif %}
+</div>
+<div class="w3-third">
 {% if has_donate %}
-  <h1 class="w3-padding-large w3-center"><u>Yet to Donate</u></h1>
+  <h2 class="w3-padding-large w3-center"><u>Yet to Donate</u></h2>
   <div class="w3-row-padding">
-    {% for book,d_book,author in donate %}
+    {% for book,d_book,author,cur_user in donate %}
     <div class="w3-col m12 w3-padding-small">
       <div class="w3-container w3-card w3-padding-large">  
+         <p>To: <i class="username"><a href="{% url 'viewprofile' username=cur_user.user_name %}">{{cur_user.user_name}}</a></i></p><br>
          <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
            {% load static %}
             <div class="profile-header-container">   
-              <div class="w3-third profile-header-img">
+              <div class="profile-header-img">
                     <img class="img-rounded" src="{{book.photo.url}}" alt="Photo" style="width:250px; height: 250px;">
               </div>
             </div>
           </a>
-          <div class="w3-twothird w3-center">
+          <div class="w3-center">
             <p class="w3-wide ">
               <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
-                <h2>{{d_book.book_name}}</h2>
+                <h4>{{d_book.book_name}}</h4>
               </a>
               <p>by <i class="authors">{{author.author_name}}</i></p>
             </p>
-            <div style="padding-top: 140px">
-              <button class="btn btn-info btn-s w3-right" type="submit" onclick="return donated();" >Donation Cancel</button>              
+            <div class="w3-margin-top">
+              <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
+            <form action="{% url 'confirm_donate_cancel' %}">
+                <input type="hidden" name="boiii" id="boiii" value="{{book.book_id}}">
+                <button class="btn btn-info btn-s w3-right" type="submit" onclick="return donated();" >Cancel Donation</button>   
+              </form>           
             </div> 
           </div>
          </div>
-      </div>
-    </div> 
+      </div> 
   {% endfor %}
   </div>
   {% endif %}
-  {% if not has_receive and not has_donate %}
+  </div>
+  {% if not has_receive and not has_donate and not think_donate%}
   <div class="fullscreen nothingtodo"  style="padding-top: 40px; padding-right: 40px;">
-    <h1 class="w3-padding-large w3-center w3-margin-top"> Nothing to donate </h1>
+    <h1 class="w3-padding-large w3-center w3-margin-top"> Nothing to do here </h1>
   </div>
   {% endif %}
-</div>
+
+<script>
+function finalConfirm(val1, val2){
+  alert("Congrats on your book! We hope you like it ^_^")
+  document.getElementById("overlay2").style.display = "none";
+  document.getElementById("boiii").value = val1;
+    document.getElementById("wishlist").value = val2;
+}
+function finalReject(val1, val2){
+  alert("We respect your decision ^_^")
+  document.getElementById("overlay2").style.display = "none";
+  document.getElementById("boiii").value = val1;
+    document.getElementById("wishlist").value = val2;
+}
+</script>
+
 {% endblock %}

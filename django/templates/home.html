@@ -39,7 +39,7 @@
 			<a href="{% url 'searchbook' %}">
 			<img src="{% static 'donate_book.jpg' %}" alt="Donate" style="width:100%; height: 100%">
 			 <div class="w3-container">
-	      		<h4><b>Donate now!</b></h4>
+	      		<h4><b>Add to library</b></h4>
 	    	 </div>
 	    	 </a>
 		</div>
@@ -83,10 +83,8 @@
 		</div>
 	</div>	
 </div>
-<div style="position: absolute;top: 400px; left:43%;z-index: 999;">
-	<a class="w3-button btn-xxl w3-opacity w3-padding-large w3-large w3-hover-teal" style="font-family: serif;" href="{% url 'story' %}">
-		<h2><b style="color: black">BookEX<br>Our Journey</b></h2>
-	</a>
+<div style="position: absolute;top: 40%; left:40%;z-index: 999; color: transparent;">
+	<h1><a class="w3-padding-large w3-xxl w3-round w3-hover-teal" style="transition: all 1s;" href="{% url 'story' %}">Our story</a></h1>
 </div>
 <script>
 (function() {
@@ -127,7 +125,7 @@
 				}
 				self._slideTo( self.index );
 				
-			}, 5000);
+			}, 3000);
 		},
 		stopStart: function() {
 			var self = this;
@@ -150,25 +148,7 @@
 	
 })();
 
-var slideIndex = 1;
-showDivs(slideIndex);
-setInterval(function(){ plusDivs(1); }, 3000);
-function plusDivs(n) {
-  showDivs(slideIndex += n);
-}
-function showDivs(n) {
-  var i;
-  var x = document.getElementsByClassName("mySlides");
-  if (n > x.length) {slideIndex = 1}    
-  if (n < 1) {slideIndex = x.length}
-  for (i = 0; i < x.length; i++) {
-   	 x[i].style.opacity = "0";
-     x[i].style.display = "none";  
-  }
-  x[slideIndex-1].style.display = "block";
-  x[slideIndex-1].style.opacity = "1";
-   // Change image every 3 seconds
-}
+
 </script>
 {% endif %}
 {% endblock %}

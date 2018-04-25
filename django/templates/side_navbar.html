@@ -98,7 +98,7 @@
 
 	<div id="overlay" class="w3-card ">
 	  <div id="text">
-	  	<button class="btn btn-warning btn-sm w3-left" onclick="off()">Back</button><br>
+	  	<button class="btn btn-success btn-sm w3-left" onclick="off()">Back</button><br>
 		  <form action="{% url 'donate_final' %}" method="POST" class="post-form" enctype='multipart/form-data'>
 			  {% csrf_token %}
 			  <h3 style="margin-top: 30px">Do you want to donate this book?</h3>
@@ -108,7 +108,9 @@
 			  <input type="range" name="condition" style="margin-top: 20px" list="tickmarks" min="0" max="5" step=".1" oninput="displaylabel(this.value)">
 		       <em id="rangeValLabel" style="font-style: normal; margin-top: 05px">Satisfactory</em><br>
 			  <br>{{form.as_p}}
+			  <button class="btn btn-warning btn-sm w3-right w3-margin-left" type="button" style="margin-top: 05px" onclick="off();" >Cancel</button>
 			  <button class="btn btn-info btn-sm w3-right" type="submit" style="margin-top: 05px" onclick="return donated();" >Confirm</button>
+			  
 		  </form>
 	  </div>
 	</div>
@@ -137,23 +139,25 @@
 			<button class="btn btn-info btn-xs w3-right w3-margin-right" onclick="return confirm()" style="margin-top: -5px;">Confirm</button>
 			<div id="overlay2">
 			  <div id="text2">
-			  	<button class="btn btn-warning btn-sm w3-left" onclick="return back2();">Back</button><br>
+			  	<button class="btn btn-success btn-sm w3-left" onclick="return back2();">Back</button><br>
 			    <h3 style="margin-top: 30px">Have you received the book from {{profile.first_name}} {{profile.last_name}} ? </h3>
 				<form action="{% url 'confirm_donation' %}">
-				  <input type="hidden" name="boiii" id="boiii" value="{{boi}}">
-				  <input type="hidden" name="wishlist" id="wishlist" value="{{wish}}">
-			  	  <button class="btn btn-info btn-sm w3-right" style="margin-top: 25px" type="submit" onclick="return finalConfirm('{{boi}}', '{{wish}}')" >Confirm</button>
+				  <input type="hidden" name="boiii" id="boiii" value="{{boi.book_id}}">
+				  <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
+				  <button class="btn btn-warning btn-sm w3-right w3-margin-left" type="button" style="margin-top: 05px" onclick="back2();" >Cancel</button>
+			  	  <button class="btn btn-info btn-sm w3-right" style="margin-top: 25px" type="submit" onclick="return finalConfirm()" >Confirm</button>
 				</form>
 			  </div>
 			</div>
 			<div id="overlay3">
 			  <div id="text3">
-				  <button class="btn btn-warning btn-sm w3-left" onclick="return back3();">Back</button><br>
+				  <button class="btn btn-success btn-sm w3-left" onclick="return back3();">Back</button><br>
 				  <h3 style="margin-top: 30px">Are you sure you want to reject the offer from {{profile.first_name}} {{profile.last_name}} ? </h3>
 				  <form action="{% url 'confirm_rejection' %}">
-				  <input type="hidden" name="boiii" id="boiii" value="{{boi}}">
-				  <input type="hidden" name="wishlist" id="wishlist" value="{{wish}}">
-				  	<button class="btn btn-info btn-xs w3-right" style="margin-top: 25px" type="submit" onclick="return finalReject('{{boi}}', '{{wish}}')"" >Confirm</button>
+				  <input type="hidden" name="boiii" id="boiii" value="{{boi.book_id}}">
+				  <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
+				  <button class="btn btn-warning btn-sm w3-right w3-margin-left" type="button" style="margin-top: 05px" onclick="back3();" >Cancel</button>
+				  <button class="btn btn-info btn-xs w3-right" style="margin-top: 25px" type="submit" onclick="return finalReject()"" >Confirm</button>
 			  	</form>
 			  </div>
 			</div>
@@ -200,17 +204,13 @@ function displaylabel(val) {
 	else ret="Excellent";
 	document.getElementById('rangeValLabel').innerHTML = ret;
 }
-function finalConfirm(val1, val2){
+function finalConfirm(){
 	alert("Congrats on your book! We hope you like it ^_^")
 	document.getElementById("overlay2").style.display = "none";
-	document.getElementById("boiii").value = val1;
-    document.getElementById("wishlist").value = val2;
 }
-function finalReject(val1, val2){
+function finalReject(){
 	alert("We respect your decision ^_^")
 	document.getElementById("overlay2").style.display = "none";
-	document.getElementById("boiii").value = val1;
-    document.getElementById("wishlist").value = val2;
 }
 function openNav() {
 	document.getElementById("mySidenav").style.width = "20%";

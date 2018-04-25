@@ -25,6 +25,7 @@ urlpatterns = [
     path('storyOfUs', views.story, name='story'),
     path('confirmed', views.confirmDonation, name='confirm_donation'),
     path('cancelled', views.confirmRejection, name='confirm_rejection'),
+    path('cancellDonation', views.dontDonate, name='donation_cancel'),
     path('donated', views.donate, name='donate_final'),
     path('aboutUs', TemplateView.as_view(template_name='about.html'), name='aboutUs'),
     path('contactUs', views.contact, name='contact'),

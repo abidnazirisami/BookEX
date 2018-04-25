@@ -7,3 +7,4 @@ class Review(models.Model):
 	review = models.CharField(max_length=10000,default=False)
 	rating = models.FloatField(default = 5.0)
 	isbn = models.ForeignKey(Book, on_delete=models.CASCADE,default='Not available')
+	rate_date = models.DateField(auto_now=True)

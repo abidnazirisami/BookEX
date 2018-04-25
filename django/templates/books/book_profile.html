@@ -6,61 +6,7 @@
 <link rel="icon" href="{% static 'Book.ico' %}" type="image/x-icon"> 
 {% endblock %}  
 
-<style>
-p, p a { 
-			color: #aaa;
-			text-decoration: none;
-		}
-		p a:hover,
-		p a:focus {
-			text-decoration: underline;
-		}
-		p + p { color: #bbb; margin-top: 2em;}
-		.detail {position: absolute; text-align: right; right: 5px; bottom: 5px; width: 50%;}
-		
-		a[href*="intent"] {
-			display:inline-block;
-			margin-top: 0.4em;
-		}
-.rating {
-	width: 226px;
-	margin: 0 auto 1em;
-	font-size: 45px;
-	overflow:hidden;
-}
-.rating input {
-float: right;
-opacity: 0;
-position: absolute;
-}
-.rating a,
-.rating label {
-	float:right;
-	color: #aaa;
-	text-decoration: none;
-	-webkit-transition: color .4s;
-	-moz-transition: color .4s;
-	-o-transition: color .4s;
-	transition: color .4s;
-}
-.rating label:hover ~ label,
-.rating input:focus ~ label,
-.rating label:hover,
-.rating a:hover,
-	.rating a:hover ~ a,
-	.rating a:focus,
-	.rating a:focus ~ a		{
-		color: red;
-		cursor: pointer;
-	}
-	.rating2 {
-		direction: rtl;
-	}
-	.rating2 a {
-		float:none
-	}
 
-</style>
 
 {% block content %}
 <!-- Profile-->
@@ -74,15 +20,13 @@ position: absolute;
               	
               </div>
               	<div class="w3-center" style="margin-left: 40%">
+                    
+                    {% if book.rating == 0.0 %}
+                    <i class="w3-left">No stars yet</i>
+                    {% else %}
                     <span class="stars">{{book.rating}}</span>
+                    {% endif %}
               	</div>
-              <!--div class="rating rating2">
-              	<a href="1" title="Give 1 stars">★</a>
-              	<a href="2" title="Give 2 stars">★</a>
-              	<a href="3" title="Give 3 stars">★</a>
-              	<a href="4" title="Give 4 stars">★</a>
-              	<a href="5" title="Give 5 stars">★</a>
-              </div-->
        		</div>
        		
 			<p class="w3-wide ">
@@ -124,6 +68,25 @@ position: absolute;
       	<button  class="w3-button w3-border w3-hover-teal w3-right w3-round">Add to Wishlist</button>
       </a>
     </div>
+    <div class="w3-container w3-margin-right w3-margin-left w3-padding-large">
+    <h1 class="w3-center"> Reviews </h1>
+    <ul class="list-group">
+    {% for cur_review in review %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+    <span class="stars">{{cur_review.rating}}</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+    <p style="font-size: 20px;">{{cur_review.review}}</p> <br>
+    {% if cur_review.user_id.user != user %}
+		<i class="w3-right"><a href="{% url 'viewprofile' username=cur_review.user_id.user_name %}">{{cur_review.user_id.user.first_name}} {{cur_review.user_id.user.last_name}}</a> rated on {{cur_review.rate_date}}</i>   
+	{% else %}
+		<i class="w3-right"><a href="{% url 'viewprofile' username=cur_review.user_id.user_name %}">You</a> rated on {{cur_review.rate_date}}</i>
+	{% endif %} 
+		<br>
+	</li>	
+	{% endfor %}
+	</ul>
+	</div>
 </div>
     
 <script>
@@ -137,8 +100,5 @@ $.fn.stars = function() {
 }
 
 </script>
-<div>
-	{% for cur_review in review %}
-		{{cur_review.table}}
-	{% endfor %}
+	
 {% endblock %}
