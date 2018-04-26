@@ -7,6 +7,9 @@
 {% endblock %}  
 
 {% block content %}
+<!--Notifications-->
+{% include 'side_navbar.html' %}
+<!--Notifications-->
 <!-- Profile-->
 <div class="w3-container w3-card w3-white w3-margin-top w3-padding-8">
 	<div class="w3-third w3-padding-large" style="max-width:1950px;padding-left: 10px;padding-right: 10px">
@@ -23,7 +26,7 @@
        		</div> 
 			<p class="w3-wide ">
 			<h2>{{user.first_name}} {{user.last_name}}</h2><a href="{% url 'editprofile' %}" class="btn w3-margin-bottom w3-margin-right w3-right"><i class="fa fa-edit" style="font-size:18px;color: tomato;">Edit</i></a>
-			<p><i class="username">{{profile.user_name}}</i></p>
+			<p><i class="username">@{{profile.user_name}}</i></p>
 			</p> 
 			<p > Member since {{user.date_joined}} </p>
 			
@@ -51,41 +54,21 @@
 <div class=" w3-margin-top w3-row">
 	<div class="w3-col m12 w3-center book-card w3-margin-top w3-margin-bottom" >
 		<div class="alert alert-info w3-wide" >
-			Book(s) Donated:
-			<strong>{{profile.donate_count}} </strong>
+			Library Contains:
+			<strong>{{profile.donate_count}} </strong>Book(s)
 		</div>
 
 		{% for new_list,author_name_list in book %}
 		<div class="w3-card w3-container w3-padding-large w3-margin-bottom">
 			<a href="{% url 'viewbookprofile' req_isbn=new_list.isbn %}"><h3>{{new_list.book_name}}</a></h6>
 			<h6>{{author_name_list}}</h6>
-			<p>
-			{% if new_list.rating >= 1.0 %}
-			<span class="fa fa-star checked"></span>
-			{% else %}
-			<span class="fa fa-star"></span>
-			{% endif %}
-			{% if new_list.rating >= 2.0 %}
-			<span class="fa fa-star checked"></span>
-			{% else %}
-			<span class="fa fa-star"></span>
-			{% endif %}
-			{% if new_list.rating >= 3.0 %}
-			<span class="fa fa-star checked"></span>
-			{% else %}
-			<span class="fa fa-star"></span>
-			{% endif %}
-			{% if new_list.rating >= 4.0 %}
-			<span class="fa fa-star checked"></span>
-			{% else %}
-			<span class="fa fa-star"></span>
-			{% endif %}
-			{% if new_list.rating >= 5.0 %}
-			<span class="fa fa-star checked"></span>
-			{% else %}
-			<span class="fa fa-star"></span>
-			{% endif %}
-			</p>
+			<div align = "center">
+		    {% if new_list.rating == 0 %}
+		      <div><span><i class="no-star">No stars yet</i></span></div>
+		      {% else %}
+		      <div ><span class="stars">{{new_list.rating}}</span></div>
+		      {% endif %}
+		    </div>
 			<i>{{new_list.publish_year}}</i>
 			<!--div style="padding-top: -10px">
 					<button class="btn btn-info btn-s w3-right" type="submit" onclick="return donated();" >Donation Cancel</button>
@@ -105,4 +88,16 @@ You haven't donated any books yet :( </div>
 </div>
 {% endif %}
 </div>
+<script>
+$(function() {
+    $('span.stars').stars();
+});
+$.fn.stars = function() {
+    return $(this).each(function() {
+        $(this).html($('<span />').width(Math.max(0, (Math.min(5, parseFloat($(this).html())))) * 16));
+    });
+}
+
+</script>
+
 {% endblock %}

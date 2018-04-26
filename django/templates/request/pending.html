@@ -5,7 +5,9 @@
 <link rel="icon" href="{% static 'bookex-2.ico' %}" type="image/x-icon"> 
 {% endblock %}
 {% block content %}
-
+<!--Notifications-->
+{% include 'side_navbar.html' %}
+<!--Notifications-->
 <div class="w3-container">
 <div class="w3-third">
 {% if think_donate %}
@@ -50,7 +52,7 @@
     {% for book,re_book,author,cur_user,wish in receive %}
     <div class="w3-col m12 w3-padding-small">
       <div class="w3-container w3-card w3-padding-large">
-      <p>From: <i class="username"><a href="{% url 'viewprofile' username=cur_user.user_name %}">{{cur_user.user_name}}</a></i></p><br>  
+      From: <i class="username"><a href="{% url 'viewprofile' username=cur_user.user_name %}">{{cur_user.user_name}}</a></i> 
          <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
            {% load static %}
             <div class="profile-header-container" style="margin-top: -45px">   
@@ -93,7 +95,7 @@
     {% for book,d_book,author,cur_user in donate %}
     <div class="w3-col m12 w3-padding-small">
       <div class="w3-container w3-card w3-padding-large">  
-         <p>To: <i class="username"><a href="{% url 'viewprofile' username=cur_user.user_name %}">{{cur_user.user_name}}</a></i></p><br>
+         To: <i class="username"><a href="{% url 'viewprofile' username=cur_user.user_name %}">{{cur_user.user_name}}</a></i>
          <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
            {% load static %}
             <div class="profile-header-container" style="margin-top: -45px">   

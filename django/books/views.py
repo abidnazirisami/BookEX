@@ -5,13 +5,36 @@ from .forms import *
 from django.shortcuts import redirect
 import isbnlib
 from django.contrib.auth.decorators import login_required
-from web_project.views import notifications
+from fuzzywuzzy import fuzz
 
 @login_required
 def displayBooks(request):
-	book = Book.objects.all()
-	form, donate, receive, notification_count = notifications(request)
-	return render(request, 'books/list_of_books.html', context = {'book':book, 'form':form,'donate':donate,'receive': receive, 'notification_count' : notification_count})
+	book_names=[]
+	book=[]
+	if request.method == "POST":
+		search = request.POST.get('find_book',None)
+		if search is None or search == '':
+			book = Book.objects.all()
+			for books in book:
+				book_names.append(books.book_name)
+			form, donate, receive, notification_count = notifications(request)
+			return render(request, 'books/list_of_books.html', context = {'book':book, 'form':form,'donate':donate,'receive': receive, 'notification_count' : notification_count})
+		book_table = Book.objects.all()
+		for cur_book in book_table:
+			if Author.objects.filter(pk=cur_book.author_id.author_id).exists():
+				cur_author = Author.objects.get(pk=cur_book.author_id.author_id)
+			cur_book_string = cur_book.isbn + " " + cur_book.publisher + " " + cur_author.author_name
+			cur_book_string = cur_book_string + " " + cur_book.book_name + " " + str(cur_book.publish_year)
+			if fuzz.token_set_ratio(cur_book_string, search) > 40:
+				book.append(cur_book)
+	else:
+		book = Book.objects.all()
+	book_names=[]
+	allbooks = Book.objects.all()
+	for books in allbooks:
+		book_names.append(books.book_name)
+	
+	return render(request, 'books/list_of_books.html', context = {'book_names':book_names,'book':book,})
 
 @login_required
 def addBook(request):

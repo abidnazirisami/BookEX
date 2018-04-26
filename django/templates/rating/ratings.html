@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 {% block title %}
+{% load static %}
+<link rel="icon" href="{% static 'star.ico' %}" type="image/x-icon"> 
 <title>Rate Me!</title>
 {% endblock %}
 {% block content %}
+<!--Notifications-->
+{% include 'side_navbar.html' %}
+<!--Notifications-->
 <style type="text/css">
 	.rating-2 {
 	  display: inline-block;

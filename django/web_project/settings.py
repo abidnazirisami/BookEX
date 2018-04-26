@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'request', # The app to handle requests
     'find', # The app to handle search
     'rating', # The app to rate books
+    'mail', #the app to handle messaging
 ]
 
 MIDDLEWARE = [
@@ -68,6 +69,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'mail.context_processors.messageCount',
+                'mail.context_processors.pendingCount',
+                'mail.context_processors.notifications',
             ],
         },
     },

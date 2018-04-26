@@ -12,53 +12,6 @@ from typing import List, Any
 from .forms import UploadFileForm
 from .urls import *
 
-@login_required
-def notifications(request):
-	current_user = request.user
-	if not OurUser.objects.filter(user = current_user).exists():
-		current_user.first_name = current_user.username
-		current_user.save()
-		current_profile = OurUser.objects.create(user = current_user, user_name = current_user.username)
-	else:
-		current_profile = OurUser.objects.get(user = current_user)
-
-	##########################################################################################
-
-	form = UploadFileForm()
-
-
-	##########################################################################################
-	notification_count=0
-
-	# The books I have added to the library:
-	can_donate_boiii = Boiii.objects.filter(id = current_profile, donated = False)
-	will_donate_boiii = []
-	will_donate_book = []
-	will_donate_wish = []
-	will_donate_count = []
-	for boi in can_donate_boiii:
-		# The books that people except me have wished:
-		lets_donate = Wishlist.objects.filter(isbn = boi.isbn.isbn).exclude(user = current_user) # Arrrgh
-		print(lets_donate)
-		for wish in lets_donate:
-			# These are the books that I will be asked to donate in the notifications:
-			will_donate_wish.append(wish)
-			will_donate_book.append(Book.objects.get(isbn = wish.isbn))
-			will_donate_boiii.append(Boiii.objects.filter(id = current_profile, isbn = wish.isbn, donated = False)[0])
-			will_donate_count.append(len(Boiii.objects.filter(id = current_profile, isbn = wish.isbn, donated = False)))
-			notification_count += 1
-	# The wishes I made that has been met
-	will_receive_boiii = Boiii.objects.filter(receiver_id = current_profile, donated = True, received = False)
-	will_receive_book = []
-	will_receive_wish = []
-	will_receive_from = []
-	for boi in will_receive_boiii:
-		print(boi.isbn)
-		will_receive_book.append(boi.isbn) # For some reason, boi.isbn is a book type object -_-
-		will_receive_wish.append(Wishlist.objects.get(isbn = boi.isbn.isbn, user = current_user))
-		will_receive_from.append(User.objects.get(username = boi.id.user_name))
-		notification_count += 1
-	return form, zip(will_donate_book,will_donate_boiii,will_donate_wish,will_donate_count), zip(will_receive_book,will_receive_boiii,will_receive_wish,will_receive_from), notification_count
 
 
 def homepage(request):
@@ -71,8 +24,8 @@ def homepage(request):
 			current_profile = OurUser.objects.create(user = current_user, user_name = current_user.username)
 		else:
 			current_profile = OurUser.objects.get(user = current_user)
-		form, donate, receive, notification_count = notifications(request)
-		return render(request,'home.html',context={'form':form,'donate':donate,'receive': receive, 'notification_count' : notification_count})
+		
+		return render(request,'home.html')
 	return render(request, 'home.html')
 
 @login_required

@@ -65,22 +65,33 @@
 }
 
 </style>
-
+<nav>
+	<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;
+		{% if notification_count > 0 %}
+		<span class="badge red">{{notification_count}}</span>
+		{% endif %}
+	</span>
+</nav>
 <div id="mySidenav" class="sidenav">
 	<a href="{% url 'home' %}" class="w3-bar-item w3-center zoom w3-roboto"><p class="w3-xxlarge"><b style="text-decoration: none; color: white">Book</b><b style="text-decoration: none; color: orange">EX</b></p></a>
 	<div class="w3-margin-bottom">
 		<font color = "white" class="w3-wide w3-margin-left"> Notifications: </font>
 	</div>
   	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+<<<<<<< HEAD
   	<nav>
   		<span href="javascript:void(0)" style="font-size:30px;cursor:pointer" class="closebtn" onclick="closeNav()">&times;</span>
 	</nav>
 
 	{% for book,boi,wish,cnt in donate %}
+=======
+	{% for book,boi,wish,cnt in notification_donate %}
+>>>>>>> 1eb1063912e8641ab056c52d24a5ad84422267c9
 	<div class="w3-container">
 		<div class="w3-card w3-margin-bottom w3-teal w3-padding-small w3-container" style="position: relative;">
 			<span class="label label-success w3-right" style="margin-top: 5px;">Requested: {{wish.count}}</span>
-			<p class="small"><a href="{% url 'viewprofile' username=wish.user.username %}">{{wish.user.first_name}} {{wish.user.last_name}}</a>Requested on {{wish.request_date}} </p>
+			<p class="small"><a href="{% url 'viewprofile' username=wish.user.username %}">{{wish.user.first_name}} {{wish.user.last_name}}</a> 
+				Requested on {{wish.request_date}}  <a href="{% url 'mail' receiver=wish.user.id %}"><i class="fa fa-comment-o zoom"> Text</i></a> </p>
  			<a href="{% url 'viewbookprofile' req_isbn=wish.isbn %}"><h4>{{wish.book_name}}</h4> </a> 
 			<i>{{wish.author_name}}, 
 			{{wish.edition}}
@@ -111,20 +122,19 @@
 			  <label for="condition" style="margin-top: 20px">Condition</label>
 			  <input type="range" name="condition" style="margin-top: 20px" list="tickmarks" min="0" max="5" step=".1" oninput="displaylabel(this.value)">
 		       <em id="rangeValLabel" style="font-style: normal; margin-top: 05px">Satisfactory</em><br>
-			  <br>{{form.as_p}}
+			  <br>{{notification_form.as_p}}
 			  <button class="btn btn-warning btn-sm w3-right w3-margin-left" type="button" style="margin-top: 05px" onclick="off();" >Cancel</button>
-			  <button class="btn btn-info btn-sm w3-right" type="submit" style="margin-top: 05px" onclick="return donated();" >Confirm</button>
-			  
+			  <button class="btn btn-info btn-sm w3-right" type="submit" style="margin-top: 05px" onclick="return donated();" >Confirm</button>  
 		  </form>
 	  </div>
 	</div>
 	{% endfor %}
 
 <!-- Heeeeeeeeeeeeeeeeeeeeeeeeeelllllllllllllllllllo -->
-	{% for book, boi, wish, profile in receive %}
+	{% for book, boi, wish, profile in notification_receive %}
 	<div class="w3-container">		  	
 	  <div class="w3-card w3-margin-bottom w3-teal w3-padding-small w3-container" style="position: relative;">
-		<p class="small"><a href="{% url 'viewprofile' username=profile.username %}">{{profile.first_name}} {{profile.last_name}}</a>approved the request you made on {{wish.request_date}} </p>
+		<p class="small"><a href="{% url 'viewprofile' username=profile.username %}">{{profile.first_name}} {{profile.last_name}}</a> approved the request you made on {{wish.request_date}} <a href="{% url 'mail' receiver=profile.id %}"><i class="fa fa-comment-o zoom"> Text</i></a></p>
 		 <a href="{% url 'viewbookprofile' req_isbn=wish.isbn %}"><h4>{{wish.book_name}}</h4> </a> 
 		<i>
 			{{wish.author_name}}, 
@@ -148,8 +158,9 @@
 				<form action="{% url 'confirm_donation' %}">
 				  <input type="hidden" name="boiii" id="boiii" value="{{boi.book_id}}">
 				  <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
-				  <button class="btn btn-warning btn-sm w3-right w3-margin-left" type="button" style="margin-top: 05px" onclick="back2();" >Cancel</button>
-			  	  <button class="btn btn-info btn-sm w3-right" style="margin-top: 25px" type="submit" onclick="return finalConfirm()" >Confirm</button>
+				  <br>
+				  <button class="btn btn-warning btn-sm w3-right w3-margin-left" type="button" style="margin-top: 05px;" onclick="back2();" >Cancel</button>
+			  	  <button class="btn btn-info btn-sm w3-right" style="margin-top: 05px;" type="submit" onclick="return finalConfirm()" >Confirm</button>
 				</form>
 			  </div>
 			</div>
@@ -160,8 +171,9 @@
 				  <form action="{% url 'confirm_rejection' %}">
 				  <input type="hidden" name="boiii" id="boiii" value="{{boi.book_id}}">
 				  <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
-				  <button class="btn btn-warning btn-sm w3-right w3-margin-left" type="button" style="margin-top: 05px" onclick="back3();" >Cancel</button>
-				  <button class="btn btn-info btn-xs w3-right" style="margin-top: 25px" type="submit" onclick="return finalReject()"" >Confirm</button>
+				  <br>
+				  <button class="btn btn-warning btn-sm w3-right w3-margin-left" type="button" style="margin-top: 05px;" onclick="back3();" >Cancel</button>
+				  <button class="btn btn-info btn-sm w3-right" style="margin-top: 05px;" type="submit" onclick="return finalReject()">Confirm</button>
 			  	</form>
 			  </div>
 			</div>

@@ -2,8 +2,6 @@
 {% load static %}
 {% block title %}
 <link rel="icon" href="{% static 'bookex-2.ico' %}" type="image/x-icon"> 
-<link rel="firstpage" href="{% static 'BookEX.png' %}">
-<link rel="review" href="{% static 'review_recommodation.png' %}">
 <title>BookEX - Home</title>
 {% endblock %}
 
@@ -11,13 +9,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {% if user.is_authenticated %}
 <!--Notifications-->
-<nav>
-	<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;
-		{% if notification_count > 0 %}
-		<span class="badge red">{{notification_count}}</span>
-		{% endif %}
-	</span>
-</nav>
 {% include 'side_navbar.html' %}
 <!--Notifications-->
 	<div class="w3-row ">
@@ -26,9 +17,8 @@
 			{% load static %}
 			<a href="{% url 'list_of_books' %}">
 				<img src="{% static 'test_img.jpeg' %}" alt="Books" style="width:100%; height: 100%">
-				
 				 <div class="w3-container">
-		      		<h4><b>Available Books</b></h4>
+		      		<h4><b>Library</b></h4>
 		    	</div>
 	    	 </a>
 		</div>
@@ -47,10 +37,10 @@
 	<div class="w3-col m3 w3-large w3-margin-top" style="padding-right: 10px; padding-left: 10px">
 		<div class="w3-card" style="width:100%">
 			{% load static %}
-			<a href="{% url 'addbook' %}">
-			<img src="{% static 'img.jpg' %}" alt="Find Books" style="width:100%; height: 100%">
+			<a href="{% url 'wishlist' %}">
+			<img src="{% static 'img.jpg' %}" alt="Wishlist" style="width:100%; height: 100%">
 				<div class="w3-container">
-		      		<h4><b>Find with ISBN</b></h4>
+		      		<h4><b>Your wishlist</b></h4>
 		    	</div>
 	    	 </a>
 		</div>
@@ -62,7 +52,7 @@
 				<img src="{% static 'request_book.jpg' %}" alt="Request Books" style="width:100%; height: 100%">
 			
 				<div class="w3-container">
-		      		<h4><b>Request Books</b></h4>
+		      		<h4><b>Request books</b></h4>
 		    	</div>
 	    	</a>
 		</div>
@@ -83,10 +73,15 @@
 		</div>
 	</div>	
 </div>
+<<<<<<< HEAD
 <div style="position: absolute;top: 400px; left:43%;z-index: 999;">
 	<a class="w3-button btn-xxl w3-opacity w3-padding-large w3-large w3-hover-teal" style="font-family: serif;" href="{% url 'story' %}">
 		<h2><b style="color: black">BookEX<br>Our Journey</b></h2>
 	</a>
+=======
+<div style="position: absolute;top: 40%; left:42%;z-index: 999; color: transparent;">
+	<h1><a class="w3-padding-large w3-xxl w3-round w3-hover-teal" style="transition: all 1s;" href="{% url 'story' %}">Our story</a></h1>
+>>>>>>> 1eb1063912e8641ab056c52d24a5ad84422267c9
 </div>
 <script>
 (function() {

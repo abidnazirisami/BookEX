@@ -1,19 +1,32 @@
 {% extends 'base.html' %}
-
+{% block title %}
+{% load static %}
+<link rel="icon" href="{% static 'bookex.ico' %}" type="image/x-icon"> 
+<title>Library</title>
+{% endblock %}
 {% block content %}
 
 <!--Notifications-->
-<nav>
-  <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;
-    {% if notification_count > 0 %}
-    <span class="badge red">{{notification_count}}</span>
-    {% endif %}
-  </span>
-</nav>
 {% include 'side_navbar.html' %}
 <!--Notifications-->
+<form autocomplete="off" method="POST" class="post-form form-inline" >
+  {% csrf_token %}
+  <div class="autocomplete w3-margin-left w3-margin-top">
+    <div class="input-group" style="position: relative; z-index: 99;width: 150%;">        
+      <input type="text" name="find_book" id="find_book" class="form-control" placeholder="Search for a book . . .">
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+    </span>
+    </div><!-- /input-group -->
+  </div>
+  {% if error %}
+  <div class="alert alert-warning">
+    <strong>Warning:</strong> {{ error }}
+  </div>
+  {% endif %}
+</form>
 <div class="w3-container  w3-padding-large">
-  <h2 class="w3-center w3-margin-bottom">Available Book List</h2>
+  <h2 class="w3-center w3-margin-bottom">List of available books</h2>
   <ul class="list-group">
     {% for books in book %}
       <li class="list-group-item d-flex justify-content-between align-items-center">  
@@ -24,7 +37,11 @@
       {% endif %}
     	<a href="{% url 'viewbookprofile' req_isbn=books.isbn %}"><h4>{{books.book_name}}</h4>
       <i>{{books.author_id.author_name}}</i><br>
-      <span class="stars">{{books.rating}}</span>
+      {% if books.rating == 0 %}
+      <div><span><i class="no-star">No stars yet</i></span></div>
+      {% else %}
+      <div><span class="stars">{{books.rating}}</span></div>
+      {% endif %}
       </a>
     </li>
     {% endfor %} 
@@ -47,5 +64,107 @@ $.fn.stars = function() {
     });
 }
 
+function autocomplete(inp, arr) {
+  /*the autocomplete function takes two arguments,
+  the text field element and an array of possible autocompleted values:*/
+  var currentFocus;
+  /*execute a function when someone writes in the text field:*/
+  inp.addEventListener("input", function(e) {
+      var a, b, i, val = this.value;
+      /*close any already open lists of autocompleted values*/
+      closeAllLists();
+      if (!val) { return false;}
+      currentFocus = -1;
+      /*create a DIV element that will contain the items (values):*/
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      /*append the DIV element as a child of the autocomplete container:*/
+      this.parentNode.appendChild(a);
+      /*for each item in the array...*/
+      for (i = 0; i < arr.length; i++) {
+        /*check if the item starts with the same letters as the text field value:*/
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          /*create a DIV element for each matching element:*/
+          b = document.createElement("DIV");
+          /*make the matching letters bold:*/
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          /*insert a input field that will hold the current array item's value:*/
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          /*execute a function when someone clicks on the item value (DIV element):*/
+          b.addEventListener("click", function(e) {
+              /*insert the value for the autocomplete text field:*/
+              inp.value = this.getElementsByTagName("input")[0].value;
+              /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+              closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+  });
+  /*execute a function presses a key on the keyboard:*/
+  inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        if (currentFocus > -1) {
+          /*and simulate a click on the "active" item:*/
+          if (x) {
+            e.preventDefault();
+            x[currentFocus].click();
+          }
+        }
+      }
+  });
+  function addActive(x) {
+    /*a function to classify an item as "active":*/
+    if (!x) return false;
+    /*start by removing the "active" class on all items:*/
+    removeActive(x);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+    /*add class "autocomplete-active":*/
+    x[currentFocus].classList.add("autocomplete-active");
+  }
+  function removeActive(x) {
+    /*a function to remove the "active" class from all autocomplete items:*/
+    for (var i = 0; i < x.length; i++) {
+      x[i].classList.remove("autocomplete-active");
+    }
+  }
+  function closeAllLists(elmnt) {
+    /*close all autocomplete lists in the document,
+    except the one passed as an argument:*/
+    var x = document.getElementsByClassName("autocomplete-items");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i] && elmnt != inp) {
+        x[i].parentNode.removeChild(x[i]);
+      }
+    }
+  }
+  /*execute a function when someone clicks in the document:*/
+  document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+      });
+}
+
+var book = {{ book_names|safe }};
+autocomplete(document.getElementById("find_book"), book);
 </script>
+
 {% endblock %}
