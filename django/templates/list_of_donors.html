@@ -9,8 +9,8 @@
   <table border = "1" class="w3-margin-bottom w3-wide">
     <tr>
       <th>User Name</th>
-	<th>First Name</th>
-	<th>Last Name</th>
+	    <th>First Name</th>
+	    <th>Last Name</th>
       <th>Batch</th>
       <th>Roll</th>
       <th>Number of Donated Books(s)</th>
@@ -18,9 +18,9 @@
     {% for donor,user in donors %}
     <tr>
       <td><a href="{% url 'viewprofile' username=donor.user_name %}">{{donor.user_name}}</td></a>
-	<td>{{user.first_name}}</td>
-	<td>{{user.last_name}}</td>      
-	<td>{{donor.batch}}</td>
+	    <td>{{user.first_name}}</td>
+	    <td>{{user.last_name}}</td>      
+	    <td>{{donor.batch}}</td>
       <td>{{donor.roll}}</td> 
       <td>{{donor.donate_count}}</td>
     </tr>

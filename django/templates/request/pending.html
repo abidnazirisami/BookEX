@@ -53,14 +53,14 @@
       <p>From: <i class="username"><a href="{% url 'viewprofile' username=cur_user.user_name %}">{{cur_user.user_name}}</a></i></p><br>  
          <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
            {% load static %}
-            <div class="profile-header-container">   
-              <div class="w3-center profile-header-img">
+            <div class="profile-header-container" style="margin-top: -45px">   
+              <div class="profile-header-img">
                     <img class="img-rounded" src="{{book.photo.url}}" alt="Photo" style="width:250px; height: 250px;">
               </div>
             </div>
           </a>
           <div class="w3-center">
-            <p class="w3-wide " style="padding-top: 30px">
+            <p class="w3-wide " >
               <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
                 <h4>{{re_book.book_name}}</h4>
               </a>
@@ -96,7 +96,7 @@
          <p>To: <i class="username"><a href="{% url 'viewprofile' username=cur_user.user_name %}">{{cur_user.user_name}}</a></i></p><br>
          <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
            {% load static %}
-            <div class="profile-header-container">   
+            <div class="profile-header-container" style="margin-top: -45px">   
               <div class="profile-header-img">
                     <img class="img-rounded" src="{{book.photo.url}}" alt="Photo" style="width:250px; height: 250px;">
               </div>
