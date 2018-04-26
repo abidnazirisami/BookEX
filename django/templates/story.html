@@ -4,16 +4,12 @@
 <link rel="icon" href="{% static 'bookex.ico' %}" type="image/x-icon"> 
 <title>Story of us</title>
 {% endblock %}
-{% load static %}
-{% block title %}
-	<link rel="icon" href="{% static 'bookex-2.ico' %}" type="image/x-icon"> 
-	<link rel="firstpage" href="{% static 'BookEX.png' %}">
-	<link rel="review" href="{% static 'review_recommodation.png' %}">
-	<title>Story of Us</title>
-{% endblock %}
 
 {%block content%}
 <div class="fullscreen">
 	<img src="{% static 'sami.jpg' %}" alt="Sami" width="100%" height="100%" />
+
+	<link rel="firstpage" href="{% static 'BookEX.png' %}">
+	<link rel="review" href="{% static 'review_recommodation.png' %}">
 </div>
 {%endblock%}
