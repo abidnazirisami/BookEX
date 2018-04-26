@@ -78,7 +78,15 @@
 		<font color = "white" class="w3-wide w3-margin-left"> Notifications: </font>
 	</div>
   	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+<<<<<<< HEAD
+  	<nav>
+  		<span href="javascript:void(0)" style="font-size:30px;cursor:pointer" class="closebtn" onclick="closeNav()">&times;</span>
+	</nav>
+
+	{% for book,boi,wish,cnt in donate %}
+=======
 	{% for book,boi,wish,cnt in notification_donate %}
+>>>>>>> 1eb1063912e8641ab056c52d24a5ad84422267c9
 	<div class="w3-container">
 		<div class="w3-card w3-margin-bottom w3-teal w3-padding-small w3-container" style="position: relative;">
 			<span class="label label-success w3-right" style="margin-top: 5px;">Requested: {{wish.count}}</span>
