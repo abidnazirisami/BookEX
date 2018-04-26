@@ -29,9 +29,9 @@ tr:nth-child(even) {
 		<h2 class="w3-margin-bottom">Login</h2>
 		<form method="post">
 		  {% csrf_token %}
-		  <table align="center">
-		  {{ form.as_table }}
-		  </table>
+		  <p class="w3-container">
+		  {{ form.as_p }}
+		  </p>
 		  <div style="padding-right: 8px">
 		  <button class="btn btn-success w3-right" type="submit">Login</button>
 		  </div>
