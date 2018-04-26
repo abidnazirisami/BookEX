@@ -65,9 +65,14 @@ def messages(request):
 			mails = mails_to|mails_from
 			mails.order_by('sent_on').reverse()
 			mail_list.append(mails[len(mails) - 1])
-	userlist = OurUser.objects.all().exclude(user=request.user)
+	mail_list.sort(key=lambda x: x.sent_on, reverse=True)
 	usernames=[]
-	for users in userlist:
-		usernames.append(users.user_name)
+	for mail in mail_list:
+		if mail.to_user == request.user:
+			usernames.append(mail.from_user.user_name)
+		else:
+			usernames.append(mail.to_user.user_name)
+
+	userlist = OurUser.objects.all().exclude(user=request.user)
 	print(usernames)
 	return render(request, 'mail/messages.html', context={'mail_list' : mail_list, 'users': usernames, 'error':error})
