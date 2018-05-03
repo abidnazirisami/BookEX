@@ -137,7 +137,7 @@ def addNew(request):
     else:
         form_book = AddNewBook()
         form_author = AddAuthor()
-    return render(request, 'registration/edit_profile.html', {'form_profile': form_author, 'form_user': form_book})
+    return render(request, 'books/add_book_manually.html', {'form_profile': form_author, 'form_user': form_book})
 
 @login_required
 def viewBookProfile(request, req_isbn):
