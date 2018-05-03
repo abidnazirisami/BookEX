@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-<title>Profile-{{user.username}}
+<title>Manually Add
 </title>
-<link rel="icon" href="{% static 'profile.ico' %}" type="image/x-icon"> 
+<link rel="icon" href="{% static 'bookex-2.ico' %}" type="image/x-icon"> 
 {% endblock %}  
 {% block content %}
 <!--Notifications-->
@@ -26,7 +26,7 @@
 <form  enctype='multipart/form-data' method="POST" class="post-form">
 {% csrf_token %}
 <p class="w3-container" style="align-content: center">
-<h2 class="w3-wide"> Edit profile </h2>
+<h2 class="w3-wide"> Add a book manually </h2>
 	<table class="w3-allerta">
 	{{ form_user.as_table}}
 	{{ form_profile.as_table }}
