@@ -33,7 +33,7 @@
        		</div>
        		
 			<p class="w3-wide ">
-			<h2>{{book.book_name}}</h2><a href="{% url 'rate' isbn=book.isbn %}" class="btn w3-margin-bottom w3-margin-right w3-right"><i class="fa fa-edit" style="font-size:18px;color: tomato;">Rate 'n Review</i></a>
+			<h2>{{book.book_name}}</h2><a href="{% url 'rate' isbn=book.isbn %}" class="zoom btn w3-margin-bottom w3-margin-right w3-right"><i class="fa fa-edit" style="font-size:18px;color: tomato;">Rate 'n Review</i></a>
 			<p>by <i class="authors">{{author.author_name}}</i></p>
 			</p>		
 			<p > {{book.edition}}
