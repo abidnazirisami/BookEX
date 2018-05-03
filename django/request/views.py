@@ -236,7 +236,7 @@ def searchBook(request):
                         requestlist[i] = requestlist[j]
                         requestlist[j] = temp_wish
                         temp_book = bookinfo[i]
-                        bookinfo[j] = bookinfo[j]
+                        bookinfo[i] = bookinfo[j]
                         bookinfo[j] = temp_book
 
                     j = j + 1

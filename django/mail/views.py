@@ -67,11 +67,9 @@ def messages(request):
 			mail_list.append(mails[len(mails) - 1])
 	mail_list.sort(key=lambda x: x.sent_on, reverse=True)
 	usernames=[]
-	for mail in mail_list:
-		if mail.to_user == request.user:
-			usernames.append(mail.from_user.user_name)
-		else:
-			usernames.append(mail.to_user.user_name)
+
+	for beboharkari in OurUser.objects.all():
+		usernames.append(beboharkari.user_name)
 
 	userlist = OurUser.objects.all().exclude(user=request.user)
 	print(usernames)
