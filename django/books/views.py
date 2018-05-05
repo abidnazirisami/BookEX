@@ -146,8 +146,6 @@ def viewBookProfile(request, req_isbn):
 	current_author = Author()
 	if Book.objects.filter(pk=req_isbn).exists():
 		current_book = Book.objects.get(pk = req_isbn)
-		if current_book.isbn[0] != '9':
-			current_book.isbn = "-"
 	print(current_book.book_name)
 	if Author.objects.filter(pk=current_book.author_id_id).exists():
 		current_author = Author.objects.get(pk=current_book.author_id_id)
