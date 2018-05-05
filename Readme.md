@@ -1,3 +1,5 @@
+# The databases can be loaded with python3 manage.py migrate, or there is an sql added naming bookex.sql if required
+
 # Version Naming convention
 
 Progress.Member.Serial
@@ -54,4 +56,5 @@ A: Let's say our app's name is appname, the model's name is modelname, mysql use
 	```
 	 python3 manage.py makemigrations appname
 	 python3 manage.py migrate appname
+
 	```
