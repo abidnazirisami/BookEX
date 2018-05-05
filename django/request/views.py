@@ -242,8 +242,8 @@ def searchBook(request):
                     j = j + 1
                 i = i + 1
         zipped = zip(requestlist[:10],bookinfo[:10])
-        
-        return render(request, 'request/search_book.html', context={'requsted_book': zipped ,'books': book_names, 'error': "", 'wished_books':zip(wishlist,wishlist_book), 'haswishes':haswishes })
+        #print(zipped)
+        return render(request, 'request/search_book.html', context={'no_of_requested_books': len(requestlist), 'requsted_book': zipped ,'books': book_names, 'error': "", 'wished_books':zip(wishlist,wishlist_book), 'haswishes':haswishes })
 
 @login_required
 def showWishlist(request):
