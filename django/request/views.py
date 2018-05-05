@@ -236,13 +236,13 @@ def searchBook(request):
                         requestlist[i] = requestlist[j]
                         requestlist[j] = temp_wish
                         temp_book = bookinfo[i]
-                        bookinfo[j] = bookinfo[j]
+                        bookinfo[i] = bookinfo[j]
                         bookinfo[j] = temp_book
 
                     j = j + 1
                 i = i + 1
-            zipped = zip(requestlist[:10],bookinfo[:10])
-            #zipped.order_by('bookinfo.count').reverse()[:10]
+        zipped = zip(requestlist[:10],bookinfo[:10])
+        
         return render(request, 'request/search_book.html', context={'requsted_book': zipped ,'books': book_names, 'error': "", 'wished_books':zip(wishlist,wishlist_book), 'haswishes':haswishes })
 
 @login_required
@@ -278,7 +278,7 @@ def addNew(request):
     else:
         form_book = AddNewBook()
         form_author = AddAuthor()
-    return render(request, 'registration/edit_profile.html', {'form_profile': form_author, 'form_user': form_book})
+    return render(request, 'books/add_book_manually.html', {'form_profile': form_author, 'form_user': form_book})
 
 
 

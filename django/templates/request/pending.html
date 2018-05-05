@@ -35,7 +35,7 @@
               <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
             <form action="{% url 'donation_cancel' %}">
                 <input type="hidden" name="boiii" id="boiii" value="{{book.book_id}}">
-                <button class="btn btn-info btn-s w3-right" type="submit" onclick="return donated();" >Remove from Donation List</button>   
+                <button class="btn btn-info btn-s w3-right" type="submit" onclick="return finalReject();" >Remove from Donation List</button>   
               </form>           
             </div> 
           </div>
@@ -43,6 +43,11 @@
       </div> 
   {% endfor %}
   </div>
+  {% else %}
+  <div class="pending-card"  style="padding-top: 40px; padding-right: 40px;">
+    <h1 class="w3-padding-large w3-center w3-margin-top"> No books to find a receiver for yet </h1>
+  </div>
+  
   {% endif %}
   </div>
 <div class="w3-third">
@@ -55,7 +60,7 @@
       From: <i class="username"><a href="{% url 'viewprofile' username=cur_user.user_name %}">{{cur_user.user_name}}</a></i> 
          <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
            {% load static %}
-            <div class="profile-header-container" style="margin-top: -45px">   
+            <div class="profile-header-container" style="margin-top: -25px">   
               <div class="profile-header-img">
                     <img class="img-rounded" src="{{book.photo.url}}" alt="Photo" style="width:250px; height: 250px;">
               </div>
@@ -86,6 +91,11 @@
     </div> 
     {% endfor %}
   </div>
+  {% else %}
+  <div class="pending-card"  style="padding-top: 40px; padding-right: 40px;">
+    <h1 class="w3-padding-large w3-center w3-margin-top"> Nothing to receive </h1>
+  </div>
+  
 {% endif %}
 </div>
 <div class="w3-third">
@@ -98,7 +108,7 @@
          To: <i class="username"><a href="{% url 'viewprofile' username=cur_user.user_name %}">{{cur_user.user_name}}</a></i>
          <a href="{% url 'viewbookprofile' req_isbn=book.isbn.isbn %}">
            {% load static %}
-            <div class="profile-header-container" style="margin-top: -45px">   
+            <div class="profile-header-container" style="margin-top: -25px">   
               <div class="profile-header-img">
                     <img class="img-rounded" src="{{book.photo.url}}" alt="Photo" style="width:250px; height: 250px;">
               </div>
@@ -115,7 +125,7 @@
               <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
             <form action="{% url 'confirm_donate_cancel' %}">
                 <input type="hidden" name="boiii" id="boiii" value="{{book.book_id}}">
-                <button class="btn btn-info btn-s w3-right" type="submit" onclick="return donated();" >Cancel Donation</button>   
+                <button class="btn btn-info btn-s w3-right" type="submit" onclick="return finalReject();" >Cancel Donation</button>   
               </form>           
             </div> 
           </div>
@@ -123,11 +133,14 @@
       </div> 
   {% endfor %}
   </div>
+  {% else %}
+  <div class="pending-card"  style="padding-top: 40px; padding-right: 40px;">
+    <h1 class="w3-padding-large w3-center w3-margin-top"> Nothing to donate </h1>
+  </div>
   {% endif %}
   </div>
   {% if not has_receive and not has_donate and not think_donate%}
   <div class="fullscreen nothingtodo"  style="padding-top: 40px; padding-right: 40px;">
-    <h1 class="w3-padding-large w3-center w3-margin-top"> Nothing to do here </h1>
   </div>
   {% endif %}
 

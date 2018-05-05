@@ -62,13 +62,16 @@
   </div>
   <div class="w3-col m6">
     <div class="w3-margin-top w3-margin-left">
+      {% if requested_book %}
       <h2 class="w3-padding-large" style="text-align: right;">Trending wishes</h2>
+      {% else %}
+      <h2 class="w3-padding-large" style="text-align: right;">No one wished for any books yet</h2>
+      {% endif %}
         <ul class="list-group">
         {% for info,books in requsted_book %}
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <a href="{% url 'viewbookprofile' req_isbn=books.isbn %}"><h3>{{books.book_name}}</h3>
             <i>{{books.author_id.author_name}}</i><br>
-
             </a>
             {% if books.rating == 0 %}
             <span><i class="no-star">No stars yet</i></span>
@@ -82,6 +85,7 @@
         </li>
         {% endfor %} 
         </ul>
+      }
     </div>
   </div>
 </div>
@@ -198,19 +202,4 @@ $.fn.stars = function() {
 }
 
 </script>
-<script>
-$(function() {
-    $('span.stars').stars();
-});
-$.fn.stars = function() {
-    return $(this).each(function() {
-        $(this).html($('<span />').width(Math.max(0, (Math.min(5, parseFloat($(this).html())))) * 16));
-    });
-}
-
-<<<<<<< HEAD
-
-=======
-</script>
->>>>>>> 1eb1063912e8641ab056c52d24a5ad84422267c9
 {% endblock %}

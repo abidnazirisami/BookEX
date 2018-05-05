@@ -87,14 +87,17 @@ def searchBook(request):
     else:
         new_book = Book.objects.all()
         book_names=[]
+        top_donors = False
         for new_books in new_book:
             if not new_books.book_name in book_names:
                 book_names.append(new_books.book_name)
         user_donor_list = []
         donorlist = OurUser.objects.order_by('donate_count').reverse()[:10]
         for donors in donorlist:
+            if donors.donate_count > 0:
+                top_donors = True
             user_donor_list.append(User.objects.get(id = donors.user_id))
-        return render(request, 'find/search_book.html', context={'books': book_names,'donors': zip(donorlist,user_donor_list), 'error': "", 'available_books' : new_book})
+        return render(request, 'find/search_book.html', context={'books': book_names,'donors': zip(donorlist,user_donor_list), 'error': "", 'available_books' : new_book, 'top_donors' : top_donors})
 @login_required
 def donate(request):
     if request.method == "POST":
@@ -194,4 +197,4 @@ def addNew(request):
     else:
         form_book = AddNewBook()
         form_author = AddAuthor()
-    return render(request, 'registration/edit_profile.html', {'form_profile': form_author, 'form_user': form_book})
+    return render(request, 'books/add_book_manually.html', {'form_profile': form_author, 'form_user': form_book})

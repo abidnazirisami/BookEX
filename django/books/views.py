@@ -137,7 +137,7 @@ def addNew(request):
     else:
         form_book = AddNewBook()
         form_author = AddAuthor()
-    return render(request, 'registration/edit_profile.html', {'form_profile': form_author, 'form_user': form_book})
+    return render(request, 'books/add_book_manually.html', {'form_profile': form_author, 'form_user': form_book})
 
 @login_required
 def viewBookProfile(request, req_isbn):
@@ -146,6 +146,8 @@ def viewBookProfile(request, req_isbn):
 	current_author = Author()
 	if Book.objects.filter(pk=req_isbn).exists():
 		current_book = Book.objects.get(pk = req_isbn)
+		if current_book.isbn[0] != '9':
+			current_book.isbn = "-"
 	print(current_book.book_name)
 	if Author.objects.filter(pk=current_book.author_id_id).exists():
 		current_author = Author.objects.get(pk=current_book.author_id_id)
