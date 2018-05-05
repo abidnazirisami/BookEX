@@ -153,7 +153,7 @@
 				  <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
 				  <br>
 				  <button class="btn btn-warning btn-sm w3-right w3-margin-left" type="button" style="margin-top: 05px;" onclick="back2();" >Cancel</button>
-			  	  <button class="btn btn-info btn-sm w3-right" style="margin-top: 05px;" type="submit" onclick="return finalConfirm()" >Confirm</button>
+			  	  <button class="btn btn-info btn-sm w3-right" style="margin-top: 05px;" type="submit" onclick="return finalConfirm('{{boi.book_id}}', '{{wish.id}}')" >Confirm</button>
 				</form>
 			  </div>
 			</div>
@@ -166,7 +166,7 @@
 				  <input type="hidden" name="wishlist" id="wishlist" value="{{wish.id}}">
 				  <br>
 				  <button class="btn btn-warning btn-sm w3-right w3-margin-left" type="button" style="margin-top: 05px;" onclick="back3();" >Cancel</button>
-				  <button class="btn btn-info btn-sm w3-right" style="margin-top: 05px;" type="submit" onclick="return finalReject()">Confirm</button>
+				  <button class="btn btn-info btn-sm w3-right" style="margin-top: 05px;" type="submit" onclick="return finalReject('{{boi.book_id}}', '{{wish.id}}')">Confirm</button>
 			  	</form>
 			  </div>
 			</div>
@@ -213,11 +213,15 @@ function displaylabel(val) {
 	else ret="Excellent";
 	document.getElementById('rangeValLabel').innerHTML = ret;
 }
-function finalConfirm(){
+function finalConfirm(val, usr){
+	document.getElementById("boiii").value = val;
+    document.getElementById("wishlist").value = usr;
 	alert("Congrats on your book! We hope you like it ^_^")
 	document.getElementById("overlay2").style.display = "none";
 }
-function finalReject(){
+function finalReject(val, usr){
+	document.getElementById("boiii").value = val;
+    document.getElementById("wishlist").value = usr;
 	alert("We respect your decision ^_^")
 	document.getElementById("overlay2").style.display = "none";
 }
