@@ -241,8 +241,8 @@ def searchBook(request):
 
                     j = j + 1
                 i = i + 1
-            zipped = zip(requestlist[:10],bookinfo[:10])
-            #zipped.order_by('bookinfo.count').reverse()[:10]
+        zipped = zip(requestlist[:10],bookinfo[:10])
+        
         return render(request, 'request/search_book.html', context={'requsted_book': zipped ,'books': book_names, 'error': "", 'wished_books':zip(wishlist,wishlist_book), 'haswishes':haswishes })
 
 @login_required

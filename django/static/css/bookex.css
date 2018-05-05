@@ -201,6 +201,13 @@ img {
   background: url("/static/sad_dog.jpg") 0 no-repeat;
   background-size: cover;
 }
+.pending-card {
+  position: relative;
+  height: 100%;
+  z-index: 10;
+  background-size: cover;
+}
+
 .book-card {
   background: url("/static/book-card.jpg") 0 no-repeat;
   background-size: cover;  

@@ -63,7 +63,11 @@
   </div>
   <div class="w3-col m6">
     <div class="w3-margin-top w3-margin-left">
+      {% if requested_book %}
       <h2 class="w3-padding-large" style="text-align: right;">Trending wishes</h2>
+      {% else %}
+      <h2 class="w3-padding-large" style="text-align: right;">No one wished for any books yet</h2>
+      {% endif %}
         <ul class="list-group">
         {% for info,books in requsted_book %}
         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -82,6 +86,7 @@
         </li>
         {% endfor %} 
         </ul>
+      }
     </div>
   </div>
 </div>

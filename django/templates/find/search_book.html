@@ -35,8 +35,9 @@
 </div><!-- /.row -->
 <div class="w3-container">
 <div class="w3-third">    <div >
+      {% if top_donors %}
       <h2 class="w3-wide">Top donors</h2>
-      
+      {% endif %}
       <ul class="list-group">
       {% for donor,user in donors %}
       {% if donor.donate_count > 0 %}
