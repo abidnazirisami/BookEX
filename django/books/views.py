@@ -17,8 +17,7 @@ def displayBooks(request):
 			book = Book.objects.all()
 			for books in book:
 				book_names.append(books.book_name)
-			form, donate, receive, notification_count = notifications(request)
-			return render(request, 'books/list_of_books.html', context = {'book':book, 'form':form,'donate':donate,'receive': receive, 'notification_count' : notification_count})
+			return render(request, 'books/list_of_books.html', context = {'book_names':book_names,'book':book,})
 		book_table = Book.objects.all()
 		for cur_book in book_table:
 			if Author.objects.filter(pk=cur_book.author_id.author_id).exists():
