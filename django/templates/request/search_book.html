@@ -44,7 +44,6 @@
           <li class="list-group-item d-flex justify-content-between align-items-center">  
             <a href="{% url 'viewbookprofile' req_isbn=book.isbn %}"><h3>{{book.book_name}}</h3>
             <i>{{book.author_name}}</i><br>
-
             </a>
             {% if wished.rating == 0 %}
             <span><i class="no-star">No stars yet</i></span>
