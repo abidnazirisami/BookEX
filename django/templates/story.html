@@ -2,11 +2,14 @@
 {% block title %}
 {% load static %}
 <link rel="icon" href="{% static 'bookex.ico' %}" type="image/x-icon"> 
-<title>Story of us</title>
+<title>Website tour</title>
 {% endblock %}
 
 {%block content%}
-<div class="w3-container" style="margin-top: 120px;" align="center">
-	<iframe width="720" height="480" src="https://www.youtube.com/embed/8Oneqrm6TCo" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<div  style="margin-top: 120px;" align="center">
+	<img  src="{% static 'bear.jpg' %}"  style="position: relative; margin: 0 auto; max-height: 480px; top: -260px; z-index: 99; right: -5px;">
+	<iframe width="720" height="480" src="https://www.youtube-nocookie.com/embed/8Oneqrm6TCo?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+	<img  src="{% static 'boy.jpg' %}" align="center-width" style="position: relative; margin: 0 auto; max-height: 480px; top: -260px;z-index: 99; left: -5px;">
+
 </div>
 {%endblock%}
